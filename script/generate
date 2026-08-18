@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+root=$(cd "$(dirname "$0")/.." && pwd -P)
+version=${YS_V0_VERSION:-0.2.29}
+glj=${GLJ:?GLJ is required}
+glojure_src=${GLOJURE_SRC:?GLOJURE_SRC is required}
+go=${GO:-go}
+build=$root/.cache/build
+upstream=$build/upstream
+stage=$build/stage
+glojure_stdlib=$build/glojure-stdlib
+jar=$root/.cache/download/ys.v0-$version.jar
+
+rm -rf "$build"
+mkdir -p "$upstream" "$stage" "$(dirname "$jar")"
+
+if [[ -n ${YS_V0_SOURCE:-} ]]; then
+  cp -R "$YS_V0_SOURCE"/. "$upstream"/
+else
+  if [[ ! -f $jar ]]; then
+    url="https://repo.clojars.org/org/yamlscript/ys.v0/$version/ys.v0-$version.jar"
+    curl -fsSL "$url" -o "$jar.part"
+    mv "$jar.part" "$jar"
+  fi
+  unzip -q "$jar" 'ys/*' -d "$upstream"
+fi
+
+cp -R "$upstream"/. "$stage"/
+cp -R "$glojure_src/pkg/stdlib" "$glojure_stdlib"
+
+# Babashka can load the portable upstream sources directly. Keep a bundled
+# runtime so Gloat's `bb` output remains self-contained and needs no Java or
+# Maven resolution at run time.
+mkdir -p "$root/bb"
+{
+  while IFS= read -r path; do
+    [[ -n $path && $path != \#* ]] || continue
+    sed -e '/^;;.*Copyright/d' -e '/^;; This code is licensed/d' \
+      "$upstream/$path"
+    printf '\n'
+  done < "$root/runtime/bb-sources.txt"
+} > "$root/bb/runtime.clj"
+
+patch --batch --forward --fuzz=0 -p1 -d "$stage" \
+  < "$root/patches/ys-v0-glojure-aot.patch"
+
+cp -R "$root/src"/. "$stage"/
+mkdir -p "$stage/clojure"
+cp "$glojure_src/pkg/stdlib/clojure/walk.glj" "$stage/clojure/walk.glj"
+
+# Ship the exact patched source tree so downstream Glojure compilers can
+# analyze application namespaces against the same runtime as the Go loaders.
+rm -rf "$root/source"
+mkdir -p "$root/source"
+cp -R "$stage"/. "$root/source"/
+
+namespaces=(
+  babashka.process
+  babashka.http-client
+  clojure.data.json
+  ys.v0.clj
+  ys.v0.platform
+  ys.v0.global
+  ys.v0.util
+  ys.v0.debug
+  ys.v0.common
+  ys.v0.csv
+  ys.v0.dwim
+  ys.v0.yaml
+  ys.v0.ext
+  ys.v0.http
+  ys.v0.json
+  ys.v0.manifest
+  ys.v0.re
+  ys.v0.ys
+  ys.v0.fs
+  ys.v0.std
+  ys.v0.taptest
+  ys.v0
+  yamlscript.common
+  yamlscript.util
+  ys.fs
+  ys.http
+  ys.ipc
+  ys.json
+  ys.std
+  ys.dwim
+)
+
+for namespace in "${namespaces[@]}"; do
+  printf "Compiling %s\n" "$namespace"
+  printf "(compile '%s)\n" "$namespace" |
+    GLJ_CLASSPATH="$stage:$glojure_stdlib" "$glj"
+done
+
+# Use the loader shipped with the pinned Glojure source tree for its bundled
+# clojure.walk namespace.
+mkdir -p "$stage/clojure/walk"
+cp "$glojure_src/pkg/stdlib/clojure/walk/loader.go" \
+  "$stage/clojure/walk/loader.go"
+
+for path in babashka clojure/data clojure/walk yamlscript ys; do
+  rm -rf "${root:?}/$path"
+done
+
+while IFS= read -r loader; do
+  relative=${loader#"$stage/"}
+  mkdir -p "$root/$(dirname "$relative")"
+  cp "$loader" "$root/$relative"
+done < <(find "$stage" -name loader.go -type f | sort)
+
+export GOPATH="$root/.cache/go"
+export GOMODCACHE="$GOPATH/pkg/mod"
+export GOCACHE="$root/.cache/go-build"
+mkdir -p "$GOMODCACHE" "$GOCACHE"
+"$go" mod tidy

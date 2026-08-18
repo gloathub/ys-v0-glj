@@ -1,0 +1,3 @@
+*.patch -whitespace
+bb/runtime.clj whitespace=-blank-at-eof
+source/** whitespace=-blank-at-eof

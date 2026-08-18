@@ -1,0 +1,238 @@
+diff -ruN a/ys/v0/clj.clj b/ys/v0/clj.clj
+--- a/ys/v0/clj.clj
++++ b/ys/v0/clj.clj
+@@ -9,9 +9,11 @@
+ ;; compile, load or load-file) are skipped.
+ 
+ (ns ys.v0.clj
+-  (:refer-clojure :only [doseq intern ns-resolve var-get when-let]))
++  (:refer-clojure :only [apply doseq fn intern ns-resolve var-get when-let]))
+ 
+ (doseq [sym '[atom compile eval load load-file
+               print read replace reverse set use]]
+   (when-let [v (ns-resolve 'clojure.core sym)]
+-    (intern 'ys.v0.clj sym (var-get v))))
++    (intern 'ys.v0.clj sym
++      (fn [& args]
++        (apply (var-get v) args)))))
+diff -ruN a/ys/v0/std.cljc b/ys/v0/std.cljc
+--- a/ys/v0/std.cljc
++++ b/ys/v0/std.cljc
+@@ -49,11 +49,11 @@
+   (.encode (Base64/getEncoder) (.getBytes ^String S)))
+ (defn base64 [S] (base64-encode S))
+ 
+-(intern 'ys.v0.std 'blank? clojure.string/blank?)
+-(intern 'ys.v0.std 'chomp clojure.string/trim-newline)
++(defn blank? [& xs] (apply clojure.string/blank? xs))
++(defn chomp [& xs] (apply clojure.string/trim-newline xs))
+ (intern 'ys.v0.std 'chop common/chop)
+-(intern 'ys.v0.std 'ends? clojure.string/ends-with?)
+-(intern 'ys.v0.std 'escape clojure.string/escape)
++(defn ends? [& xs] (apply clojure.string/ends-with? xs))
++(defn escape [& xs] (apply clojure.string/escape xs))
+ (intern 'ys.v0.std 'index clojure.string/index-of)
+ 
+ (defn index [C x]
+@@ -74,7 +74,7 @@
+ 
+ (defn joins [Ss] (join " " Ss))
+ 
+-(intern 'ys.v0.std 'lc clojure.string/lower-case)
++(defn lc [& xs] (apply clojure.string/lower-case xs))
+ 
+ (defn lines [S]
+   (if (empty? S)
+@@ -96,8 +96,8 @@
+            (clojure.core/replace x y)))
+   ([x y z] (clojure.string/replace x y z)))
+ 
+-(intern 'ys.v0.std 'replace1 clojure.string/replace-first)
+-(intern 'ys.v0.std 'rindex clojure.string/last-index-of)
++(defn replace1 [& xs] (apply clojure.string/replace-first xs))
++(defn rindex [& xs] (apply clojure.string/last-index-of xs))
+ 
+ (defn split
+   ([S]
+@@ -111,7 +111,7 @@
+          R (if (string? R) (re-pattern R) R)]
+      (clojure.string/split S R))))
+ 
+-(intern 'ys.v0.std 'starts? clojure.string/starts-with?)
++(defn starts? [& xs] (apply clojure.string/starts-with? xs))
+ 
+ (defn substr
+   ([str off] (substr str off (- (count str) off)))
+@@ -138,12 +138,12 @@
+     (str/join "\n"
+       (concat Ss (list "")))))
+ 
+-(intern 'ys.v0.std 'trim clojure.string/trim)
+-(intern 'ys.v0.std 'triml clojure.string/triml)
+-(intern 'ys.v0.std 'trimr clojure.string/trimr)
++(defn trim [& xs] (apply clojure.string/trim xs))
++(defn triml [& xs] (apply clojure.string/triml xs))
++(defn trimr [& xs] (apply clojure.string/trimr xs))
+ 
+-(intern 'ys.v0.std 'uc clojure.string/upper-case)
+-(intern 'ys.v0.std 'uc1 clojure.string/capitalize)
++(defn uc [& xs] (apply clojure.string/upper-case xs))
++(defn uc1 [& xs] (apply clojure.string/capitalize xs))
+ 
+ (defn words [S]
+   (clojure.string/split S #"\s+"))
+@@ -530,8 +530,8 @@
+ ;;------------------------------------------------------------------------------
+ ;; I/O functions
+ ;;------------------------------------------------------------------------------
+-(intern 'ys.v0.std 'read clojure.core/slurp)
+-(intern 'ys.v0.std 'write clojure.core/spit)
++(defn read [& xs] (apply clojure.core/slurp xs))
++(defn write [& xs] (apply clojure.core/spit xs))
+ 
+ (defn out [& xs]
+   (apply clojure.core/print xs)
+@@ -559,9 +559,9 @@
+ ;; Shorter named alias functions
+ ;;------------------------------------------------------------------------------
+ 
+-(intern 'ys.v0.std 'a clojure.core/identity)
++(defn a [& xs] (apply clojure.core/identity xs))
+ 
+-(intern 'ys.v0.std 'len clojure.core/count)
++(defn len [& xs] (apply clojure.core/count xs))
+ 
+ 
+ ;;------------------------------------------------------------------------------
+@@ -749,9 +749,9 @@
+ (intern 'ys.v0.std 'V to-vec)
+ 
+ (intern 'ys.v0.std 'L+ list)
+-(intern 'ys.v0.std 'M+ hash-map)
++(defn M+ [& xs] (apply hash-map xs))
+ (intern 'ys.v0.std 'O+ omap)
+-(intern 'ys.v0.std 'V+ vector)
++(defn V+ [& xs] (apply vector xs))
+ 
+ 
+ ;;------------------------------------------------------------------------------
+diff -ruN a/ys/v0/common.cljc b/ys/v0/common.cljc
+--- a/ys/v0/common.cljc
++++ b/ys/v0/common.cljc
+@@ -7,7 +7,8 @@
+ 
+ (ns ys.v0.common
+   (:require
+-   #?@(:glj [] :default [[clojure.java.io :as io]])
++   #?@(:glj [[ys.v0.platform :as platform]]
++       :default [[clojure.java.io :as io]])
+    [clojure.string :as str]
+    [ys.v0.debug]
+    [ys.v0.util :as util]))
+@@ -15,7 +16,8 @@
+ (defn cwd
+   "Return the current working directory."
+   []
+-  (System/getProperty "user.dir"))
++  #?(:glj (platform/cwd)
++     :default (System/getProperty "user.dir")))
+ 
+ (defn abspath
+   "Return an absolute path, resolving relative paths from base."
+@@ -66,10 +68,10 @@
+    (do
+      (defn get-process-handle [] nil)
+      (defn get-process-info [] nil)
+-     (defn get-cmd-path [] nil)
+-     (defn get-cmd-bin [] nil)
+-     (defn get-cmd-args [] [])
+-     (defn get-cmd-pid [] nil))
++     (defn get-cmd-path [] (platform/executable))
++     (defn get-cmd-bin [] (dirname (platform/executable)))
++     (defn get-cmd-args [] (platform/args))
++     (defn get-cmd-pid [] (platform/pid)))
+    :default
+    (do
+      (defn get-process-handle
+@@ -109,7 +111,9 @@
+   "Return yspath for the current context."
+   [base]
+   (let [yspath (or
+-                 (get (System/getenv) "YSPATH")
++                 (get #?(:glj (platform/env)
++                         :default (System/getenv))
++                   "YSPATH")
+                  (when (re-matches #"/NO-NAME$" base) (cwd))
+                  (->
+                    base
+diff -ruN a/ys/v0.cljc b/ys/v0.cljc
+--- a/ys/v0.cljc
++++ b/ys/v0.cljc
+@@ -22,6 +22,7 @@
+   (:require
+    [clojure.string :as str]
+    [clojure.walk]
++   #?@(:glj [[ys.v0.platform :as platform]] :default [])
+    [ys.v0.clj]
+    [ys.v0.common :as common]
+    [ys.v0.csv]
+@@ -106,7 +107,7 @@
+ 
+ (defn- get-hostname []
+   (or
+-    #?(:glj nil
++    #?(:glj (platform/hostname)
+        :default
+        (util/catching
+          (not-empty (.getHostName (java.net.InetAddress/getLocalHost)))
+@@ -116,10 +117,12 @@
+ 
+ (defn- get-runtime-info []
+   {:args (util/catching (common/get-cmd-args) [])
+-   :arch (normalize-arch (System/getProperty "os.arch"))
++   :arch (normalize-arch #?(:glj (platform/arch)
++                            :default (System/getProperty "os.arch")))
+    :bin (util/catching (common/get-cmd-bin) nil)
+    :hostname (get-hostname)
+-   :os (normalize-os (System/getProperty "os.name"))
++   :os (normalize-os #?(:glj (platform/os)
++                        :default (System/getProperty "os.name")))
+    :pid (util/catching (common/get-cmd-pid) nil)
+    :versions {:clojure #?(:glj (str "glojure " *glojure-version*)
+                           :default (clojure-version))
+@@ -133,17 +136,19 @@
+   (let [file (if (and *file* (not= *file* "NO_SOURCE_PATH"))
+                (common/abspath *file*)
+                (common/abspath "NO-NAME"))
+-        argv (vec (or *command-line-args* []))]
++        argv (vec (or #?(:glj (platform/args)
++                         :default *command-line-args*) []))]
+     (set-var! #'global/ARGS (coerce-args argv))
+     (set-var! #'global/ARGV argv)
+     (set-var! #'global/CWD (common/cwd))
+     (set-var! #'global/DIR (common/dirname file))
+-    (set-var! #'global/ENV (into {} (System/getenv)))
++    (set-var! #'global/ENV
++      (into {} #?(:glj (platform/env) :default (System/getenv))))
+     (set-var! #'global/FILE file)
+     (set-var! #'global/INC (common/get-yspath file))
+     (set-var! #'global/RUN (get-runtime-info))
+     (set-var! #'global/VERSION VERSION)
+-    (global/reset-env nil)))
++    (global/reset-env #?(:glj (platform/env) :default nil))))
+ 
+ (defn init
+   "Set up the calling namespace to run YS compiled code."
+diff -ruN b/ys/v0.cljc c/ys/v0.cljc
+--- b/ys/v0.cljc
++++ c/ys/v0.cljc
+@@ -158,7 +158,8 @@
+      (refer-exports target)
+      (refer-runtime-vars target)
+      (alias-namespaces target)
+-     (bind-runtime-vars)
++     (when-not *compile-files*
++       (bind-runtime-vars))
+      (when-let [v (:v opts)]
+        (when (not= v VERSION)
+          (binding [*out* *err*]
