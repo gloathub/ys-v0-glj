@@ -1,6 +1,6 @@
-# ys-v0-go
+# ys-v0-glj
 
-`ys-v0-go` is the precompiled Glojure runtime for YAMLScript v0. It combines
+`ys-v0-glj` is the precompiled Glojure runtime for YAMLScript v0. It combines
 the portable `org.yamlscript/ys.v0` sources with Go-native implementations of
 the runtime backends that are unavailable on Glojure, then commits the
 generated Go loaders as a normal Go module.
@@ -13,7 +13,7 @@ sources for self-contained Babashka programs.
 Go programs load the runtime before requiring generated application code:
 
 ```go
-import ysv0 "github.com/gloathub/ys-v0-go/runtime"
+import ysv0 "github.com/gloathub/ys-v0-glj/runtime"
 
 func main() {
     ysv0.Load()

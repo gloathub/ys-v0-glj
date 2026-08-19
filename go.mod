@@ -1,4 +1,4 @@
-module github.com/gloathub/ys-v0-go
+module github.com/gloathub/ys-v0-glj
 
 go 1.24
 

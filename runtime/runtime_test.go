@@ -19,7 +19,7 @@ func mapValue(value any, key string) any {
 
 func TestLoadAndNativeBackends(t *testing.T) {
 	Load()
-	target := lang.FindOrCreateNamespace(lang.NewSymbol("ys-v0-go.runtime-test"))
+	target := lang.FindOrCreateNamespace(lang.NewSymbol("ys-v0-glj.runtime-test"))
 	bindings := lang.NewMap(glj.Var("clojure.core", "*ns*"), target)
 	glj.Var("clojure.core", "push-thread-bindings").Invoke(bindings)
 	defer glj.Var("clojure.core", "pop-thread-bindings").Invoke()
