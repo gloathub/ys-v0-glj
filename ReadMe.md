@@ -44,3 +44,17 @@ The temporary YAMLScript changes are:
 - Skip host runtime-variable binding while `*compile-files*` is true; exports
   and aliases are still installed for application analysis, and normal
   binding runs when the generated loader executes.
+
+## Release
+
+Release from a clean `main` branch that contains the current `origin/main`:
+
+```bash
+make release VERSION=x.y.z
+```
+
+The target updates the module `VERSION` in `Makefile`, regenerates and tests
+the runtime, verifies the committed generated files, commits the version
+change, creates the annotated root tag `vx.y.z`, and atomically pushes `main`
+and the tag. `YS-V0-VERSION` is the independently pinned YAMLScript runtime
+source version and is not changed by a module release.

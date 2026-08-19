@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+version=${1:?Usage: make release VERSION=x.y.z}
+root=$(cd "$(dirname "$0")/.." && pwd -P)
+
+cd "$root"
+
+if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "release: VERSION must be x.y.z without a v prefix" >&2
+  exit 1
+fi
+
+if [[ $(git branch --show-current) != main ]]; then
+  echo "release: releases must be made from the main branch" >&2
+  exit 1
+fi
+
+if [[ -n $(git status --porcelain) ]]; then
+  echo "release: the worktree must be clean" >&2
+  exit 1
+fi
+
+if ! git remote get-url origin >/dev/null 2>&1; then
+  echo "release: the origin remote is not configured" >&2
+  exit 1
+fi
+
+git fetch --quiet origin \
+  '+refs/heads/main:refs/remotes/origin/main' --tags
+
+if ! git merge-base --is-ancestor origin/main HEAD; then
+  echo "release: local main is behind or has diverged from origin/main" >&2
+  exit 1
+fi
+
+tag=v$version
+if git rev-parse --verify --quiet "refs/tags/$tag" >/dev/null; then
+  echo "release: tag $tag already exists" >&2
+  exit 1
+fi
+
+current=$(sed -n 's/^VERSION := //p' Makefile)
+if [[ -z $current ]]; then
+  echo "release: Makefile VERSION is missing" >&2
+  exit 1
+fi
+if [[ $current == "$version" ]]; then
+  echo "release: VERSION is already $version" >&2
+  exit 1
+fi
+
+perl -i -pe "s/^VERSION := .*/VERSION := $version/" Makefile
+
+make test
+make check-generated
+git diff --check
+
+if [[ $(git status --short) != ' M Makefile' ]]; then
+  echo "release: validation changed files other than Makefile" >&2
+  git status --short >&2
+  exit 1
+fi
+
+git add Makefile
+git commit -m "Release v$version"
+git tag -a "$tag" -m "Release $tag"
+git push --atomic origin HEAD:main "refs/tags/$tag"
+
+echo "Released $tag"

@@ -7,6 +7,7 @@ include $M/init.mk
 GLOJURE-VERSION := 0.7.11
 GO-VERSION := 1.24.0
 YS-V0-VERSION := 0.2.29
+VERSION := 0.1.0
 
 include $M/glojure.mk
 include $M/go.mk
@@ -14,7 +15,7 @@ include $M/clean.mk
 
 GLOJURE-SRC := $(LOCAL-CACHE)/glojure-$(GLOJURE-VERSION)
 
-.PHONY: generate test check-generated
+.PHONY: generate test check-generated release
 
 generate: $(GLJ) $(GO) $(GLOJURE-SRC)
 	GLJ='$(abspath $(GLJ))' \
@@ -30,6 +31,11 @@ test: generate
 check-generated: generate
 	git diff --exit-code -- \
 	  babashka bb clojure yamlscript ys source runtime/namespaces.edn
+
+release:
+	@$(if $(filter command line,$(origin VERSION)),,\
+	  $(error VERSION is required on the command line))
+	./script/release '$(VERSION)'
 
 $(GLOJURE-SRC):
 	git clone -q --depth 1 -b v$(GLOJURE-VERSION) \
