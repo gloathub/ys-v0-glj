@@ -2,7 +2,10 @@ module github.com/gloathub/ys-v0-glj
 
 go 1.24
 
-require github.com/glojurelang/glojure v0.7.11
+require (
+	github.com/glojurelang/glojure v0.7.14
+	gopkg.in/yaml.v3 v3.0.1
+)
 
 require (
 	bitbucket.org/pcastools/hash v1.0.5 // indirect

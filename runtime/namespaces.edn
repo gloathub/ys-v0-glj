@@ -1,6 +1,7 @@
 [clojure.walk
  babashka.process
  babashka.http-client
+ clj-yaml.core
  clojure.data.json
  ys.v0.clj
  ys.v0.platform

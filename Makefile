@@ -4,23 +4,23 @@ $(shell [ -d '$M' ] || git clone -q $R '$M')
 
 include $M/init.mk
 
-GLOJURE-VERSION := 0.7.11
+GLOJURE-VERSION := 0.7.14
 GO-VERSION := 1.24.0
-YS-V0-VERSION := 0.2.29
-VERSION := 0.1.1
+YS-V0-VERSION := 0.2.31
+VERSION := 0.1.2
 
 include $M/glojure.mk
 include $M/go.mk
+include $M/perl.mk
 include $M/clean.mk
 
 GLOJURE-SRC := $(LOCAL-CACHE)/glojure-$(GLOJURE-VERSION)
 
-.PHONY: generate test check-generated release
-
-generate: $(GLJ) $(GO) $(GLOJURE-SRC)
+generate: $(GLJ) $(GO) $(PERL) $(GLOJURE-SRC)
 	GLJ='$(abspath $(GLJ))' \
 	GLOJURE_SRC='$(abspath $(GLOJURE-SRC))' \
 	GO='$(abspath $(GO))' \
+	PERL='$(abspath $(PERL))' \
 	YS_V0_VERSION='$(YS-V0-VERSION)' \
 	YS_V0_SOURCE='$(YS_V0_SOURCE)' \
 	./script/generate

@@ -624,7 +624,7 @@ func LoadNS() {
 	// VERSION
 	{
 		tmp0 := sym_VERSION
-		var_ys_DOT_v0_VERSION = ns.InternWithValue(tmp0, "0.2.29", true)
+		var_ys_DOT_v0_VERSION = ns.InternWithValue(tmp0, "0.2.31", true)
 		var_ys_DOT_v0_VERSION.SetMetaLazy(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0.cljc", kw_line, int(42), kw_column, int(6), kw_end_DASH_line, int(42), kw_end_DASH_column, int(12), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0))
 		})
@@ -709,7 +709,7 @@ func LoadNS() {
 				_ = v6
 				var tmp7 any
 				{ // let
-					// let binding "G__265"
+					// let binding "G__292"
 					var v8 any = v6
 					_ = v8
 					// case
@@ -879,18 +879,18 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "seq_255"
+				// let binding "seq_282"
 				tmp4 := checkDerefVar(var_ys_DOT_v0_DOT_manifest_aliases)
 				tmp5 := lang.Seq(tmp4)
 				var v6 any = tmp5
 				_ = v6
-				// let binding "chunk_256"
+				// let binding "chunk_283"
 				var v7 any = nil
 				_ = v7
-				// let binding "count_257"
+				// let binding "count_284"
 				var v8 any = int64(0)
 				_ = v8
-				// let binding "i_258"
+				// let binding "i_285"
 				var v9 any = int64(0)
 				_ = v9
 				for {
@@ -899,7 +899,7 @@ func LoadNS() {
 					if lang.IsTruthy(tmp11) {
 						var tmp12 any
 						{ // let
-							// let binding "vec__259"
+							// let binding "vec__286"
 							tmp13 := v7.(interface{ Nth(int) any }).Nth(lang.IntCast(v9))
 							var v14 any = tmp13
 							_ = v14
@@ -956,7 +956,7 @@ func LoadNS() {
 							if lang.IsTruthy(v15) {
 								var tmp17 any
 								{ // let
-									// let binding "seq_255"
+									// let binding "seq_282"
 									var v18 any = v15
 									_ = v18
 									var tmp19 any
@@ -986,7 +986,7 @@ func LoadNS() {
 									} else {
 										var tmp22 any
 										{ // let
-											// let binding "vec__262"
+											// let binding "vec__289"
 											tmp23 := lang.First(v18)
 											var v24 any = tmp23
 											_ = v24
@@ -1391,18 +1391,18 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "seq_233"
+				// let binding "seq_260"
 				tmp4 := aotExternalFn42()
 				tmp5 := lang.Seq(tmp4)
 				var v6 any = tmp5
 				_ = v6
-				// let binding "chunk_234"
+				// let binding "chunk_261"
 				var v7 any = nil
 				_ = v7
-				// let binding "count_235"
+				// let binding "count_262"
 				var v8 any = int64(0)
 				_ = v8
-				// let binding "i_236"
+				// let binding "i_263"
 				var v9 any = int64(0)
 				_ = v9
 				for {
@@ -1440,7 +1440,7 @@ func LoadNS() {
 							if lang.IsTruthy(v15) {
 								var tmp17 any
 								{ // let
-									// let binding "seq_233"
+									// let binding "seq_260"
 									var v18 any = v15
 									_ = v18
 									var tmp19 any
@@ -1505,18 +1505,18 @@ func LoadNS() {
 			_ = tmp3
 			var tmp4 any
 			{ // let
-				// let binding "seq_237"
+				// let binding "seq_264"
 				tmp5 := checkDerefVar(var_ys_DOT_v0_DOT_manifest_refers)
 				tmp6 := lang.Seq(tmp5)
 				var v7 any = tmp6
 				_ = v7
-				// let binding "chunk_238"
+				// let binding "chunk_265"
 				var v8 any = nil
 				_ = v8
-				// let binding "count_239"
+				// let binding "count_266"
 				var v9 any = int64(0)
 				_ = v9
-				// let binding "i_240"
+				// let binding "i_267"
 				var v10 any = int64(0)
 				_ = v10
 				for {
@@ -1525,7 +1525,7 @@ func LoadNS() {
 					if lang.IsTruthy(tmp12) {
 						var tmp13 any
 						{ // let
-							// let binding "vec__241"
+							// let binding "vec__268"
 							tmp14 := v8.(interface{ Nth(int) any }).Nth(lang.IntCast(v10))
 							var v15 any = tmp14
 							_ = v15
@@ -1577,7 +1577,7 @@ func LoadNS() {
 							if lang.IsTruthy(v16) {
 								var tmp18 any
 								{ // let
-									// let binding "seq_237"
+									// let binding "seq_264"
 									var v19 any = v16
 									_ = v19
 									var tmp20 any
@@ -1607,7 +1607,7 @@ func LoadNS() {
 									} else {
 										var tmp23 any
 										{ // let
-											// let binding "vec__244"
+											// let binding "vec__271"
 											tmp24 := lang.First(v19)
 											var v25 any = tmp24
 											_ = v25
@@ -1665,18 +1665,18 @@ func LoadNS() {
 			_ = tmp4
 			var tmp5 any
 			{ // let
-				// let binding "seq_247"
+				// let binding "seq_274"
 				tmp6 := checkDerefVar(var_ys_DOT_v0_DOT_manifest_runtime_DASH_overrides)
 				tmp7 := lang.Seq(tmp6)
 				var v8 any = tmp7
 				_ = v8
-				// let binding "chunk_248"
+				// let binding "chunk_275"
 				var v9 any = nil
 				_ = v9
-				// let binding "count_249"
+				// let binding "count_276"
 				var v10 any = int64(0)
 				_ = v10
-				// let binding "i_250"
+				// let binding "i_277"
 				var v11 any = int64(0)
 				_ = v11
 				for {
@@ -1714,7 +1714,7 @@ func LoadNS() {
 							if lang.IsTruthy(v17) {
 								var tmp19 any
 								{ // let
-									// let binding "seq_247"
+									// let binding "seq_274"
 									var v20 any = v17
 									_ = v20
 									var tmp21 any
@@ -1795,18 +1795,18 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "seq_251"
+				// let binding "seq_278"
 				tmp4 := checkDerefVar(var_ys_DOT_v0_DOT_manifest_runtime_DASH_vars)
 				tmp5 := lang.Seq(tmp4)
 				var v6 any = tmp5
 				_ = v6
-				// let binding "chunk_252"
+				// let binding "chunk_279"
 				var v7 any = nil
 				_ = v7
-				// let binding "count_253"
+				// let binding "count_280"
 				var v8 any = int64(0)
 				_ = v8
-				// let binding "i_254"
+				// let binding "i_281"
 				var v9 any = int64(0)
 				_ = v9
 				for {
@@ -1844,7 +1844,7 @@ func LoadNS() {
 							if lang.IsTruthy(v15) {
 								var tmp17 any
 								{ // let
-									// let binding "seq_251"
+									// let binding "seq_278"
 									var v18 any = v15
 									_ = v18
 									var tmp19 any

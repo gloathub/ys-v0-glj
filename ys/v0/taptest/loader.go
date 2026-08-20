@@ -1433,7 +1433,7 @@ func LoadNS() {
 				} else {
 					var tmp28 any
 					{ // let
-						// let binding "G__220"
+						// let binding "G__247"
 						var v29 any = v13
 						_ = v29
 						// case
@@ -1652,7 +1652,7 @@ func LoadNS() {
 				{ // let
 					// let binding "iter__0__auto__"
 					var tmp7 lang.FnFunc1
-					{ // function iter__221
+					{ // function iter__248
 						var v8 lang.FnFunc1
 						tmp7 = lang.FnFunc1(func(p0 any) any {
 							v9 := p0
@@ -1661,7 +1661,7 @@ func LoadNS() {
 							tmp10 = lang.FnFunc0(func() any {
 								var tmp11 any
 								{ // let
-									// let binding "s__222"
+									// let binding "s__249"
 									var v12 any = v9
 									_ = v12
 									for {
@@ -1675,7 +1675,7 @@ func LoadNS() {
 											if lang.IsTruthy(v15) {
 												var tmp17 any
 												{ // let
-													// let binding "s__222"
+													// let binding "s__249"
 													var v18 any = v15
 													_ = v18
 													var tmp19 any
@@ -1692,14 +1692,14 @@ func LoadNS() {
 															tmp25 := runtime.RT.IntCast(tmp24)
 															var v26 any = tmp25
 															_ = v26
-															// let binding "b__224"
+															// let binding "b__251"
 															tmp27 := aotExternalFn40(v26)
 															var v28 any = tmp27
 															_ = v28
 															var tmp29 any
 															var tmp30 any
 															{ // let
-																// let binding "i__223"
+																// let binding "i__250"
 																tmp31 := runtime.RT.IntCast(int64(0))
 																var v32 any = tmp31
 																_ = v32
@@ -1796,7 +1796,7 @@ func LoadNS() {
 																				// let binding "got"
 																				var tmp48 any
 																				{ // let
-																					// let binding "pred__225"
+																					// let binding "pred__252"
 																					var tmp49 lang.FnFunc2
 																					tmp49 = lang.FnFunc2(func(p0, p1 any) any {
 																						v50 := p0
@@ -1808,7 +1808,7 @@ func LoadNS() {
 																					})
 																					var v50 any = tmp49
 																					_ = v50
-																					// let binding "expr__226"
+																					// let binding "expr__253"
 																					var v51 any = v44
 																					_ = v51
 																					var tmp52 any
@@ -1851,7 +1851,7 @@ func LoadNS() {
 																						_ = v53
 																						var tmp54 any
 																						{ // let
-																							// let binding "pred__227"
+																							// let binding "pred__254"
 																							var tmp55 lang.FnFunc2
 																							tmp55 = lang.FnFunc2(func(p0, p1 any) any {
 																								v56 := p0
@@ -1863,7 +1863,7 @@ func LoadNS() {
 																							})
 																							var v56 any = tmp55
 																							_ = v56
-																							// let binding "expr__228"
+																							// let binding "expr__255"
 																							var v57 any = v44
 																							_ = v57
 																							var tmp58 any
@@ -2104,7 +2104,7 @@ func LoadNS() {
 																// let binding "got"
 																var tmp34 any
 																{ // let
-																	// let binding "pred__229"
+																	// let binding "pred__256"
 																	var tmp35 lang.FnFunc2
 																	tmp35 = lang.FnFunc2(func(p0, p1 any) any {
 																		v36 := p0
@@ -2116,7 +2116,7 @@ func LoadNS() {
 																	})
 																	var v36 any = tmp35
 																	_ = v36
-																	// let binding "expr__230"
+																	// let binding "expr__257"
 																	var v37 any = v30
 																	_ = v37
 																	var tmp38 any
@@ -2159,7 +2159,7 @@ func LoadNS() {
 																		_ = v39
 																		var tmp40 any
 																		{ // let
-																			// let binding "pred__231"
+																			// let binding "pred__258"
 																			var tmp41 lang.FnFunc2
 																			tmp41 = lang.FnFunc2(func(p0, p1 any) any {
 																				v42 := p0
@@ -2171,7 +2171,7 @@ func LoadNS() {
 																			})
 																			var v42 any = tmp41
 																			_ = v42
-																			// let binding "expr__232"
+																			// let binding "expr__259"
 																			var v43 any = v30
 																			_ = v43
 																			var tmp44 any

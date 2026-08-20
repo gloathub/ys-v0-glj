@@ -128,6 +128,9 @@ func LoadNS() {
 	}
 	{ // refer vars from ys.v0.util
 		srcNS := lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_util)
-		ns.ReferAllSnapshot(srcNS, []string{})
+		ns.ReferAllSnapshot(srcNS, []string{
+			"resolve-assignment-key",
+			"resolve-assignment-path",
+		})
 	}
 }

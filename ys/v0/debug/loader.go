@@ -745,7 +745,7 @@ func LoadNS() {
 				// let binding "compile"
 				var tmp4 any
 				{ // let
-					// let binding "G__12"
+					// let binding "G__17"
 					tmp5 := aotExternalFn24(sym_yamlscript_DOT_compiler_SLASH_compile)
 					var v6 any = tmp5
 					_ = v6
@@ -763,7 +763,7 @@ func LoadNS() {
 				// let binding "pretty-format"
 				var tmp6 any
 				{ // let
-					// let binding "G__13"
+					// let binding "G__18"
 					tmp7 := aotExternalFn24(sym_yamlscript_DOT_compiler_SLASH_pretty_DASH_format)
 					var v8 any = tmp7
 					_ = v8
@@ -1021,18 +1021,18 @@ func LoadNS() {
 			_ = v4
 			var tmp5 any
 			{ // let
-				// let binding "vec__25"
+				// let binding "vec__30"
 				var v6 any = v4
 				_ = v6
-				// let binding "seq__26"
+				// let binding "seq__31"
 				tmp7 := lang.Seq(v6)
 				var v8 any = tmp7
 				_ = v8
-				// let binding "first__27"
+				// let binding "first__32"
 				tmp9 := lang.First(v8)
 				var v10 any = tmp9
 				_ = v10
-				// let binding "seq__26"
+				// let binding "seq__31"
 				tmp11 := lang.Next(v8)
 				var v12 any = tmp11
 				_ = v12
@@ -1410,7 +1410,7 @@ func LoadNS() {
 								}()
 								var tmp20 any
 								{ // let
-									// let binding "pred__14"
+									// let binding "pred__19"
 									var tmp21 lang.FnFunc2
 									tmp21 = lang.FnFunc2(func(p0, p1 any) any {
 										v22 := p0
@@ -1422,7 +1422,7 @@ func LoadNS() {
 									})
 									var v22 any = tmp21
 									_ = v22
-									// let binding "expr__15"
+									// let binding "expr__20"
 									var v23 any = v2
 									_ = v23
 									var tmp24 any
@@ -1504,18 +1504,18 @@ func LoadNS() {
 					for {
 						var tmp12 any
 						{ // let
-							// let binding "vec__16"
+							// let binding "vec__21"
 							var v13 any = v7
 							_ = v13
-							// let binding "seq__17"
+							// let binding "seq__22"
 							tmp14 := lang.Seq(v13)
 							var v15 any = tmp14
 							_ = v15
-							// let binding "first__18"
+							// let binding "first__23"
 							tmp16 := lang.First(v15)
 							var v17 any = tmp16
 							_ = v17
-							// let binding "seq__17"
+							// let binding "seq__22"
 							tmp18 := lang.Next(v15)
 							var v19 any = tmp18
 							_ = v19
@@ -1527,11 +1527,11 @@ func LoadNS() {
 							_ = v21
 							var tmp22 any
 							{ // let
-								// let binding "pred__19"
+								// let binding "pred__24"
 								tmp23 := checkDerefVar(var_clojure_DOT_core__EQ_)
 								var v24 any = tmp23
 								_ = v24
-								// let binding "expr__20"
+								// let binding "expr__25"
 								var v25 any = v20
 								_ = v25
 								var tmp26 any
@@ -1655,7 +1655,7 @@ func LoadNS() {
 			{ // let
 				// let binding "iter__0__auto__"
 				var tmp5 lang.FnFunc1
-				{ // function iter__21
+				{ // function iter__26
 					var v6 lang.FnFunc1
 					tmp5 = lang.FnFunc1(func(p0 any) any {
 						v7 := p0
@@ -1664,7 +1664,7 @@ func LoadNS() {
 						tmp8 = lang.FnFunc0(func() any {
 							var tmp9 any
 							{ // let
-								// let binding "s__22"
+								// let binding "s__27"
 								var v10 any = v7
 								_ = v10
 								for {
@@ -1678,7 +1678,7 @@ func LoadNS() {
 										if lang.IsTruthy(v13) {
 											var tmp15 any
 											{ // let
-												// let binding "s__22"
+												// let binding "s__27"
 												var v16 any = v13
 												_ = v16
 												var tmp17 any
@@ -1695,14 +1695,14 @@ func LoadNS() {
 														tmp23 := runtime.RT.IntCast(tmp22)
 														var v24 any = tmp23
 														_ = v24
-														// let binding "b__24"
+														// let binding "b__29"
 														tmp25 := aotExternalFn47(v24)
 														var v26 any = tmp25
 														_ = v26
 														var tmp27 any
 														var tmp28 any
 														{ // let
-															// let binding "i__23"
+															// let binding "i__28"
 															tmp29 := runtime.RT.IntCast(int64(0))
 															var v30 any = tmp29
 															_ = v30

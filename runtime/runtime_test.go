@@ -64,6 +64,19 @@ func TestLoadAndNativeBackends(t *testing.T) {
 		t.Fatalf("json encoding: got %q", got)
 	}
 
+	yamlData := glj.Var("ys.v0.yaml", "load").Invoke(
+		"first: 1\nsecond:\n  - true\n  - null\n",
+	)
+	if got := fmt.Sprint(
+		glj.Var("clojure.core", "get").Invoke(yamlData, "first"),
+	); got != "1" {
+		t.Fatalf("yaml first value: got %q, want 1", got)
+	}
+	gotYAML := fmt.Sprint(glj.Var("ys.v0.yaml", "dump").Invoke(yamlData))
+	if gotYAML != "first: 1\nsecond:\n  - true\n  - null\n" {
+		t.Fatalf("yaml encoding: got %q", gotYAML)
+	}
+
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("hello over http"))
 	}))

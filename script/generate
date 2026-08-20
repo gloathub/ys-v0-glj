@@ -3,10 +3,11 @@
 set -euo pipefail
 
 root=$(cd "$(dirname "$0")/.." && pwd -P)
-version=${YS_V0_VERSION:-0.2.29}
+version=${YS_V0_VERSION:-0.2.31}
 glj=${GLJ:?GLJ is required}
 glojure_src=${GLOJURE_SRC:?GLOJURE_SRC is required}
 go=${GO:-go}
+perl=${PERL:?PERL is required}
 build=$root/.cache/build
 upstream=$build/upstream
 stage=$build/stage
@@ -17,10 +18,16 @@ rm -rf "$build"
 mkdir -p "$upstream" "$stage" "$(dirname "$jar")"
 
 if [[ -n ${YS_V0_SOURCE:-} ]]; then
-  cp -R "$YS_V0_SOURCE"/. "$upstream"/
+  if [[ -d $YS_V0_SOURCE/ys ]]; then
+    mkdir -p "$upstream/ys"
+    cp -R "$YS_V0_SOURCE/ys"/. "$upstream/ys"/
+  else
+    cp -R "$YS_V0_SOURCE"/. "$upstream"/
+  fi
 else
   if [[ ! -f $jar ]]; then
-    url="https://repo.clojars.org/org/yamlscript/ys.v0/$version/ys.v0-$version.jar"
+    url="https://repo.clojars.org/org/yamlscript/ys.v0/$version/"
+    url+="ys.v0-$version.jar"
     curl -fsSL "$url" -o "$jar.part"
     mv "$jar.part" "$jar"
   fi
@@ -37,7 +44,8 @@ mkdir -p "$root/bb"
 {
   while IFS= read -r path; do
     [[ -n $path && $path != \#* ]] || continue
-    sed -e '/^;;.*Copyright/d' -e '/^;; This code is licensed/d' \
+    "$perl" -ne \
+      'print unless /^;;.*Copyright/ || /^;; This code is licensed/' \
       "$upstream/$path"
     printf '\n'
   done < "$root/runtime/bb-sources.txt"
@@ -45,6 +53,7 @@ mkdir -p "$root/bb"
 
 patch --batch --forward --fuzz=0 -p1 -d "$stage" \
   < "$root/patches/ys-v0-glojure-aot.patch"
+find "$stage" -name '*.orig' -type f -delete
 
 cp -R "$root/src"/. "$stage"/
 mkdir -p "$stage/clojure"

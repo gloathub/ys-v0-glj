@@ -9,6 +9,7 @@ import (
 
 	_ "github.com/gloathub/ys-v0-glj/babashka/http_client"
 	_ "github.com/gloathub/ys-v0-glj/babashka/process"
+	_ "github.com/gloathub/ys-v0-glj/clj_yaml/core"
 	_ "github.com/gloathub/ys-v0-glj/clojure/data/json"
 	_ "github.com/gloathub/ys-v0-glj/clojure/walk"
 	_ "github.com/gloathub/ys-v0-glj/yamlscript/common"
@@ -51,6 +52,7 @@ func Load() {
 			"clojure.walk",
 			"babashka.process",
 			"babashka.http-client",
+			"clj-yaml.core",
 			"clojure.data.json",
 			"ys.v0.clj",
 			"ys.v0.platform",

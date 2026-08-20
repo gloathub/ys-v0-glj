@@ -6,8 +6,8 @@ github.com/gloathub/go-readline v0.1.2 h1:xpBQfW3BSoLCY5ck5CsLVYtvd3EOpp3xlZ9/yE
 github.com/gloathub/go-readline v0.1.2/go.mod h1:AuU225TTeDXCtn8hQaQZTfSYe65j/IpFdwvO/AfFHI4=
 github.com/gloathub/gojava v0.1.0 h1:lNxzOURH+dWzBxgIsiEwggMKpzo+s9U6/uyC7jMwaF8=
 github.com/gloathub/gojava v0.1.0/go.mod h1:5BolUlfQEVhISDwoCnchpGwFTE5upbi2965/m3WRQH8=
-github.com/glojurelang/glojure v0.7.11 h1:RKiHqpU1M0xooXg4cC4yb9jkFS3zq0R5NEnCdAR5SF8=
-github.com/glojurelang/glojure v0.7.11/go.mod h1:ZYtJSMN1AB1hkDRS7zerNzDWVufuCGxKsHrQkn5l1Mc=
+github.com/glojurelang/glojure v0.7.14 h1:LRR1hj5SARFZJoUQvigCELvihXecZzhLJBAeweiZNNU=
+github.com/glojurelang/glojure v0.7.14/go.mod h1:ZYtJSMN1AB1hkDRS7zerNzDWVufuCGxKsHrQkn5l1Mc=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0SNc=
@@ -25,5 +25,7 @@ go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2 h1:WJhcL4p
 go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2/go.mod h1:FftLjUGFEDu5k8lt0ddY+HcrH/qU/0qk+H8j9/nTl3E=
 golang.org/x/sys v0.8.0 h1:EBmGv8NaZBZTWvrbjNoL6HVt+IVy3QDQpJs7VRIw3tU=
 golang.org/x/sys v0.8.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

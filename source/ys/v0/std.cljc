@@ -152,6 +152,12 @@
 ;;------------------------------------------------------------------------------
 ;; Collection functions
 ;;------------------------------------------------------------------------------
+(defn put
+  ([map key value]
+   (assoc map key value))
+  ([map key value & key-values]
+   (apply assoc map key value key-values)))
+
 (defn get+ [C K]
   (condf C
     map? (if (symbol? K)
