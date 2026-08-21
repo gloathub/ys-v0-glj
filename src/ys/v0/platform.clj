@@ -2,7 +2,9 @@
   (:require [clojure.string :as str]))
 
 (defn args []
-  (vec (rest os.Args)))
+  (if (System/getProperty "babashka.version")
+    (vec (or *command-line-args* []))
+    (vec (rest os.Args))))
 
 (defn arch []
   runtime.GOARCH)

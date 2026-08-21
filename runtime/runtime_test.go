@@ -10,11 +10,40 @@ import (
 	"testing"
 
 	"github.com/glojurelang/glojure/pkg/glj"
+	jsystem "github.com/glojurelang/glojure/pkg/javacompat/system"
 	"github.com/glojurelang/glojure/pkg/lang"
 )
 
 func mapValue(value any, key string) any {
 	return glj.Var("clojure.core", "get").Invoke(value, lang.NewKeyword(key))
+}
+
+func TestPlatformArgsPreferHostedCommandLineArgs(t *testing.T) {
+	Load()
+	argsVar := lang.NSCore.FindInternedVar(
+		lang.NewSymbol("*command-line-args*"),
+	)
+	originalArgs := argsVar.Deref()
+	argsVar.BindRoot(lang.NewList("first", "second"))
+	defer argsVar.BindRoot(originalArgs)
+
+	originalVersion := jsystem.SetProperty("babashka.version", "test")
+	defer func() {
+		if originalVersion == nil {
+			jsystem.ClearProperty("babashka.version")
+		} else {
+			jsystem.SetProperty("babashka.version", originalVersion)
+		}
+	}()
+
+	got := fmt.Sprint(glj.Var("ys.v0.platform", "args").Invoke())
+	if got != `["first" "second"]` {
+		t.Fatalf(
+			"platform args: got %q, want %q",
+			got,
+			`["first" "second"]`,
+		)
+	}
 }
 
 func TestLoadAndNativeBackends(t *testing.T) {

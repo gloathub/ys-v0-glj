@@ -5,8 +5,9 @@ package platform
 import (
 	fmt "fmt"
 	lang "github.com/glojurelang/glojure/pkg/lang"
+	pkgmap5 "github.com/glojurelang/glojure/pkg/pkgmap"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
-	os5 "os"
+	os6 "os"
 	reflect "reflect"
 	runtime4 "runtime"
 	sync "sync"
@@ -124,6 +125,7 @@ func checkArityGTE(args []any, min int) {
 
 // LoadNS initializes the namespace "ys.v0.platform"
 func LoadNS() {
+	sym__STAR_command_DASH_line_DASH_args_STAR_ := lang.NewSymbolUnchecked("*command-line-args*")
 	sym_arch := lang.NewSymbolUnchecked("arch")
 	sym_args := lang.NewSymbolUnchecked("args")
 	sym_clojure_DOT_core := lang.NewSymbolUnchecked("clojure.core")
@@ -148,6 +150,8 @@ func LoadNS() {
 	kw_file := lang.NewKeyword("file")
 	kw_line := lang.NewKeyword("line")
 	kw_ns := lang.NewKeyword("ns")
+	// var clojure.core/*command-line-args*
+	var_clojure_DOT_core__STAR_command_DASH_line_DASH_args_STAR_ := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_command_DASH_line_DASH_args_STAR_)
 	// var clojure.core/reduce
 	var_clojure_DOT_core_reduce := lang.InternVarName(sym_clojure_DOT_core, sym_reduce)
 	// var clojure.core/rest
@@ -273,22 +277,7 @@ func LoadNS() {
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_platform_arch = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_arch.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(7), kw_column, int(7), kw_end_DASH_line, int(7), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
-	}
-	// args
-	{
-		tmp0 := sym_args
-		var tmp1 lang.FnFunc0
-		tmp1 = lang.FnFunc0(func() any {
-			tmp2 := aotExternalFn1(os5.Args)
-			tmp3 := aotExternalFn0(tmp2)
-			return tmp3
-		})
-		aotDirectFn1 = tmp1
-		var_ys_DOT_v0_DOT_platform_args = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_args.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(4), kw_column, int(7), kw_end_DASH_line, int(4), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(9), kw_column, int(7), kw_end_DASH_line, int(9), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// cwd
@@ -299,7 +288,7 @@ func LoadNS() {
 			var tmp2 any
 			{ // let
 				// let binding "vec__1"
-				tmp3 := lang.Apply0(os5.Getwd)
+				tmp3 := lang.Apply0(os6.Getwd)
 				var v4 any = tmp3
 				_ = v4
 				// let binding "path"
@@ -324,7 +313,7 @@ func LoadNS() {
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_platform_cwd = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_cwd.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(10), kw_column, int(7), kw_end_DASH_line, int(10), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(12), kw_column, int(7), kw_end_DASH_line, int(12), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// env
@@ -360,14 +349,14 @@ func LoadNS() {
 				return tmp5
 			})
 			tmp3 := lang.NewMap()
-			tmp4 := os5.Environ()
+			tmp4 := os6.Environ()
 			tmp5 := aotExternalFn3(tmp2, tmp3, tmp4)
 			return tmp5
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_platform_env = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_env.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(14), kw_column, int(7), kw_end_DASH_line, int(14), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(16), kw_column, int(7), kw_end_DASH_line, int(16), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// executable
@@ -378,7 +367,7 @@ func LoadNS() {
 			var tmp2 any
 			{ // let
 				// let binding "vec__4"
-				tmp3 := lang.Apply0(os5.Executable)
+				tmp3 := lang.Apply0(os6.Executable)
 				var v4 any = tmp3
 				_ = v4
 				// let binding "path"
@@ -402,7 +391,7 @@ func LoadNS() {
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_platform_executable = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_executable.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(26), kw_column, int(7), kw_end_DASH_line, int(26), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(28), kw_column, int(7), kw_end_DASH_line, int(28), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// hostname
@@ -413,7 +402,7 @@ func LoadNS() {
 			var tmp2 any
 			{ // let
 				// let binding "vec__7"
-				tmp3 := lang.Apply0(os5.Hostname)
+				tmp3 := lang.Apply0(os6.Hostname)
 				var v4 any = tmp3
 				_ = v4
 				// let binding "name"
@@ -437,7 +426,7 @@ func LoadNS() {
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_platform_hostname = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_hostname.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(30), kw_column, int(7), kw_end_DASH_line, int(30), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(32), kw_column, int(7), kw_end_DASH_line, int(32), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// os
@@ -450,7 +439,7 @@ func LoadNS() {
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_platform_os = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_os.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(34), kw_column, int(7), kw_end_DASH_line, int(34), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(36), kw_column, int(7), kw_end_DASH_line, int(36), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 	// pid
@@ -458,13 +447,55 @@ func LoadNS() {
 		tmp0 := sym_pid
 		var tmp1 lang.FnFunc0
 		tmp1 = lang.FnFunc0(func() any {
-			tmp2 := os5.Getpid()
+			tmp2 := os6.Getpid()
 			return tmp2
 		})
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_platform_pid = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_platform_pid.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(37), kw_column, int(7), kw_end_DASH_line, int(37), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(39), kw_column, int(7), kw_end_DASH_line, int(39), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
+		})
+	}
+	// args
+	{
+		tmp0 := sym_args
+		var tmp1 lang.FnFunc0
+		tmp1 = lang.FnFunc0(func() any {
+			var tmp2 any
+			tmp3, ok := pkgmap5.Get("System.getProperty")
+			if !ok {
+				panic(lang.NewIllegalArgumentError("unable to resolve host form: System.getProperty"))
+			}
+			tmp4 := lang.Apply1(tmp3, "babashka.version")
+			if lang.IsTruthy(tmp4) {
+				var tmp5 any
+				{ // let
+					// let binding "or__0__auto__"
+					tmp6 := checkDerefVar(var_clojure_DOT_core__STAR_command_DASH_line_DASH_args_STAR_)
+					var v7 any = tmp6
+					_ = v7
+					var tmp8 any
+					if lang.IsTruthy(v7) {
+						tmp8 = v7
+					} else {
+						tmp9 := lang.NewVector()
+						tmp8 = tmp9
+					}
+					tmp5 = tmp8
+				} // end let
+				tmp6 := aotExternalFn0(tmp5)
+				tmp2 = tmp6
+			} else {
+				tmp7 := aotExternalFn1(os6.Args)
+				tmp8 := aotExternalFn0(tmp7)
+				tmp2 = tmp8
+			}
+			return tmp2
+		})
+		aotDirectFn1 = tmp1
+		var_ys_DOT_v0_DOT_platform_args = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_platform_args.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(4), kw_column, int(7), kw_end_DASH_line, int(4), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
 		})
 	}
 }
