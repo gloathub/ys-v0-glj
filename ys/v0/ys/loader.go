@@ -613,10 +613,10 @@ func LoadNS() {
 	aotExternalFn49 := aotLinkFn2(var_clojure_DOT_core_some)
 	aotExternalFn5 := aotLinkFn1(var_clojure_DOT_core_resolve)
 	aotExternalFn50 := aotLinkFn1(var_clojure_DOT_core_vec)
-	aotExternalFn51 := aotLinkFn1(var_clojure_DOT_core_push_DASH_thread_DASH_bindings)
-	aotExternalFn52 := aotLinkFn2(var_clojure_DOT_core_hash_DASH_map)
-	aotExternalFn53 := aotLinkFn0(var_clojure_DOT_core_pop_DASH_thread_DASH_bindings)
-	aotExternalFn54 := aotLinkFn1(var_clojure_DOT_core_rest)
+	aotExternalFn51 := aotLinkFn1(var_clojure_DOT_core_rest)
+	aotExternalFn52 := aotLinkFn1(var_clojure_DOT_core_push_DASH_thread_DASH_bindings)
+	aotExternalFn53 := aotLinkFn2(var_clojure_DOT_core_hash_DASH_map)
+	aotExternalFn54 := aotLinkFn0(var_clojure_DOT_core_pop_DASH_thread_DASH_bindings)
 	aotExternalFn55 := aotLinkFn2(var_clojure_DOT_core_alias)
 	aotExternalFn56 := aotLinkFn2(var_clojure_DOT_core_mapv)
 	aotExternalFn57 := aotLinkFn3(var_clojure_DOT_core_into)
@@ -2508,161 +2508,177 @@ func LoadNS() {
 				_ = v13
 				var tmp14 any
 				{ // let
-					tmp15 := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_ns_STAR_)
-					tmp16 := aotExternalFn52(tmp15, v2)
-					tmp17 := aotExternalFn51(tmp16)
-					_ = tmp17
-					var tmp18 any
-					func() {
-						defer func() {
-							tmp19 := aotExternalFn53()
-							_ = tmp19
-						}()
+					// let binding "seq_68"
+					tmp15 := lang.Seq(v13)
+					var v16 any = tmp15
+					_ = v16
+					// let binding "chunk_69"
+					var v17 any = nil
+					_ = v17
+					// let binding "count_70"
+					var v18 any = int64(0)
+					_ = v18
+					// let binding "i_71"
+					var v19 any = int64(0)
+					_ = v19
+					for {
 						var tmp20 any
-						{ // let
-							// let binding "seq_68"
-							tmp21 := lang.Seq(v13)
-							var v22 any = tmp21
-							_ = v22
-							// let binding "chunk_69"
-							var v23 any = nil
-							_ = v23
-							// let binding "count_70"
-							var v24 any = int64(0)
-							_ = v24
-							// let binding "i_71"
-							var v25 any = int64(0)
-							_ = v25
-							for {
-								var tmp26 any
-								tmp27 := lang.Numbers.Lt(v25, v24)
-								if lang.IsTruthy(tmp27) {
-									var tmp28 any
+						tmp21 := lang.Numbers.Lt(v19, v18)
+						if lang.IsTruthy(tmp21) {
+							var tmp22 any
+							{ // let
+								// let binding "form"
+								tmp23 := v17.(interface{ Nth(int) any }).Nth(lang.IntCast(v19))
+								var v24 any = tmp23
+								_ = v24
+								var tmp25 any
+								{ // let
+									// let binding "module"
+									tmp26 := lang.First(v24)
+									var v27 any = tmp26
+									_ = v27
+									// let binding "options"
+									tmp28 := aotExternalFn51(v24)
+									tmp29 := aotDirectFn15(tmp28)
+									var v30 any = tmp29
+									_ = v30
+									tmp31 := aotDirectFn13(v27, v30)
+									_ = tmp31
+									var tmp32 any
 									{ // let
-										// let binding "form"
-										tmp29 := v23.(interface{ Nth(int) any }).Nth(lang.IntCast(v25))
-										var v30 any = tmp29
-										_ = v30
-										var tmp31 any
-										{ // let
-											// let binding "module"
-											tmp32 := lang.First(v30)
-											var v33 any = tmp32
-											_ = v33
-											// let binding "options"
-											tmp34 := aotExternalFn54(v30)
-											tmp35 := aotDirectFn15(tmp34)
-											var v36 any = tmp35
-											_ = v36
-											tmp37 := aotDirectFn13(v33, v36)
-											_ = tmp37
-											tmp38 := aotDirectFn19(v33, v36)
-											tmp31 = tmp38
-										} // end let
-										_ = tmp31
-										var tmp32 any = v22
-										var tmp33 any = v23
-										var tmp34 any = v24
-										tmp36 := lang.Numbers.Unchecked_inc(v25)
-										var tmp35 any = tmp36
-										v22 = tmp32
-										v23 = tmp33
-										v24 = tmp34
-										v25 = tmp35
-										continue
+										tmp33 := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_ns_STAR_)
+										tmp34 := aotExternalFn53(tmp33, v2)
+										tmp35 := aotExternalFn52(tmp34)
+										_ = tmp35
+										var tmp36 any
+										func() {
+											defer func() {
+												tmp37 := aotExternalFn54()
+												_ = tmp37
+											}()
+											tmp38 := aotDirectFn19(v27, v30)
+											tmp36 = tmp38
+										}()
+										tmp32 = tmp36
 									} // end let
-									tmp26 = tmp28
-								} else {
-									var tmp29 any
+									tmp25 = tmp32
+								} // end let
+								_ = tmp25
+								var tmp26 any = v16
+								var tmp27 any = v17
+								var tmp28 any = v18
+								tmp30 := lang.Numbers.Unchecked_inc(v19)
+								var tmp29 any = tmp30
+								v16 = tmp26
+								v17 = tmp27
+								v18 = tmp28
+								v19 = tmp29
+								continue
+							} // end let
+							tmp20 = tmp22
+						} else {
+							var tmp23 any
+							{ // let
+								// let binding "temp__0__auto__"
+								tmp24 := lang.Seq(v16)
+								var v25 any = tmp24
+								_ = v25
+								var tmp26 any
+								if lang.IsTruthy(v25) {
+									var tmp27 any
 									{ // let
-										// let binding "temp__0__auto__"
-										tmp30 := lang.Seq(v22)
-										var v31 any = tmp30
-										_ = v31
-										var tmp32 any
-										if lang.IsTruthy(v31) {
-											var tmp33 any
+										// let binding "seq_68"
+										var v28 any = v25
+										_ = v28
+										var tmp29 any
+										tmp30 := aotExternalFn8(v28)
+										if lang.IsTruthy(tmp30) {
+											var tmp31 any
 											{ // let
-												// let binding "seq_68"
-												var v34 any = v31
+												// let binding "c__0__auto__"
+												tmp32 := aotExternalFn9(v28)
+												var v33 any = tmp32
+												_ = v33
+												tmp35 := aotExternalFn10(v28)
+												var tmp34 any = tmp35
+												var tmp36 any = v33
+												tmp38 := lang.Count(v33)
+												tmp39 := runtime.RT.IntCast(tmp38)
+												var tmp37 any = tmp39
+												tmp41 := runtime.RT.IntCast(int64(0))
+												var tmp40 any = tmp41
+												v16 = tmp34
+												v17 = tmp36
+												v18 = tmp37
+												v19 = tmp40
+												continue
+											} // end let
+											tmp29 = tmp31
+										} else {
+											var tmp32 any
+											{ // let
+												// let binding "form"
+												tmp33 := lang.First(v28)
+												var v34 any = tmp33
 												_ = v34
 												var tmp35 any
-												tmp36 := aotExternalFn8(v34)
-												if lang.IsTruthy(tmp36) {
-													var tmp37 any
+												{ // let
+													// let binding "module"
+													tmp36 := lang.First(v34)
+													var v37 any = tmp36
+													_ = v37
+													// let binding "options"
+													tmp38 := aotExternalFn51(v34)
+													tmp39 := aotDirectFn15(tmp38)
+													var v40 any = tmp39
+													_ = v40
+													tmp41 := aotDirectFn13(v37, v40)
+													_ = tmp41
+													var tmp42 any
 													{ // let
-														// let binding "c__0__auto__"
-														tmp38 := aotExternalFn9(v34)
-														var v39 any = tmp38
-														_ = v39
-														tmp41 := aotExternalFn10(v34)
-														var tmp40 any = tmp41
-														var tmp42 any = v39
-														tmp44 := lang.Count(v39)
-														tmp45 := runtime.RT.IntCast(tmp44)
-														var tmp43 any = tmp45
-														tmp47 := runtime.RT.IntCast(int64(0))
-														var tmp46 any = tmp47
-														v22 = tmp40
-														v23 = tmp42
-														v24 = tmp43
-														v25 = tmp46
-														continue
+														tmp43 := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_ns_STAR_)
+														tmp44 := aotExternalFn53(tmp43, v2)
+														tmp45 := aotExternalFn52(tmp44)
+														_ = tmp45
+														var tmp46 any
+														func() {
+															defer func() {
+																tmp47 := aotExternalFn54()
+																_ = tmp47
+															}()
+															tmp48 := aotDirectFn19(v37, v40)
+															tmp46 = tmp48
+														}()
+														tmp42 = tmp46
 													} // end let
-													tmp35 = tmp37
-												} else {
-													var tmp38 any
-													{ // let
-														// let binding "form"
-														tmp39 := lang.First(v34)
-														var v40 any = tmp39
-														_ = v40
-														var tmp41 any
-														{ // let
-															// let binding "module"
-															tmp42 := lang.First(v40)
-															var v43 any = tmp42
-															_ = v43
-															// let binding "options"
-															tmp44 := aotExternalFn54(v40)
-															tmp45 := aotDirectFn15(tmp44)
-															var v46 any = tmp45
-															_ = v46
-															tmp47 := aotDirectFn13(v43, v46)
-															_ = tmp47
-															tmp48 := aotDirectFn19(v43, v46)
-															tmp41 = tmp48
-														} // end let
-														_ = tmp41
-														tmp43 := lang.Next(v34)
-														var tmp42 any = tmp43
-														var tmp44 any = nil
-														var tmp45 any = int64(0)
-														var tmp46 any = int64(0)
-														v22 = tmp42
-														v23 = tmp44
-														v24 = tmp45
-														v25 = tmp46
-														continue
-													} // end let
-													tmp35 = tmp38
-												}
-												tmp33 = tmp35
+													tmp35 = tmp42
+												} // end let
+												_ = tmp35
+												tmp37 := lang.Next(v28)
+												var tmp36 any = tmp37
+												var tmp38 any = nil
+												var tmp39 any = int64(0)
+												var tmp40 any = int64(0)
+												v16 = tmp36
+												v17 = tmp38
+												v18 = tmp39
+												v19 = tmp40
+												continue
 											} // end let
-											tmp32 = tmp33
-										} else {
+											tmp29 = tmp32
 										}
-										tmp29 = tmp32
+										tmp27 = tmp29
 									} // end let
-									tmp26 = tmp29
+									tmp26 = tmp27
+								} else {
 								}
-								tmp20 = tmp26
-								break
-							}
-						} // end let
-						tmp18 = tmp20
-					}()
-					tmp14 = tmp18
+								tmp23 = tmp26
+							} // end let
+							tmp20 = tmp23
+						}
+						tmp14 = tmp20
+						break
+					}
 				} // end let
 				tmp7 = tmp14
 			} // end let
@@ -2769,7 +2785,7 @@ func LoadNS() {
 				// let binding "vec__50"
 				tmp5 := checkDerefVar(var_clojure_DOT_core_keyword_QMARK_)
 				tmp6 := aotExternalFn62(tmp5)
-				tmp7 := aotExternalFn54(v3)
+				tmp7 := aotExternalFn51(v3)
 				tmp8 := aotExternalFn61(tmp6, tmp7)
 				var v9 any = tmp8
 				_ = v9
