@@ -6,12 +6,12 @@ import (
 	"github.com/glojurelang/glojure/pkg/glj"
 	"github.com/glojurelang/glojure/pkg/lang"
 	_ "github.com/glojurelang/glojure/pkg/stdlib/clojure/string"
+	_ "github.com/glojurelang/glojure/pkg/stdlib/clojure/walk"
 
 	_ "github.com/gloathub/ys-v0-glj/babashka/http_client"
 	_ "github.com/gloathub/ys-v0-glj/babashka/process"
 	_ "github.com/gloathub/ys-v0-glj/clj_yaml/core"
 	_ "github.com/gloathub/ys-v0-glj/clojure/data/json"
-	_ "github.com/gloathub/ys-v0-glj/clojure/walk"
 	_ "github.com/gloathub/ys-v0-glj/yamlscript/common"
 	_ "github.com/gloathub/ys-v0-glj/yamlscript/util"
 	_ "github.com/gloathub/ys-v0-glj/ys/dwim"

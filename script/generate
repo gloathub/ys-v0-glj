@@ -104,12 +104,6 @@ for namespace in "${namespaces[@]}"; do
     GLJ_CLASSPATH="$stage:$glojure_stdlib" "$glj"
 done
 
-# Use the loader shipped with the pinned Glojure source tree for its bundled
-# clojure.walk namespace.
-mkdir -p "$stage/clojure/walk"
-cp "$glojure_src/pkg/stdlib/clojure/walk/loader.go" \
-  "$stage/clojure/walk/loader.go"
-
 for path in babashka clojure/data clojure/walk yamlscript ys; do
   rm -rf "${root:?}/$path"
 done
