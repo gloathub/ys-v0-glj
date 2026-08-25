@@ -4,7 +4,7 @@ go 1.24
 
 require (
 	github.com/glojurelang/glojure v0.7.14
-	gopkg.in/yaml.v3 v3.0.1
+	go.yaml.in/yaml/v4 v4.0.0-rc.6
 )
 
 require (

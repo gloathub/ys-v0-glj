@@ -94,7 +94,9 @@ func TestLoadAndNativeBackends(t *testing.T) {
 	}
 
 	yamlData := glj.Var("ys.v0.yaml", "load").Invoke(
-		"first: 1\nsecond:\n  - true\n  - null\n",
+		"first: 1\nsecond:\n  - true\n  - null\n" +
+			"third: this long scalar must remain on one physical line " +
+			"even when it is longer than eighty characters\n",
 	)
 	if got := fmt.Sprint(
 		glj.Var("clojure.core", "get").Invoke(yamlData, "first"),
@@ -102,7 +104,9 @@ func TestLoadAndNativeBackends(t *testing.T) {
 		t.Fatalf("yaml first value: got %q, want 1", got)
 	}
 	gotYAML := fmt.Sprint(glj.Var("ys.v0.yaml", "dump").Invoke(yamlData))
-	if gotYAML != "first: 1\nsecond:\n  - true\n  - null\n" {
+	if gotYAML != "first: 1\nsecond:\n- true\n- null\n"+
+		"third: this long scalar must remain on one physical line "+
+		"even when it is longer than eighty characters\n" {
 		t.Fatalf("yaml encoding: got %q", gotYAML)
 	}
 

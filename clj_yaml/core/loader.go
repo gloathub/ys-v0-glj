@@ -8,7 +8,7 @@ import (
 
 	"github.com/glojurelang/glojure/pkg/lang"
 	"github.com/glojurelang/glojure/pkg/runtime"
-	"gopkg.in/yaml.v3"
+	"go.yaml.in/yaml/v4"
 )
 
 func init() {
@@ -109,16 +109,17 @@ func generateString(arguments ...any) any {
 		panic(lang.NewIllegalArgumentError("wrong number of arguments (0)"))
 	}
 
-	var output bytes.Buffer
-	encoder := yaml.NewEncoder(&output)
-	encoder.SetIndent(2)
-	if err := encoder.Encode(glojureToYAMLNode(arguments[0])); err != nil {
+	output, err := yaml.Dump(
+		glojureToYAMLNode(arguments[0]),
+		yaml.WithV3Defaults(),
+		yaml.WithIndent(2),
+		yaml.WithCompactSeqIndent(),
+		yaml.WithLineWidth(-1),
+	)
+	if err != nil {
 		panic(fmt.Errorf("YAML generation error: %w", err))
 	}
-	if err := encoder.Close(); err != nil {
-		panic(fmt.Errorf("YAML generation error: %w", err))
-	}
-	return output.String()
+	return string(output)
 }
 
 func glojureToYAMLNode(value any) *yaml.Node {
