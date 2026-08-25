@@ -6,7 +6,7 @@ include $M/init.mk
 
 GLOJURE-VERSION := 0.7.14
 GO-VERSION := 1.24.0
-YS-V0-VERSION := 0.2.31
+YS-V0-VERSION := 0.2.32
 VERSION := 0.1.2
 
 include $M/glojure.mk

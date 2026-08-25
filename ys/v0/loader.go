@@ -624,7 +624,7 @@ func LoadNS() {
 	// VERSION
 	{
 		tmp0 := sym_VERSION
-		var_ys_DOT_v0_VERSION = ns.InternWithValue(tmp0, "0.2.31", true)
+		var_ys_DOT_v0_VERSION = ns.InternWithValue(tmp0, "0.2.32", true)
 		var_ys_DOT_v0_VERSION.SetMetaLazy(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0.cljc", kw_line, int(42), kw_column, int(6), kw_end_DASH_line, int(42), kw_end_DASH_column, int(12), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0))
 		})

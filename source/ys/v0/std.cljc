@@ -158,14 +158,22 @@
   ([map key value & key-values]
    (apply assoc map key value key-values)))
 
+(defn del
+  ([map]
+   map)
+  ([map key]
+   (dissoc map key))
+  ([map key & keys]
+   (apply dissoc map key keys)))
+
 (defn get+ [C K]
   (condf C
     map? (if (symbol? K)
-           (or
-             (get C K)
-             (get C (str K))
-             (get C (keyword K)))
-           (or
+           (cond
+             (contains? C K) (get C K)
+             (contains? C (str K)) (get C (str K))
+             :else (get C (keyword K)))
+           (if (contains? C K)
              (get C K)
              (get C (str K))))
     set? (if (contains? C K)
@@ -213,15 +221,16 @@
   ([x C] (has? C x)))
 
 (defn +concat [& C]
-  (apply concat (map #(cond
-                        (sequential? %1) %1
-                        (or
-                          (string? %1)
-                          (number? %1)
-                          (boolean? %1)
-                          (map? %1)
-                          (set? %1)) [%1]
-                        :else nil) C)))
+  (vec
+    (apply concat (map #(cond
+                          (sequential? %1) %1
+                          (or
+                            (string? %1)
+                            (number? %1)
+                            (boolean? %1)
+                            (map? %1)
+                            (set? %1)) [%1]
+                          :else nil) C))))
 
 (defn +merge [M]
   (if (:-<< M)
@@ -256,6 +265,12 @@
   (if-let [ordered-map @ordered-map-fn]
     (apply ordered-map xs)
     (apply array-map xs)))
+
+(defn merge-omap
+  "Merge maps while preserving the first insertion position of each key."
+  [& maps]
+  (apply omap
+    (mapcat #(mapcat identity %1) maps)))
 
 (intern 'ys.v0.std '% omap)
 
