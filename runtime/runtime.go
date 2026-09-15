@@ -13,6 +13,7 @@ import (
 	_ "github.com/gloathub/ys-v0-glj/clj_yaml/core"
 	_ "github.com/gloathub/ys-v0-glj/clojure/data/json"
 	_ "github.com/gloathub/ys-v0-glj/yamlscript/common"
+	_ "github.com/gloathub/ys-v0-glj/yamlscript/regex"
 	_ "github.com/gloathub/ys-v0-glj/yamlscript/util"
 	_ "github.com/gloathub/ys-v0-glj/ys/dwim"
 	_ "github.com/gloathub/ys-v0-glj/ys/fs"
@@ -30,9 +31,14 @@ import (
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/fs"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/global"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/http"
+	_ "github.com/gloathub/ys-v0-glj/ys/v0/imports"
+	_ "github.com/gloathub/ys-v0-glj/ys/v0/io"
+	_ "github.com/gloathub/ys-v0-glj/ys/v0/ipc"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/json"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/manifest"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/platform"
+	_ "github.com/gloathub/ys-v0-glj/ys/v0/pods"
+	_ "github.com/gloathub/ys-v0-glj/ys/v0/pprint"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/re"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/std"
 	_ "github.com/gloathub/ys-v0-glj/ys/v0/taptest"
@@ -67,10 +73,16 @@ func Load() {
 			"ys.v0.http",
 			"ys.v0.json",
 			"ys.v0.manifest",
+			"ys.v0.imports",
 			"ys.v0.re",
 			"ys.v0.ys",
 			"ys.v0.fs",
+			"ys.v0.io",
+			"ys.v0.ipc",
+			"ys.v0.pods",
+			"ys.v0.pprint",
 			"ys.v0.std",
+			"yamlscript.regex",
 			"ys.v0.taptest",
 			"ys.v0",
 			"yamlscript.common",

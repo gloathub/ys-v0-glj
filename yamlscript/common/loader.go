@@ -140,6 +140,7 @@ func LoadNS() {
 		ns.ReferAllSnapshot(srcNS, []string{
 			"atom-type",
 			"regex-type",
+			"split-yspath",
 		})
 	}
 }

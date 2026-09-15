@@ -10,13 +10,13 @@
 ;;
 ;; init refers the full YS standard library into the calling namespace
 ;; (silently replacing any clojure.core mappings, so no replace warnings),
-;; sets up the YS namespace aliases, and binds the YS runtime variables.
+;; installs the YS runtime functions and binds the YS runtime variables.
 ;;
 ;; Under the ys runtime this namespace is shadowed by a no-op SCI stub, so
 ;; the same compiled code runs identically there.
 ;;
 ;; Namespaces some runtimes lack (see manifest/optional-nses) load via
-;; guarded requires; their aliases are only created when they loaded.
+;; guarded requires.
 
 (ns ys.v0
   (:require
@@ -31,15 +31,19 @@
    [ys.v0.ext]
    [ys.v0.global :as global]
    [ys.v0.http]
+   [ys.v0.io]
+   [ys.v0.ipc]
    [ys.v0.json]
    [ys.v0.manifest :as manifest]
+   [ys.v0.pods]
+   [ys.v0.pprint]
    [ys.v0.re :as re]
    [ys.v0.std]
    [ys.v0.util :as util]
    [ys.v0.yaml]
    [ys.v0.ys]))
 
-(def VERSION "0.2.32")
+(def VERSION "0.3.0")
 
 ;; Load what this runtime can provide of the optional namespaces:
 (doseq [ns-sym manifest/optional-nses]
@@ -52,29 +56,25 @@
   [target]
   (doseq [sym (manifest/exported-syms)]
     (ns-unmap target sym))
+  (doseq [sym manifest/hidden-core]
+    (ns-unmap target sym))
   (doseq [[ns-sym syms] manifest/refers]
     (when (find-ns ns-sym)
       (if (= :all syms)
         (refer ns-sym)
         (refer ns-sym :only (vec syms)))))
   ;; The YS runtime overrides clojure.core load and use with YS versions.
-  ;; Here they refer to the ys.v0.ys bridge, which dies with a clear
-  ;; message outside the ys runtime.
+  ;; require is replaced by a migration error.
   (doseq [sym manifest/runtime-overrides]
     (ns-unmap target sym))
-  (refer 'ys.v0.ys :only '[load-file use] :rename '{load-file load}))
+  (refer 'ys.v0.ys
+    :only '[load-file require use]
+    :rename '{load-file load}))
 
 (defn- refer-runtime-vars [target]
   (doseq [sym manifest/runtime-vars]
     (ns-unmap target sym))
   (refer 'ys.v0.global :only (vec manifest/runtime-vars)))
-
-(defn- alias-namespaces [_target]
-  ;; catching instead of an ns-aliases lookup makes repeat init calls
-  ;; harmless everywhere (and glojure's ns-aliases is broken anyway):
-  (doseq [[a ns-sym] manifest/aliases]
-    (when (find-ns ns-sym)
-      (util/catching (alias a ns-sym) nil))))
 
 (defn- coerce-args
   "Coerce command line arguments the way the ys runtime does."
@@ -157,7 +157,6 @@
    (let [target *ns*]
      (refer-exports target)
      (refer-runtime-vars target)
-     (alias-namespaces target)
      (when-not *compile-files*
        (bind-runtime-vars))
      (when-let [v (:v opts)]

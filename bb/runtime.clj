@@ -27,6 +27,22 @@
 
 (def env {})
 
+(def input-hook
+  (atom (fn [] *in*)))
+(def output-hook
+  (atom (fn [] *out*)))
+(def error-hook
+  (atom (fn [] *err*)))
+
+(defn current-input []
+  (@input-hook))
+
+(defn current-output []
+  (@output-hook))
+
+(defn current-error []
+  (@error-hook))
+
 (defn update-env
   "Update env in the current context."
   [m]
@@ -558,9 +574,11 @@
   ([path] (abspath path (cwd)))
   ([path base]
    #?(:glj
-      (if (str/starts-with? path "/")
-        path
-        (str base "/" path))
+      (let [path (if (path:filepath.IsAbs path)
+                   path
+                   (path:filepath.Join base path))
+            [path error] (path:filepath.Abs path)]
+        (if error (throw error) path))
       :default
       (if (-> path io/file .isAbsolute)
         path
@@ -586,11 +604,7 @@
   "Return the parent directory of a path, or . for no parent."
   [path]
   #?(:glj
-     (let [path (str/replace path #"/+$" "")]
-       (if (str/includes? path "/")
-         (let [parent (str/replace path #"/[^/]*$" "")]
-           (if (= "" parent) "/" parent))
-         "."))
+     (path:filepath.Dir path)
      :default
      (->
        path
@@ -641,19 +655,24 @@
        []
        (-> ^java.lang.ProcessHandle (get-process-handle) .pid))))
 
+(defn- split-yspath [yspath separator]
+  (str/split yspath (if (= separator ";") #";" #":")))
+
 (defn get-yspath
   "Return yspath for the current context."
   [base]
-  (let [yspath (or
+  (let [separator #?(:glj (if (= runtime.GOOS "windows") ";" ":")
+                     :default java.io.File/pathSeparator)
+        yspath (or
                  (get (System/getenv) "YSPATH")
-                 (when (re-matches #"/NO-NAME$" base) (cwd))
+                 (when (re-matches #".*[\\/]NO-NAME$" base) (cwd))
                  (->
                    base
                    dirname
                    abspath))
         _ (when-not yspath
             (util/die "YSPATH environment variable not set"))]
-    (str/split yspath #":")))
+    (split-yspath yspath separator)))
 
 (defn re-find+
   "Reprocess find+ for YAMLScript parsing."
@@ -969,6 +988,7 @@
 
 (ns ys.v0.http
   (:require
+   [ys.v0.ext :as ext]
    [ys.v0.util :as util])
   (:refer-clojure :exclude [get]))
 
@@ -981,6 +1001,13 @@
 (defn patch [& args] (apply (backend "patch") args))
 (defn post [& args] (apply (backend "post") args))
 (defn put [& args] (apply (backend "put") args))
+
+(defn curl [url]
+  (let [url (ext/convert-url url)
+        resp (get url)]
+    (if-let [body (:body resp)]
+      (str body)
+      (util/die resp))))
 
 (comment
   )
@@ -1022,8 +1049,7 @@
   '[[ys.v0.std :all]
     [ys.v0.dwim :all]
     [ys.v0.util [condf]]
-    [ys.v0.debug [DBG PPP TTT WWW XXX YYY ZZZ]]
-    [clojure.pprint [pprint]]])
+    [ys.v0.debug [DBG PPP TTT WWW XXX YYY ZZZ]]])
 
 ;; Runtime variables. ys.v0/init refers these from ys.v0.global and binds
 ;; them; the ys runtime provides SCI dynamic vars of the same names.
@@ -1034,18 +1060,22 @@
 ;; Clojure do. The ys runtime adds these to its clojure.core; ys.v0/init
 ;; leaves them alone.
 (def sci-core-extras
-  '[abs file-seq infinite? parse-double parse-long parse-uuid
-    random-uuid slurp spit NaN?])
+  '[abs infinite? parse-double parse-long parse-uuid random-uuid NaN?])
 
-;; clojure.core functions overridden by the ys runtime with SCI-aware
-;; implementations (compiler-backed load and use).
+;; Host clojure.core functions that are not part of the YS core surface.
+(def hidden-core
+  '[compile file-seq flush line-seq load-file load-reader newline
+    pr prn printf println read-line slurp spit])
+
+;; clojure.core functions overridden by the ys runtime with YS behavior.
+;; require is retained only to report its migration error.
 (def runtime-overrides
-  '[load use])
+  '[load require use])
 
 ;; Namespaces that some Clojure runtimes lack (glojure bundles neither
 ;; the clojure.* ones nor the babashka.fs backend that ys.v0.fs and
 ;; ys.v0.taptest pull in). ys.v0 requires them via a guarded loop and
-;; only aliases/refers the ones that loaded.
+;; only refers exports from the ones that loaded.
 (def optional-nses
   '[clojure.java.io
     clojure.math
@@ -1055,24 +1085,27 @@
     ys.v0.fs
     ys.v0.taptest])
 
-;; Namespace aliases available to user code. ys.v0/init sets these up with
-;; clojure.core/alias; the ys runtime maps them to SCI namespaces.
-(def aliases
-  '{std     ys.v0.std          ys.std     ys.v0.std
-    clj     ys.v0.clj          ys.clj     ys.v0.clj
-    ys      ys.v0.ys           ys.ys      ys.v0.ys
-    cli     clojure.tools.cli  ys.cli     clojure.tools.cli
-    csv     ys.v0.csv          ys.csv     ys.v0.csv
-    ext     ys.v0.ext          ys.ext     ys.v0.ext    x ys.v0.ext
-    fs      ys.v0.fs           ys.fs      ys.v0.fs
-    http    ys.v0.http         ys.http    ys.v0.http
-    io      clojure.java.io    ys.io      clojure.java.io
-    json    ys.v0.json         ys.json    ys.v0.json
-    math    clojure.math       ys.math    clojure.math
-    set     clojure.set        ys.set     clojure.set
-    str     clojure.string     ys.str     clojure.string
-    walk    clojure.walk       ys.walk    clojure.walk
-    yaml    ys.v0.yaml         ys.yaml    ys.v0.yaml
+;; Public modules provided by the YS runtime. They are loaded only by an
+;; explicit use. The values are their internal host namespaces.
+(def modules
+  '{ys.std     ys.v0.std
+    ys.clj     ys.v0.clj
+    ys.ys      ys.v0.ys
+    ys.cli     clojure.tools.cli
+    ys.csv     ys.v0.csv
+    ys.ext     ys.v0.ext
+    ys.fs      ys.v0.fs
+    ys.http    ys.v0.http
+    ys.io      ys.v0.io
+    ys.ipc     ys.v0.ipc
+    ys.json    ys.v0.json
+    ys.math    clojure.math
+    ys.pods    ys.v0.pods
+    ys.pprint  ys.v0.pprint
+    ys.set     clojure.set
+    ys.str     clojure.string
+    ys.walk    clojure.walk
+    ys.yaml    ys.v0.yaml
     ys.taptest ys.v0.taptest})
 
 (defn exported-syms
@@ -1092,6 +1125,70 @@
   )
 
 
+(ns ys.v0.imports
+  (:require [clojure.string :as str]
+            [ys.v0.util :as util]))
+
+(defn short-module? [module]
+  "Return true for an unqualified, undotted module symbol."
+  (and (symbol? module)
+    (nil? (namespace module))
+    (not (str/includes? (str module) "."))))
+
+(defn with-short-from-alias [module options]
+  "Use a short :from module name as its default alias."
+  (if (and (short-module? module)
+        (= :from (first (:source options)))
+        (nil? (:as options)))
+    (assoc options :as module)
+    options))
+
+(defn v0-imports
+  "Alias available, permitted standard modules without replacing aliases."
+  [available aliases allowed]
+  (for [module (sort available)
+          :let [alias (symbol (subs (str module) 3))]
+          :when (and (contains? available module)
+                  (or (nil? allowed) (contains? allowed module))
+                  (not (contains? aliases alias)))]
+      (with-meta (list module :as alias) {:umbrella true})))
+
+(defn expression-imports?
+  "Let leading namespace and import declarations establish their aliases."
+  [form]
+  (if (and (seq? form) (contains? '#{+++ TTT} (first form)))
+    (expression-imports? (second form))
+    (not (and (seq? form) (contains? '#{ns use} (first form))))))
+
+(defn normalize-use-forms
+  ([forms]
+   (normalize-use-forms
+     forms @(util/backend 'ys.v0.manifest/modules)))
+  ([forms public-modules]
+   (let [forms (if (every? symbol? forms)
+                 (map list forms)
+                 (if (symbol? (first forms)) (list forms) forms))]
+     (map
+       (fn [form]
+         (let [[module & args] form]
+           (cond
+             (contains? '#{v0 ys.v0} module)
+             (do
+               (when (seq args)
+                 (util/die
+                   "The v0 umbrella import does not accept modifiers"))
+               (list 'ys.v0))
+             (short-module? module)
+             (let [public-module (symbol (str "ys." module))]
+               (if (contains? public-modules public-module)
+                 (if (seq args)
+                   (cons public-module args)
+                   (list public-module :as module))
+                 form))
+             :else form)))
+       forms))))
+
+
 ;; The ys.v0.ys namespace is the standard library's bridge to the YS
 ;; compiler and runtime. Under the ys runtime the real implementations are
 ;; installed into the hooks below. Under plain Clojure runtimes (babashka,
@@ -1103,17 +1200,33 @@
    [clojure.string :as str]
    [ys.v0.common :refer [get-yspath]]
    [ys.v0.global :as global]
+   [ys.v0.manifest :as manifest]
+   [ys.v0.imports :as imports]
    [ys.v0.re :as re]
    [ys.v0.util :as util])
   (:refer-clojure
    :exclude [compile
              eval
              load-file
+             require
              use]))
 
 (def hooks
   "Implementation hooks installed by the ys runtime."
   (atom {}))
+
+(defn configured-modules []
+  (when-let [value (System/getenv "YS_MODULES")]
+    (into #{}
+      (map #(if (str/starts-with? %1 "ys.")
+              (symbol %1)
+              (symbol (str "ys." %1))))
+      (remove str/blank? (str/split value #"[,\s]+")))))
+
+(defn check-module-access! [module]
+  (when-let [allowed (configured-modules)]
+    (when-not (allowed module)
+      (util/die (str module " is disabled by YS_MODULES")))))
 
 (defn- hook [key & args]
   (if-let [f (get @hooks key)]
@@ -1133,9 +1246,11 @@
   (hook :eval-stream ys-code))
 
 (defn load-file [ys-file]
+  (check-module-access! 'ys.fs)
   (hook :load-file ys-file))
 
 (defn load-url [url]
+  (check-module-access! 'ys.http)
   (hook :load-url url))
 
 (defn- default-load-pod [args]
@@ -1143,11 +1258,13 @@
     (apply load-pod args)))
 
 (defn load-pod [& args]
+  (check-module-access! 'ys.pods)
   (if-let [f (get @hooks :load-pod)]
     (f args)
     (default-load-pod args)))
 
 (defn unload-pods []
+  (check-module-access! 'ys.pods)
   (when-let [f (get @hooks :unload-pods)]
     (f)))
 
@@ -1192,7 +1309,7 @@
                     [~m ~ns])]
      (+def-vars ns# m#)))
 
-(def source-options #{:path :file :url :deps})
+(def source-options #{:path :file :url :from})
 (def selection-options #{:as :get :all :none :not})
 (def use-options (into source-options selection-options))
 
@@ -1218,9 +1335,7 @@
     (util/die "Invalid 'use' options: ':get' cannot be combined with ':all'"))
   (when (and (:get options) (:not options))
     (util/die "Invalid 'use' options: ':get' cannot be combined with ':not'"))
-  (if (some options [:as :get :all :none :not])
-    options
-    (assoc options :all true)))
+  options)
 
 (defn- parse-use-args [args]
   (loop [args (seq args) options {}]
@@ -1234,10 +1349,10 @@
         (cond
           (source-options option)
           (let [value (use-option-value option args string? "one string")]
-            (when-let [[source] (:from options)]
+            (when-let [[source] (:source options)]
               (util/die (str "Invalid 'use' option '" option
                           "': source option '" source "' is already set")))
-            (recur (nnext args) (assoc options :from [option value])))
+            (recur (nnext args) (assoc options :source [option value])))
 
           (= option :as)
           (let [alias (use-option-value
@@ -1258,7 +1373,7 @@
 
 (defn- resolve-bb-add-classpath []
   (try
-    (require 'babashka.classpath)
+    (clojure.core/require 'babashka.classpath)
     (resolve 'babashka.classpath/add-classpath)
     (catch Throwable _ nil)))
 
@@ -1290,7 +1405,7 @@
 
 (defn- resolve-require-deps []
   (try
-    (require 'clojurestar.deps)
+    (clojure.core/require 'clojurestar.deps)
     (resolve 'clojurestar.deps/require-deps*)
     (catch Throwable error
       (if (some resolve
@@ -1298,57 +1413,113 @@
         (throw error)
         nil))))
 
-(defn- load-classpath-dependency [module]
-  (try
-    (require module)
-    (catch Throwable _
-      (util/die
-        (str "Portable 'use :deps' cannot acquire dependencies in this "
-          "runtime; put namespace '" module "' on the classpath")))))
+(defn- load-required-namespace [require-deps options coordinate]
+  (let [loader-name (gensym "ys-use-loader-")
+        loader-ns (create-ns loader-name)
+        loader-alias (gensym "module-")]
+    (try
+      (binding [*ns* loader-ns]
+        (require-deps options [coordinate :as loader-alias]))
+      (if-let [loaded-ns (get (ns-aliases loader-ns) loader-alias)]
+        (ns-name loaded-ns)
+        (util/die
+          (str "Unable to determine dependency namespace for '"
+            coordinate "'")))
+      (finally
+        (remove-ns loader-name)))))
 
-(defn- load-portable-module [module options]
-  (let [[kind spec] (or (:from options) [:yspath (get-yspath *file*)])]
-    (case kind
-      :yspath
+(defn- coordinate-namespace [module coordinate]
+  (if-let [[_ namespace-name]
+           (re-matches #"mvn:[^/@]+/[^/@]+@[^/]+/([^/]+)" coordinate)]
+    (symbol namespace-name)
+    module))
+
+(defn- load-classpath-dependency [module coordinate]
+  (let [module (coordinate-namespace module coordinate)]
+    (try
+      (clojure.core/require module)
+      module
+      (catch Throwable _
+        (util/die
+          (str "Portable 'use :from' cannot acquire dependencies in this "
+            "runtime; put namespace '" module "' on the classpath"))))))
+
+(defn require [& _]
+  (util/die "The 'require' function is retired. Use 'use' instead."))
+
+(defn- load-portable-module [target module options]
+  (check-module-access! module)
+  (let [[kind spec] (or (:source options) [:yspath (get-yspath *file*)])]
+    (if-let [host-namespace
+             (and (= kind :yspath) (manifest/modules module))]
       (do
-        (add-load-paths spec)
-        (require module))
+        (binding [*ns* target]
+          (clojure.core/require host-namespace)
+          (when-not (and (:preserve-aliases options)
+                      (contains? (ns-aliases target) module))
+            (clojure.core/alias module host-namespace)))
+        host-namespace)
+      (let [loaded-module
+            (case kind
+              :yspath
+              (do
+                (add-load-paths spec)
+                (clojure.core/require module)
+                module)
 
-      :path
-      (do
-        (add-load-paths [spec])
-        (require module))
+              :path
+              (do
+                (add-load-paths [spec])
+                (clojure.core/require module)
+                module)
 
-      :file
-      (do
-        (when (str/ends-with? spec ".ys")
-          (util/die "Portable 'use :file' does not support .ys files"))
-        (when-not (or (str/ends-with? spec ".clj")
-                    (str/ends-with? spec ".cljc"))
-          (util/die
-            "Invalid 'use' option ':file': expected a .clj or .cljc file"))
-        (clojure.core/load-file spec))
+              :file
+              (do
+                (when (str/ends-with? spec ".ys")
+                  (util/die
+                    "Portable 'use :file' does not support .ys files"))
+                (when-not (or (str/ends-with? spec ".clj")
+                            (str/ends-with? spec ".cljc"))
+                  (util/die
+                    (str "Invalid 'use' option ':file': expected a .clj or "
+                      ".cljc file")))
+                (clojure.core/load-file spec)
+                module)
 
-      :url
-      (do
-        (when-not (str/starts-with? spec "https://")
-          (util/die "Invalid 'use' option ':url': expected an HTTPS URL"))
-        (load-string (slurp spec)))
+              :url
+              (do
+                (when-not (str/starts-with? spec "https://")
+                  (util/die
+                    "Invalid 'use' option ':url': expected an HTTPS URL"))
+                (load-string (slurp spec))
+                module)
 
-      :deps
-      (let [dependency-options
-            (cond-> {}
-              (get global/ENV "YS_MAVEN_REPOSITORY")
-              (assoc :mvn/local-repo
-                (get global/ENV "YS_MAVEN_REPOSITORY"))
+              :from
+              (let [dependency-options
+                    (cond-> {}
+                      (get global/ENV "YS_MAVEN_REPOSITORY")
+                      (assoc :mvn/local-repo
+                        (get global/ENV "YS_MAVEN_REPOSITORY"))
 
-              (get global/ENV "YS_GITLIBS_DIR")
-              (assoc :gitlibs/dir (get global/ENV "YS_GITLIBS_DIR")))]
-        (if-let [require-deps (resolve-require-deps)]
-          (require-deps dependency-options [spec])
-          (load-classpath-dependency module)))))
-  (when-not (find-ns module)
-    (util/die (str "Namespace not found: " module))))
+                      (get global/ENV "YS_GITLIBS_DIR")
+                      (assoc :gitlibs/dir
+                        (get global/ENV "YS_GITLIBS_DIR")))]
+                (if-let [require-deps (resolve-require-deps)]
+                  (load-required-namespace
+                    require-deps dependency-options spec)
+                  (load-classpath-dependency module spec))))
+            module
+            (cond
+              (not= kind :from) module
+              (imports/short-module? module) loaded-module
+              (= loaded-module module) module
+              :else
+              (util/die
+                (str "Dependency namespace '" loaded-module
+                  "' does not match use module '" module "'")))]
+        (when-not (find-ns module)
+          (util/die (str "Namespace not found: " module)))
+        module))))
 
 (defn- select-portable-vars [module options]
   (when-let [alias (:as options)]
@@ -1366,22 +1537,44 @@
   (when (or (:all options) (:not options))
     (refer module :exclude (vec (:not options)))))
 
+(defn- selects-vars? [options]
+  (some options [:get :all :none :not]))
+
+(defn- clear-portable-std [target]
+  (doseq [[sym var] (ns-refers target)
+          :when (= 'ys.v0.std (some-> var meta :ns ns-name))]
+    (ns-unmap target sym)))
+
+(defn normalize-use-forms [forms]
+  (imports/normalize-use-forms forms manifest/modules))
+
 (defn- portable-use [ns forms]
   (when-not (seq forms)
     (util/die "use requires at least one form"))
-  (let [forms (if (symbol? (first forms)) (list forms) forms)]
-    (doseq [form forms]
+  (doseq [form forms]
+    (if (= 'ys.v0 (first form))
+      (when-let [imports (seq (imports/v0-imports
+          (into #{} (filter #(find-ns (manifest/modules %))
+                      (keys manifest/modules)))
+          (ns-aliases ns) (configured-modules)))]
+        (portable-use ns imports))
       (let [module (first form)
-            options (parse-use-args (rest form))]
-        (load-portable-module module options)
+            options (assoc
+                      (imports/with-short-from-alias
+                        module (parse-use-args (rest form)))
+                      :preserve-aliases (:umbrella (meta form)))
+            loaded-module (load-portable-module ns module options)]
         (binding [*ns* ns]
-          (select-portable-vars module options)))))
+          (when (and (= module 'ys.std) (selects-vars? options))
+            (clear-portable-std ns))
+          (select-portable-vars loaded-module options)))))
   nil)
 
 (defn +use [ns forms]
-  (if-let [f (get @hooks :+use)]
-    (f ns forms)
-    (portable-use ns forms)))
+  (let [forms (normalize-use-forms forms)]
+    (if-let [f (get @hooks :+use)]
+      (f ns forms)
+      (portable-use ns forms))))
 
 (defmacro use [& forms]
   `(+use *ns* '~forms))
@@ -1395,7 +1588,7 @@
    [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str])
-  (:refer-clojure :exclude [abs empty? find]))
+  (:refer-clojure :exclude [abs empty? file-seq find read]))
 
 (def this 'ys.v0.fs)
 (def TRUE (constantly true))
@@ -1427,6 +1620,14 @@
   ls
   size?
   )
+
+(defn read [path]
+  (slurp path))
+
+(defn write [path content]
+  (spit path content))
+
+(intern this 'file-seq clojure.core/file-seq)
 
 ;; FS boolean functions
 (intern this 'abs? (multi fs/absolute?))
@@ -1506,6 +1707,260 @@
   )
 
 
+;; Stream I/O functions owned by the ys::io public module.
+
+(ns ys.v0.io
+  (:require
+   [ys.v0.global :as global])
+  (:refer-clojure :exclude [print]))
+
+(defn err [& xs]
+  (binding [*out* (global/current-error)]
+    (apply clojure.core/print xs)
+    (flush)))
+
+(defn out [& xs]
+  (binding [*out* (global/current-output)]
+    (apply clojure.core/print xs)
+    (flush)))
+
+(defn print [& xs]
+  (binding [*out* (global/current-output)]
+    (apply clojure.core/print xs)
+    (flush)))
+
+(defn say [& xs]
+  (binding [*out* (global/current-output)]
+    (apply println xs)
+    (flush)))
+
+(defn warn [& xs]
+  (binding [*out* (global/current-error)]
+    (apply println xs)
+    (flush)))
+
+(defn readline [reader]
+  (binding [*in* reader]
+    (clojure.core/read-line)))
+
+(comment
+  )
+
+
+;; Process functions owned by the ys::ipc public module.
+
+(ns ys.v0.ipc
+  (:require
+   [clojure.string :as str]
+   [ys.v0.global :as global]
+   [ys.v0.util :as util]))
+
+(defn- backend [name]
+  (util/backend (symbol "babashka.process" name)))
+
+(defn- process-opts [[opts & xs]]
+  (let [opts (if (map? opts)
+               [(assoc opts :env (or (:env opts) global/env))]
+               [{:env global/env} opts])]
+    (vec (concat opts xs))))
+
+(defn exec [& xs]
+  (apply (backend "exec") (process-opts xs)))
+
+(defn process [& xs]
+  (apply (backend "process") (process-opts xs)))
+
+(defn sh [& xs]
+  (apply (backend "sh") (process-opts xs)))
+
+(defn shell [& xs]
+  (apply (backend "shell") (process-opts xs)))
+
+(defn sh-out [& xs]
+  (let [ret (apply sh xs)]
+    (when (not= 0 (:exit ret))
+      (util/die (:err ret)))
+    (str/trim-newline (:out ret))))
+
+(defn bash [& xs]
+  (let [cmd (str/join " " xs)]
+    (sh "bash -c" cmd)))
+
+(defn bash-out [& xs]
+  (let [cmd (str/join " " xs)]
+    (sh-out "bash -c" cmd)))
+
+(comment
+  )
+
+
+(ns ys.v0.pods
+  (:require [ys.v0.ys :as ys]))
+
+(defn load-pod [& args]
+  (apply ys/load-pod args))
+
+(defn unload-pods []
+  (ys/unload-pods))
+
+
+;; Portable pretty printing for the ys::pprint public module.
+
+(ns ys.v0.pprint
+  (:require
+   [clojure.string :as str]
+   [ys.v0.global :as global]))
+
+(def ^:dynamic *right-margin* 72)
+(def ^:dynamic *miser-width* 40)
+
+(def ^:private option-names
+  #{:length :level :miser-width :pretty :right-margin :stream
+    :suppress-namespaces})
+
+(defn- spaces [n]
+  (apply str (repeat n " ")))
+
+(defn- scalar-str [value suppress-namespaces]
+  (if (and suppress-namespaces (symbol? value) (namespace value))
+    (name value)
+    (pr-str value)))
+
+(declare render)
+
+(defn- limited-items [value length]
+  (let [items (if length (take (inc length) value) value)]
+    (if (and length (> (count items) length))
+      [(take length items) true]
+      [items false])))
+
+(defn- flat-str [value options depth]
+  (let [level (:level options)]
+    (if (and level (>= depth level))
+      "#"
+      (cond
+        (map? value)
+        (let [[items more?] (limited-items value (:length options))
+              parts (map (fn [[key item]]
+                           (str (flat-str key options (inc depth)) " "
+                             (flat-str item options (inc depth))))
+                      items)]
+          (str "{" (str/join ", "
+                     (cond-> (vec parts) more? (conj "..."))) "}"))
+
+        (vector? value)
+        (let [[items more?] (limited-items value (:length options))]
+          (str "[" (str/join " "
+                     (cond-> (mapv #(flat-str %1 options (inc depth))
+                               items)
+                       more? (conj "..."))) "]"))
+
+        (set? value)
+        (let [[items more?] (limited-items value (:length options))]
+          (str "#{" (str/join " "
+                      (cond-> (mapv #(flat-str %1 options (inc depth))
+                                items)
+                        more? (conj "..."))) "}"))
+
+        (seq? value)
+        (let [[items more?] (limited-items value (:length options))]
+          (str "(" (str/join " "
+                     (cond-> (mapv #(flat-str %1 options (inc depth))
+                               items)
+                       more? (conj "..."))) ")"))
+
+        :else
+        (scalar-str value (:suppress-namespaces options))))))
+
+(defn- render-seq [value column depth options open close]
+  (let [[items more?] (limited-items value (:length options))
+        items (cond-> (vec items) more? (conj '...))
+        indent (inc column)]
+    (if (empty? items)
+      (str open close)
+      (str open
+        (render (first items) indent (inc depth) options)
+        (apply str
+          (map #(str "\n" (spaces indent)
+                  (render %1 indent (inc depth) options))
+            (rest items)))
+        close))))
+
+(defn- render-map [value column depth options]
+  (let [[items more?] (limited-items value (:length options))
+        entries
+        (mapv
+          (fn [[key item]]
+            (let [key-text (render key (inc column) (inc depth) options)
+                  value-column (+ column 2 (count key-text))]
+              (str key-text " "
+                (render item value-column (inc depth) options))))
+          items)
+        entries (cond-> entries more? (conj "..."))
+        indent (inc column)]
+    (if (empty? entries)
+      "{}"
+      (str "{" (first entries)
+        (apply str
+          (map #(str ",\n" (spaces indent) %1) (rest entries)))
+        "}"))))
+
+(defn- render [value column depth options]
+  (let [flat (flat-str value options depth)
+        margin (:right-margin options)]
+    (if (or (not (:pretty options))
+          (<= (+ column (count flat)) margin)
+          (not (coll? value)))
+      flat
+      (cond
+        (map? value) (render-map value column depth options)
+        (vector? value) (render-seq value column depth options "[" "]")
+        (set? value) (render-seq value (inc column) depth options "#{" "}")
+        (seq? value) (render-seq value column depth options "(" ")")
+        :else flat))))
+
+(defn- parse-options [args]
+  (when (odd? (count args))
+    (throw (ex-info "ys::pprint/write requires key/value options" {})))
+  (let [options (apply hash-map args)
+        invalid (seq (remove option-names (keys options)))]
+    (when invalid
+      (throw
+        (ex-info
+          (str "Invalid ys::pprint/write option: " (first invalid)) {})))
+    (merge {:length nil
+            :level nil
+            :miser-width *miser-width*
+            :pretty true
+            :right-margin *right-margin*
+            :stream true
+            :suppress-namespaces false}
+      options)))
+
+(defn write [value & args]
+  (let [options (parse-options args)
+        text (render value 0 0 options)
+        stream (:stream options)]
+    (if (nil? stream)
+      text
+      (binding [*out* (if (= true stream) *out* stream)]
+        (print text)
+        nil))))
+
+(defn pp
+  ([value]
+   (binding [*out* (global/current-output)]
+     (print (write value :stream nil))
+     (println)))
+  ([value writer]
+   (binding [*out* writer]
+     (print (write value :stream nil))
+     (println))))
+
+(comment
+  )
+
+
 ;; This is the YS standard library.
 
 ;; The :glj reader conditionals keep this namespace loadable on
@@ -1522,9 +1977,10 @@
     [atom? re-find+ regex?]]
    [ys.v0.ext :as ext]
    [ys.v0.global :as global]
+   [ys.v0.io :as io]
+   [ys.v0.pprint :as pprint]
    [ys.v0.re :as re]
    [ys.v0.util :as util]
-   [ys.v0.http :as http]
    [ys.v0.ys :as ys])
   #?@(:glj []
       :default [(:import java.security.MessageDigest
@@ -1590,9 +2046,7 @@
       (str/split S #"\n" -1))))
 
 (defn pretty [x]
-  (str/trim-newline
-    (with-out-str
-      (util/pprint* x))))
+  (pprint/write x :stream nil))
 
 (defn replace
   ([x] (clojure.core/replace x))
@@ -1690,6 +2144,7 @@
     nil? nil
     seqable? (condf K
                number? (nth C K nil)
+               #(= '$ %1) (last C)
                nil? nil
                nil)
     nil))
@@ -1991,11 +2446,6 @@
 (defmacro each [bindings & body]
   `(doall (for ~bindings (do ~@body))))
 
-(defn err [& xs]
-  (binding [*out* *err*]
-    (apply clojure.core/print xs)
-    (flush)))
-
 (defn eval [S]
   (ys/eval (str "!ys-0\n" S)))
 
@@ -2056,29 +2506,55 @@
 ;;------------------------------------------------------------------------------
 ;; I/O functions
 ;;------------------------------------------------------------------------------
-(intern 'ys.v0.std 'read clojure.core/slurp)
-(intern 'ys.v0.std 'write clojure.core/spit)
+#?(:glj
+   (defn read [& _]
+     (util/die "The fs functions are not available"
+       " in this Clojure runtime"))
+   :default
+   (defn read [path]
+     (ys/check-module-access! 'ys.fs)
+     (fs/read path)))
+
+#?(:glj
+   (defn write [& _]
+     (util/die "The fs functions are not available"
+       " in this Clojure runtime"))
+   :default
+   (defn write [path content]
+     (ys/check-module-access! 'ys.fs)
+     (fs/write path content)))
+
+(defn err [& xs]
+  (ys/check-module-access! 'ys.io)
+  (apply io/err xs))
 
 (defn out [& xs]
-  (apply clojure.core/print xs)
-  (flush))
+  (ys/check-module-access! 'ys.io)
+  (apply io/out xs))
 
 (defn pp [x]
-  (util/pprint* x))
+  (ys/check-module-access! 'ys.pprint)
+  (pprint/pp x))
 
 (defn print [& xs]
-  (apply clojure.core/print xs)
-  (flush))
+  (ys/check-module-access! 'ys.io)
+  (apply io/print xs))
 
-(def _println (resolve 'println))
+(defn readline
+  ([]
+   (ys/check-module-access! 'ys.io)
+   (io/readline (global/current-input)))
+  ([reader]
+   (ys/check-module-access! 'ys.io)
+   (io/readline reader)))
 
 (defn say [& xs]
-  (apply _println xs))
+  (ys/check-module-access! 'ys.io)
+  (apply io/say xs))
 
 (defn warn [& xs]
-  (binding [*out* *err*]
-    (apply _println xs)
-    (flush)))
+  (ys/check-module-access! 'ys.io)
+  (apply io/warn xs))
 
 
 ;;------------------------------------------------------------------------------
@@ -2108,7 +2584,11 @@
 (defn qr [S] (re-pattern S))
 
 (defmacro qw [& xs]
-  (let [xs# (map #(if (nil? %1) "nil" (str %1)) xs)]
+  (let [xs# (map #(cond
+                    (nil? %1) "nil"
+                    (= {} %1) "{}"
+                    :else (str %1))
+              xs)]
     `[~@xs#]))
 
 
@@ -2318,42 +2798,6 @@
 
 
 ;;------------------------------------------------------------------------------
-;; File system functions
-;;------------------------------------------------------------------------------
-#?(:glj
-   ;; No babashka.fs backend on glojure yet; intern clean failures so
-   ;; the export set stays identical across runtimes:
-   (doseq [name '[d e f l r s w x z abs abs? dirname filename basename
-                  glob ls mtime rel rel? which]]
-     (intern 'ys.v0.std (symbol (str "fs-" name))
-       (fn [& _]
-         (util/die "The fs functions are not available"
-           " in this Clojure runtime"))))
-   :default
-   (do
-     (intern 'ys.v0.std 'fs-d fs/d)
-     (intern 'ys.v0.std 'fs-e fs/e)
-     (intern 'ys.v0.std 'fs-f fs/f)
-     (intern 'ys.v0.std 'fs-l fs/l)
-     (intern 'ys.v0.std 'fs-r fs/r)
-     (intern 'ys.v0.std 'fs-s fs/s)
-     (intern 'ys.v0.std 'fs-w fs/w)
-     (intern 'ys.v0.std 'fs-x fs/x)
-     (intern 'ys.v0.std 'fs-z fs/z)
-     (intern 'ys.v0.std 'fs-abs fs/abs)
-     (intern 'ys.v0.std 'fs-abs? fs/abs?)
-     (intern 'ys.v0.std 'fs-dirname fs/dirname)
-     (intern 'ys.v0.std 'fs-filename fs/filename)
-     (intern 'ys.v0.std 'fs-basename fs/basename)
-     (intern 'ys.v0.std 'fs-glob fs/glob)
-     (intern 'ys.v0.std 'fs-ls fs/ls)
-     (intern 'ys.v0.std 'fs-mtime fs/mtime)
-     (intern 'ys.v0.std 'fs-rel fs/rel)
-     (intern 'ys.v0.std 'fs-rel? fs/rel?)
-     (intern 'ys.v0.std 'fs-which fs/which)))
-
-
-;;------------------------------------------------------------------------------
 ;; Date/Time functions
 ;;------------------------------------------------------------------------------
 (defn now
@@ -2432,50 +2876,6 @@
 
 
 ;;------------------------------------------------------------------------------
-;; IPC functions
-;;------------------------------------------------------------------------------
-;; The babashka.process backend resolves at call time so that Clojure
-;; runtimes without it (like jolt) can still load this namespace.
-(defn- process-backend [name]
-  (util/backend (symbol "babashka.process" name)))
-
-(defn- process-opts [[opts & xs]]
-  (let [opts (if (map? opts)
-               (let [env (or (:env opts) global/env)
-                     opts (assoc opts :env env)]
-                 [opts])
-               [{:env global/env} opts])]
-    (vec (concat opts xs))))
-
-(defn exec [& xs]
-  (apply (process-backend "exec") (process-opts xs)))
-
-(defn process [& xs]
-  (apply (process-backend "process") (process-opts xs)))
-
-(defn sh [& xs]
-  (apply (process-backend "sh") (process-opts xs)))
-
-(defn shell [& xs]
-  (apply (process-backend "shell") (process-opts xs)))
-
-(defn sh-out [& xs]
-  (let [ret (apply sh xs)]
-    (when (not= 0 (:exit ret))
-      (util/die (:err ret)))
-    (str/trim-newline
-      (:out ret))))
-
-(defn bash [& xs]
-  (let [cmd (str/join " " xs)]
-    (sh "bash -c" cmd)))
-
-(defn bash-out [& xs]
-  (let [cmd (str/join " " xs)]
-    (sh-out "bash -c" cmd)))
-
-
-;;------------------------------------------------------------------------------
 ;; External library functions
 ;;------------------------------------------------------------------------------
 (defn use-pod [pod-name version]
@@ -2491,14 +2891,6 @@
 
 (defn load-url [url]
   (ys/load-url url))
-
-(defn curl [url]
-  (let [url (get-url url)
-        resp (http/get url)]
-    (if-let [body (:body resp)]
-      (str body)
-      (util/die resp))))
-
 
 ;;------------------------------------------------------------------------------
 ;; YS document result stashing functions
@@ -2609,10 +3001,18 @@
 (ns ys.v0.clj
   (:refer-clojure :only [doseq intern ns-resolve var-get when-let]))
 
-(doseq [sym '[atom compile eval load load-file
-              print read replace reverse set use]]
+(doseq [sym '[atom compile eval flush line-seq load load-file
+              load-reader newline print printf println pr prn read read-line
+              replace reverse set use]]
   (when-let [v (ns-resolve 'clojure.core sym)]
     (intern 'ys.v0.clj sym (var-get v))))
+
+
+(ns yamlscript.regex
+  (:refer-clojure :exclude [compile]))
+
+(defn compile [pattern]
+  (re-pattern pattern))
 
 (ns ys.v0.taptest
   (:require
@@ -2621,11 +3021,23 @@
    [ys.v0.ys :as ys]
    [ys.v0.yaml :as yaml]
    [ys.v0.global :as global]
+   [yamlscript.regex :as regex]
    [ys.v0.common])
   (:refer-clojure
    :exclude [test]))
 
 (def counter (atom 0))
+
+(def error-map-hook
+  (atom (fn [error] (Throwable->map error))))
+
+(def command-hook
+  (atom
+    (fn [opts command]
+      ((util/backend 'babashka.process/sh) opts command))))
+
+(defn- error-map [error]
+  (@error-map-hook error))
 
 (defn- get-test-name [test]
   (let [name (or
@@ -2700,7 +3112,7 @@
          (catch Exception e
            (cond
              (= "error" what) (str/trim-newline (.getMessage e))
-             (get test "form") (Throwable->map e)
+             (get test "form") (error-map e)
              :else (throw e))))))
 
 (defn- load-data [test]
@@ -2716,7 +3128,7 @@
          (catch Exception e
            (cond
              (= "error" what) (str/trim-newline (.getMessage e))
-             (get test "form") (Throwable->map e)
+             (get test "form") (error-map e)
              :else (throw e))))))
 
 (defn- run-cmnd [test]
@@ -2730,7 +3142,7 @@
         opts (if stdi
                (assoc opts :in stdi)
                opts)
-        ret ((util/backend 'babashka.process/sh) opts cmnd)]
+        ret (@command-hook opts cmnd)]
     (if (get test "form")
       ret
       (case what
@@ -2821,7 +3233,7 @@
                     (failed test got)))
                 ,
                 "like"
-                (let [rgx (re-pattern (get test "like"))]
+                (let [rgx (regex/compile (get test "like"))]
                   (if (re-find rgx got)
                     (passed test)
                     (failed test got)))
@@ -2863,13 +3275,13 @@
 ;;
 ;; init refers the full YS standard library into the calling namespace
 ;; (silently replacing any clojure.core mappings, so no replace warnings),
-;; sets up the YS namespace aliases, and binds the YS runtime variables.
+;; installs the YS runtime functions and binds the YS runtime variables.
 ;;
 ;; Under the ys runtime this namespace is shadowed by a no-op SCI stub, so
 ;; the same compiled code runs identically there.
 ;;
 ;; Namespaces some runtimes lack (see manifest/optional-nses) load via
-;; guarded requires; their aliases are only created when they loaded.
+;; guarded requires.
 
 (ns ys.v0
   (:require
@@ -2883,15 +3295,19 @@
    [ys.v0.ext]
    [ys.v0.global :as global]
    [ys.v0.http]
+   [ys.v0.io]
+   [ys.v0.ipc]
    [ys.v0.json]
    [ys.v0.manifest :as manifest]
+   [ys.v0.pods]
+   [ys.v0.pprint]
    [ys.v0.re :as re]
    [ys.v0.std]
    [ys.v0.util :as util]
    [ys.v0.yaml]
    [ys.v0.ys]))
 
-(def VERSION "0.2.32")
+(def VERSION "0.3.0")
 
 ;; Load what this runtime can provide of the optional namespaces:
 (doseq [ns-sym manifest/optional-nses]
@@ -2904,29 +3320,25 @@
   [target]
   (doseq [sym (manifest/exported-syms)]
     (ns-unmap target sym))
+  (doseq [sym manifest/hidden-core]
+    (ns-unmap target sym))
   (doseq [[ns-sym syms] manifest/refers]
     (when (find-ns ns-sym)
       (if (= :all syms)
         (refer ns-sym)
         (refer ns-sym :only (vec syms)))))
   ;; The YS runtime overrides clojure.core load and use with YS versions.
-  ;; Here they refer to the ys.v0.ys bridge, which dies with a clear
-  ;; message outside the ys runtime.
+  ;; require is replaced by a migration error.
   (doseq [sym manifest/runtime-overrides]
     (ns-unmap target sym))
-  (refer 'ys.v0.ys :only '[load-file use] :rename '{load-file load}))
+  (refer 'ys.v0.ys
+    :only '[load-file require use]
+    :rename '{load-file load}))
 
 (defn- refer-runtime-vars [target]
   (doseq [sym manifest/runtime-vars]
     (ns-unmap target sym))
   (refer 'ys.v0.global :only (vec manifest/runtime-vars)))
-
-(defn- alias-namespaces [_target]
-  ;; catching instead of an ns-aliases lookup makes repeat init calls
-  ;; harmless everywhere (and glojure's ns-aliases is broken anyway):
-  (doseq [[a ns-sym] manifest/aliases]
-    (when (find-ns ns-sym)
-      (util/catching (alias a ns-sym) nil))))
 
 (defn- coerce-args
   "Coerce command line arguments the way the ys runtime does."
@@ -3005,7 +3417,6 @@
    (let [target *ns*]
      (refer-exports target)
      (refer-runtime-vars target)
-     (alias-namespaces target)
      (bind-runtime-vars)
      (when-let [v (:v opts)]
        (when (not= v VERSION)

@@ -1993,11 +1993,11 @@ func LoadNS() {
 				_ = v16
 				var tmp17 any
 				{ // let
-					// let binding "pred__33"
+					// let binding "pred__36"
 					tmp18 := checkDerefVar(var_clojure_DOT_core__EQ_)
 					var v19 any = tmp18
 					_ = v19
-					// let binding "expr__34"
+					// let binding "expr__37"
 					var v20 any = v4
 					_ = v20
 					var tmp21 any

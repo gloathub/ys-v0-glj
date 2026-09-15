@@ -11,8 +11,9 @@
 (ns ys.v0.clj
   (:refer-clojure :only [apply doseq fn intern ns-resolve var-get when-let]))
 
-(doseq [sym '[atom compile eval load load-file
-              print read replace reverse set use]]
+(doseq [sym '[atom compile eval flush line-seq load load-file
+              load-reader newline print printf println pr prn read read-line
+              replace reverse set use]]
   (when-let [v (ns-resolve 'clojure.core sym)]
     (intern 'ys.v0.clj sym
       (fn [& args]

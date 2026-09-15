@@ -1,15 +1,16 @@
 diff -ruN a/ys/v0/clj.clj b/ys/v0/clj.clj
 --- a/ys/v0/clj.clj
 +++ b/ys/v0/clj.clj
-@@ -9,9 +9,11 @@
+@@ -9,10 +9,12 @@
  ;; compile, load or load-file) are skipped.
  
  (ns ys.v0.clj
 -  (:refer-clojure :only [doseq intern ns-resolve var-get when-let]))
 +  (:refer-clojure :only [apply doseq fn intern ns-resolve var-get when-let]))
  
- (doseq [sym '[atom compile eval load load-file
-               print read replace reverse set use]]
+ (doseq [sym '[atom compile eval flush line-seq load load-file
+               load-reader newline print printf println pr prn read read-line
+               replace reverse set use]]
    (when-let [v (ns-resolve 'clojure.core sym)]
 -    (intern 'ys.v0.clj sym (var-get v))))
 +    (intern 'ys.v0.clj sym
@@ -81,17 +82,6 @@ diff -ruN a/ys/v0/std.cljc b/ys/v0/std.cljc
  
  (defn words [S]
    (clojure.string/split S #"\s+"))
-@@ -530,8 +530,8 @@
- ;;------------------------------------------------------------------------------
- ;; I/O functions
- ;;------------------------------------------------------------------------------
--(intern 'ys.v0.std 'read clojure.core/slurp)
--(intern 'ys.v0.std 'write clojure.core/spit)
-+(defn read [& xs] (apply clojure.core/slurp xs))
-+(defn write [& xs] (apply clojure.core/spit xs))
- 
- (defn out [& xs]
-   (apply clojure.core/print xs)
 @@ -559,9 +559,9 @@
  ;; Shorter named alias functions
  ;;------------------------------------------------------------------------------
@@ -154,15 +144,18 @@ diff -ruN a/ys/v0/common.cljc b/ys/v0/common.cljc
     :default
     (do
       (defn get-process-handle
-@@ -109,7 +111,9 @@
-   "Return yspath for the current context."
-   [base]
-   (let [yspath (or
+@@ -112,7 +114,11 @@
+-  (let [separator #?(:glj (if (= runtime.GOOS "windows") ";" ":")
++  (let [separator #?(:glj (if (= (get (platform/env) "OS")
++                                  "Windows_NT")
++                            ";" ":")
+                      :default java.io.File/pathSeparator)
+         yspath (or
 -                 (get (System/getenv) "YSPATH")
 +                 (get #?(:glj (platform/env)
 +                         :default (System/getenv))
 +                   "YSPATH")
-                  (when (re-matches #"/NO-NAME$" base) (cwd))
+                  (when (re-matches #".*[\\/]NO-NAME$" base) (cwd))
                   (->
                     base
 diff -ruN a/ys/v0.cljc b/ys/v0.cljc
@@ -200,7 +193,7 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
     :pid (util/catching (common/get-cmd-pid) nil)
     :versions {:clojure #?(:glj (str "glojure " *glojure-version*)
                            :default (clojure-version))
-@@ -133,17 +136,19 @@
+@@ -133,26 +136,29 @@
    (let [file (if (and *file* (not= *file* "NO_SOURCE_PATH"))
                 (common/abspath *file*)
                 (common/abspath "NO-NAME"))
@@ -223,13 +216,11 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
  
  (defn init
    "Set up the calling namespace to run YS compiled code."
-diff -ruN b/ys/v0.cljc c/ys/v0.cljc
---- b/ys/v0.cljc
-+++ c/ys/v0.cljc
-@@ -158,7 +158,8 @@
+   ([] (init nil))
+   ([opts]
+    (let [target *ns*]
       (refer-exports target)
       (refer-runtime-vars target)
-      (alias-namespaces target)
 -     (bind-runtime-vars)
 +     (when-not *compile-files*
 +       (bind-runtime-vars))

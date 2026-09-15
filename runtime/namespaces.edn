@@ -16,10 +16,16 @@
  ys.v0.http
  ys.v0.json
  ys.v0.manifest
+ ys.v0.imports
  ys.v0.re
  ys.v0.ys
  ys.v0.fs
+ ys.v0.io
+ ys.v0.ipc
+ ys.v0.pods
+ ys.v0.pprint
  ys.v0.std
+ yamlscript.regex
  ys.v0.taptest
  ys.v0
  yamlscript.common

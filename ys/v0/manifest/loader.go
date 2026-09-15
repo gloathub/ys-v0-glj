@@ -136,9 +136,6 @@ func LoadNS() {
 	sym_ZZZ := lang.NewSymbolUnchecked("ZZZ")
 	sym__ := lang.NewSymbolUnchecked("_")
 	sym_abs := lang.NewSymbolUnchecked("abs")
-	sym_aliases := lang.NewSymbolUnchecked("aliases")
-	sym_cli := lang.NewSymbolUnchecked("cli")
-	sym_clj := lang.NewSymbolUnchecked("clj")
 	sym_clojure_DOT_core := lang.NewSymbolUnchecked("clojure.core")
 	sym_clojure_DOT_java_DOT_io := lang.NewSymbolUnchecked("clojure.java.io")
 	sym_clojure_DOT_math := lang.NewSymbolUnchecked("clojure.math")
@@ -147,43 +144,42 @@ func LoadNS() {
 	sym_clojure_DOT_string := lang.NewSymbolUnchecked("clojure.string")
 	sym_clojure_DOT_tools_DOT_cli := lang.NewSymbolUnchecked("clojure.tools.cli")
 	sym_clojure_DOT_walk := lang.NewSymbolUnchecked("clojure.walk")
+	sym_compile := lang.NewSymbolUnchecked("compile")
 	sym_condf := lang.NewSymbolUnchecked("condf")
-	sym_csv := lang.NewSymbolUnchecked("csv")
 	sym_exported_DASH_syms := lang.NewSymbolUnchecked("exported-syms")
-	sym_ext := lang.NewSymbolUnchecked("ext")
 	sym_file_DASH_seq := lang.NewSymbolUnchecked("file-seq")
 	sym_find_DASH_ns := lang.NewSymbolUnchecked("find-ns")
-	sym_fs := lang.NewSymbolUnchecked("fs")
-	sym_http := lang.NewSymbolUnchecked("http")
+	sym_flush := lang.NewSymbolUnchecked("flush")
+	sym_hidden_DASH_core := lang.NewSymbolUnchecked("hidden-core")
 	sym_infinite_QMARK_ := lang.NewSymbolUnchecked("infinite?")
 	sym_into := lang.NewSymbolUnchecked("into")
-	sym_io := lang.NewSymbolUnchecked("io")
-	sym_json := lang.NewSymbolUnchecked("json")
 	sym_keys := lang.NewSymbolUnchecked("keys")
+	sym_line_DASH_seq := lang.NewSymbolUnchecked("line-seq")
 	sym_load := lang.NewSymbolUnchecked("load")
+	sym_load_DASH_file := lang.NewSymbolUnchecked("load-file")
+	sym_load_DASH_reader := lang.NewSymbolUnchecked("load-reader")
 	sym_mapcat := lang.NewSymbolUnchecked("mapcat")
-	sym_math := lang.NewSymbolUnchecked("math")
+	sym_modules := lang.NewSymbolUnchecked("modules")
+	sym_newline := lang.NewSymbolUnchecked("newline")
 	sym_ns_DASH_publics := lang.NewSymbolUnchecked("ns-publics")
 	sym_optional_DASH_nses := lang.NewSymbolUnchecked("optional-nses")
 	sym_parse_DASH_double := lang.NewSymbolUnchecked("parse-double")
 	sym_parse_DASH_long := lang.NewSymbolUnchecked("parse-long")
 	sym_parse_DASH_uuid := lang.NewSymbolUnchecked("parse-uuid")
-	sym_pprint := lang.NewSymbolUnchecked("pprint")
+	sym_pr := lang.NewSymbolUnchecked("pr")
+	sym_printf := lang.NewSymbolUnchecked("printf")
+	sym_println := lang.NewSymbolUnchecked("println")
+	sym_prn := lang.NewSymbolUnchecked("prn")
 	sym_random_DASH_uuid := lang.NewSymbolUnchecked("random-uuid")
+	sym_read_DASH_line := lang.NewSymbolUnchecked("read-line")
 	sym_refers := lang.NewSymbolUnchecked("refers")
+	sym_require := lang.NewSymbolUnchecked("require")
 	sym_runtime_DASH_overrides := lang.NewSymbolUnchecked("runtime-overrides")
 	sym_runtime_DASH_vars := lang.NewSymbolUnchecked("runtime-vars")
 	sym_sci_DASH_core_DASH_extras := lang.NewSymbolUnchecked("sci-core-extras")
-	sym_set := lang.NewSymbolUnchecked("set")
 	sym_slurp := lang.NewSymbolUnchecked("slurp")
 	sym_spit := lang.NewSymbolUnchecked("spit")
-	sym_std := lang.NewSymbolUnchecked("std")
-	sym_str := lang.NewSymbolUnchecked("str")
 	sym_use := lang.NewSymbolUnchecked("use")
-	sym_walk := lang.NewSymbolUnchecked("walk")
-	sym_x := lang.NewSymbolUnchecked("x")
-	sym_yaml := lang.NewSymbolUnchecked("yaml")
-	sym_ys := lang.NewSymbolUnchecked("ys")
 	sym_ys_DOT_cli := lang.NewSymbolUnchecked("ys.cli")
 	sym_ys_DOT_clj := lang.NewSymbolUnchecked("ys.clj")
 	sym_ys_DOT_csv := lang.NewSymbolUnchecked("ys.csv")
@@ -191,8 +187,11 @@ func LoadNS() {
 	sym_ys_DOT_fs := lang.NewSymbolUnchecked("ys.fs")
 	sym_ys_DOT_http := lang.NewSymbolUnchecked("ys.http")
 	sym_ys_DOT_io := lang.NewSymbolUnchecked("ys.io")
+	sym_ys_DOT_ipc := lang.NewSymbolUnchecked("ys.ipc")
 	sym_ys_DOT_json := lang.NewSymbolUnchecked("ys.json")
 	sym_ys_DOT_math := lang.NewSymbolUnchecked("ys.math")
+	sym_ys_DOT_pods := lang.NewSymbolUnchecked("ys.pods")
+	sym_ys_DOT_pprint := lang.NewSymbolUnchecked("ys.pprint")
 	sym_ys_DOT_set := lang.NewSymbolUnchecked("ys.set")
 	sym_ys_DOT_std := lang.NewSymbolUnchecked("ys.std")
 	sym_ys_DOT_str := lang.NewSymbolUnchecked("ys.str")
@@ -204,8 +203,12 @@ func LoadNS() {
 	sym_ys_DOT_v0_DOT_ext := lang.NewSymbolUnchecked("ys.v0.ext")
 	sym_ys_DOT_v0_DOT_fs := lang.NewSymbolUnchecked("ys.v0.fs")
 	sym_ys_DOT_v0_DOT_http := lang.NewSymbolUnchecked("ys.v0.http")
+	sym_ys_DOT_v0_DOT_io := lang.NewSymbolUnchecked("ys.v0.io")
+	sym_ys_DOT_v0_DOT_ipc := lang.NewSymbolUnchecked("ys.v0.ipc")
 	sym_ys_DOT_v0_DOT_json := lang.NewSymbolUnchecked("ys.v0.json")
 	sym_ys_DOT_v0_DOT_manifest := lang.NewSymbolUnchecked("ys.v0.manifest")
+	sym_ys_DOT_v0_DOT_pods := lang.NewSymbolUnchecked("ys.v0.pods")
+	sym_ys_DOT_v0_DOT_pprint := lang.NewSymbolUnchecked("ys.v0.pprint")
 	sym_ys_DOT_v0_DOT_std := lang.NewSymbolUnchecked("ys.v0.std")
 	sym_ys_DOT_v0_DOT_taptest := lang.NewSymbolUnchecked("ys.v0.taptest")
 	sym_ys_DOT_v0_DOT_util := lang.NewSymbolUnchecked("ys.v0.util")
@@ -235,10 +238,12 @@ func LoadNS() {
 	var_clojure_DOT_core_mapcat := lang.InternVarName(sym_clojure_DOT_core, sym_mapcat)
 	// var clojure.core/ns-publics
 	var_clojure_DOT_core_ns_DASH_publics := lang.InternVarName(sym_clojure_DOT_core, sym_ns_DASH_publics)
-	// var ys.v0.manifest/aliases
-	var_ys_DOT_v0_DOT_manifest_aliases := lang.InternVarName(sym_ys_DOT_v0_DOT_manifest, sym_aliases)
 	// var ys.v0.manifest/exported-syms
 	var_ys_DOT_v0_DOT_manifest_exported_DASH_syms := lang.InternVarName(sym_ys_DOT_v0_DOT_manifest, sym_exported_DASH_syms)
+	// var ys.v0.manifest/hidden-core
+	var_ys_DOT_v0_DOT_manifest_hidden_DASH_core := lang.InternVarName(sym_ys_DOT_v0_DOT_manifest, sym_hidden_DASH_core)
+	// var ys.v0.manifest/modules
+	var_ys_DOT_v0_DOT_manifest_modules := lang.InternVarName(sym_ys_DOT_v0_DOT_manifest, sym_modules)
 	// var ys.v0.manifest/optional-nses
 	var_ys_DOT_v0_DOT_manifest_optional_DASH_nses := lang.InternVarName(sym_ys_DOT_v0_DOT_manifest, sym_optional_DASH_nses)
 	// var ys.v0.manifest/refers
@@ -337,12 +342,20 @@ func LoadNS() {
 			"throw-if",
 		})
 	}
-	// aliases
+	// hidden-core
 	{
-		tmp0 := sym_aliases
-		var_ys_DOT_v0_DOT_manifest_aliases = ns.InternWithValue(tmp0, lang.NewMapUniqueKeys(sym_ext, sym_ys_DOT_v0_DOT_ext, sym_ys_DOT_csv, sym_ys_DOT_v0_DOT_csv, sym_ys_DOT_ys, sym_ys_DOT_v0_DOT_ys, sym_ys_DOT_ext, sym_ys_DOT_v0_DOT_ext, sym_csv, sym_ys_DOT_v0_DOT_csv, sym_str, sym_clojure_DOT_string, sym_ys_DOT_str, sym_clojure_DOT_string, sym_ys_DOT_clj, sym_ys_DOT_v0_DOT_clj, sym_ys_DOT_yaml, sym_ys_DOT_v0_DOT_yaml, sym_x, sym_ys_DOT_v0_DOT_ext, sym_ys_DOT_std, sym_ys_DOT_v0_DOT_std, sym_ys_DOT_walk, sym_clojure_DOT_walk, sym_ys_DOT_http, sym_ys_DOT_v0_DOT_http, sym_http, sym_ys_DOT_v0_DOT_http, sym_ys_DOT_json, sym_ys_DOT_v0_DOT_json, sym_ys_DOT_io, sym_clojure_DOT_java_DOT_io, sym_json, sym_ys_DOT_v0_DOT_json, sym_cli, sym_clojure_DOT_tools_DOT_cli, sym_yaml, sym_ys_DOT_v0_DOT_yaml, sym_ys_DOT_set, sym_clojure_DOT_set, sym_ys_DOT_fs, sym_ys_DOT_v0_DOT_fs, sym_io, sym_clojure_DOT_java_DOT_io, sym_clj, sym_ys_DOT_v0_DOT_clj, sym_ys_DOT_taptest, sym_ys_DOT_v0_DOT_taptest, sym_fs, sym_ys_DOT_v0_DOT_fs, sym_ys, sym_ys_DOT_v0_DOT_ys, sym_ys_DOT_math, sym_clojure_DOT_math, sym_math, sym_clojure_DOT_math, sym_std, sym_ys_DOT_v0_DOT_std, sym_walk, sym_clojure_DOT_walk, sym_ys_DOT_cli, sym_clojure_DOT_tools_DOT_cli, sym_set, sym_clojure_DOT_set), true)
-		var_ys_DOT_v0_DOT_manifest_aliases.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(52), kw_column, int(6), kw_end_DASH_line, int(52), kw_end_DASH_column, int(12), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+		tmp0 := sym_hidden_DASH_core
+		var_ys_DOT_v0_DOT_manifest_hidden_DASH_core = ns.InternWithValue(tmp0, lang.NewVector(sym_compile, sym_file_DASH_seq, sym_flush, sym_line_DASH_seq, sym_load_DASH_file, sym_load_DASH_reader, sym_newline, sym_pr, sym_prn, sym_printf, sym_println, sym_read_DASH_line, sym_slurp, sym_spit), true)
+		var_ys_DOT_v0_DOT_manifest_hidden_DASH_core.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(31), kw_column, int(6), kw_end_DASH_line, int(31), kw_end_DASH_column, int(16), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+		})
+	}
+	// modules
+	{
+		tmp0 := sym_modules
+		var_ys_DOT_v0_DOT_manifest_modules = ns.InternWithValue(tmp0, lang.NewMapUniqueKeys(sym_ys_DOT_pprint, sym_ys_DOT_v0_DOT_pprint, sym_ys_DOT_csv, sym_ys_DOT_v0_DOT_csv, sym_ys_DOT_ys, sym_ys_DOT_v0_DOT_ys, sym_ys_DOT_ext, sym_ys_DOT_v0_DOT_ext, sym_ys_DOT_str, sym_clojure_DOT_string, sym_ys_DOT_clj, sym_ys_DOT_v0_DOT_clj, sym_ys_DOT_yaml, sym_ys_DOT_v0_DOT_yaml, sym_ys_DOT_ipc, sym_ys_DOT_v0_DOT_ipc, sym_ys_DOT_std, sym_ys_DOT_v0_DOT_std, sym_ys_DOT_walk, sym_clojure_DOT_walk, sym_ys_DOT_http, sym_ys_DOT_v0_DOT_http, sym_ys_DOT_json, sym_ys_DOT_v0_DOT_json, sym_ys_DOT_io, sym_ys_DOT_v0_DOT_io, sym_ys_DOT_pods, sym_ys_DOT_v0_DOT_pods, sym_ys_DOT_set, sym_clojure_DOT_set, sym_ys_DOT_fs, sym_ys_DOT_v0_DOT_fs, sym_ys_DOT_taptest, sym_ys_DOT_v0_DOT_taptest, sym_ys_DOT_math, sym_clojure_DOT_math, sym_ys_DOT_cli, sym_clojure_DOT_tools_DOT_cli), true)
+		var_ys_DOT_v0_DOT_manifest_modules.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(55), kw_column, int(6), kw_end_DASH_line, int(55), kw_end_DASH_column, int(12), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 	// optional-nses
@@ -350,13 +363,13 @@ func LoadNS() {
 		tmp0 := sym_optional_DASH_nses
 		var_ys_DOT_v0_DOT_manifest_optional_DASH_nses = ns.InternWithValue(tmp0, lang.NewVector(sym_clojure_DOT_java_DOT_io, sym_clojure_DOT_math, sym_clojure_DOT_pprint, sym_clojure_DOT_set, sym_clojure_DOT_tools_DOT_cli, sym_ys_DOT_v0_DOT_fs, sym_ys_DOT_v0_DOT_taptest), true)
 		var_ys_DOT_v0_DOT_manifest_optional_DASH_nses.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(41), kw_column, int(6), kw_end_DASH_line, int(41), kw_end_DASH_column, int(18), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(44), kw_column, int(6), kw_end_DASH_line, int(44), kw_end_DASH_column, int(18), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 	// refers
 	{
 		tmp0 := sym_refers
-		var_ys_DOT_v0_DOT_manifest_refers = ns.InternWithValue(tmp0, lang.NewVector(lang.NewVector(sym_ys_DOT_v0_DOT_std, kw_all), lang.NewVector(sym_ys_DOT_v0_DOT_dwim, kw_all), lang.NewVector(sym_ys_DOT_v0_DOT_util, lang.NewVector(sym_condf)), lang.NewVector(sym_ys_DOT_v0_DOT_debug, lang.NewVector(sym_DBG, sym_PPP, sym_TTT, sym_WWW, sym_XXX, sym_YYY, sym_ZZZ)), lang.NewVector(sym_clojure_DOT_pprint, lang.NewVector(sym_pprint))), true)
+		var_ys_DOT_v0_DOT_manifest_refers = ns.InternWithValue(tmp0, lang.NewVector(lang.NewVector(sym_ys_DOT_v0_DOT_std, kw_all), lang.NewVector(sym_ys_DOT_v0_DOT_dwim, kw_all), lang.NewVector(sym_ys_DOT_v0_DOT_util, lang.NewVector(sym_condf)), lang.NewVector(sym_ys_DOT_v0_DOT_debug, lang.NewVector(sym_DBG, sym_PPP, sym_TTT, sym_WWW, sym_XXX, sym_YYY, sym_ZZZ))), true)
 		var_ys_DOT_v0_DOT_manifest_refers.SetMetaLazy(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(13), kw_column, int(6), kw_end_DASH_line, int(13), kw_end_DASH_column, int(11), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
@@ -364,9 +377,9 @@ func LoadNS() {
 	// runtime-overrides
 	{
 		tmp0 := sym_runtime_DASH_overrides
-		var_ys_DOT_v0_DOT_manifest_runtime_DASH_overrides = ns.InternWithValue(tmp0, lang.NewVector(sym_load, sym_use), true)
+		var_ys_DOT_v0_DOT_manifest_runtime_DASH_overrides = ns.InternWithValue(tmp0, lang.NewVector(sym_load, sym_require, sym_use), true)
 		var_ys_DOT_v0_DOT_manifest_runtime_DASH_overrides.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(34), kw_column, int(6), kw_end_DASH_line, int(34), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(37), kw_column, int(6), kw_end_DASH_line, int(37), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 	// runtime-vars
@@ -374,15 +387,15 @@ func LoadNS() {
 		tmp0 := sym_runtime_DASH_vars
 		var_ys_DOT_v0_DOT_manifest_runtime_DASH_vars = ns.InternWithValue(tmp0, lang.NewVector(sym__, sym_ARGS, sym_ARGV, sym_CWD, sym_DIR, sym_ENV, sym_FILE, sym_INC, sym_PUN, sym_RUN, sym_VERSION), true)
 		var_ys_DOT_v0_DOT_manifest_runtime_DASH_vars.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(22), kw_column, int(6), kw_end_DASH_line, int(22), kw_end_DASH_column, int(17), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(21), kw_column, int(6), kw_end_DASH_line, int(21), kw_end_DASH_column, int(17), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 	// sci-core-extras
 	{
 		tmp0 := sym_sci_DASH_core_DASH_extras
-		var_ys_DOT_v0_DOT_manifest_sci_DASH_core_DASH_extras = ns.InternWithValue(tmp0, lang.NewVector(sym_abs, sym_file_DASH_seq, sym_infinite_QMARK_, sym_parse_DASH_double, sym_parse_DASH_long, sym_parse_DASH_uuid, sym_random_DASH_uuid, sym_slurp, sym_spit, sym_NaN_QMARK_), true)
+		var_ys_DOT_v0_DOT_manifest_sci_DASH_core_DASH_extras = ns.InternWithValue(tmp0, lang.NewVector(sym_abs, sym_infinite_QMARK_, sym_parse_DASH_double, sym_parse_DASH_long, sym_parse_DASH_uuid, sym_random_DASH_uuid, sym_NaN_QMARK_), true)
 		var_ys_DOT_v0_DOT_manifest_sci_DASH_core_DASH_extras.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(28), kw_column, int(6), kw_end_DASH_line, int(28), kw_end_DASH_column, int(20), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+			return lang.NewMap(kw_file, "ys/v0/manifest.clj", kw_line, int(27), kw_column, int(6), kw_end_DASH_line, int(27), kw_end_DASH_column, int(20), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 	// exported-syms
@@ -397,7 +410,7 @@ func LoadNS() {
 				_ = v4
 				var tmp5 any
 				{ // let
-					// let binding "vec__61"
+					// let binding "vec__82"
 					var v6 any = v4
 					_ = v6
 					// let binding "ns-sym"
@@ -435,7 +448,7 @@ func LoadNS() {
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_manifest_exported_DASH_syms = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_manifest_exported_DASH_syms.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/manifest.clj", kw_line, int(70), kw_column, int(7), kw_end_DASH_line, int(70), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector()), kw_doc, "Return the set of symbols that init will refer into the user\n  namespace. Namespaces this runtime could not load contribute\n  nothing.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/manifest.clj", kw_line, int(76), kw_column, int(7), kw_end_DASH_line, int(76), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector()), kw_doc, "Return the set of symbols that init will refer into the user\n  namespace. Namespaces this runtime could not load contribute\n  nothing.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_manifest))
 		})
 	}
 }

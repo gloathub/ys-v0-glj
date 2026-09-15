@@ -21,6 +21,8 @@ if [[ -n ${YS_V0_SOURCE:-} ]]; then
   if [[ -d $YS_V0_SOURCE/ys ]]; then
     mkdir -p "$upstream/ys"
     cp -R "$YS_V0_SOURCE/ys"/. "$upstream/ys"/
+    mkdir -p "$upstream/yamlscript"
+    cp "$YS_V0_SOURCE/yamlscript/regex.cljc" "$upstream/yamlscript"/
   else
     cp -R "$YS_V0_SOURCE"/. "$upstream"/
   fi
@@ -31,7 +33,7 @@ else
     curl -fsSL "$url" -o "$jar.part"
     mv "$jar.part" "$jar"
   fi
-  unzip -q "$jar" 'ys/*' -d "$upstream"
+  unzip -q "$jar" 'ys/*' 'yamlscript/regex.cljc' -d "$upstream"
 fi
 
 cp -R "$upstream"/. "$stage"/
@@ -82,10 +84,16 @@ namespaces=(
   ys.v0.http
   ys.v0.json
   ys.v0.manifest
+  ys.v0.imports
   ys.v0.re
   ys.v0.ys
   ys.v0.fs
+  ys.v0.io
+  ys.v0.ipc
+  ys.v0.pods
+  ys.v0.pprint
   ys.v0.std
+  yamlscript.regex
   ys.v0.taptest
   ys.v0
   yamlscript.common

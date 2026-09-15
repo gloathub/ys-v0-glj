@@ -138,8 +138,6 @@ func LoadNS() {
 			"op-error",
 			"ordered-map-fn",
 			"pow*",
-			"process-backend",
-			"process-opts",
 		})
 	}
 }

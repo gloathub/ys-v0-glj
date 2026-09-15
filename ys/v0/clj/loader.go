@@ -21,6 +21,15 @@ var aotDirectFn7 lang.ArityFn
 var aotDirectFn8 lang.ArityFn
 var aotDirectFn9 lang.ArityFn
 var aotDirectFn10 lang.ArityFn
+var aotDirectFn11 lang.ArityFn
+var aotDirectFn12 lang.ArityFn
+var aotDirectFn13 lang.ArityFn
+var aotDirectFn14 lang.ArityFn
+var aotDirectFn15 lang.ArityFn
+var aotDirectFn16 lang.ArityFn
+var aotDirectFn17 lang.ArityFn
+var aotDirectFn18 lang.ArityFn
+var aotDirectFn19 lang.ArityFn
 
 func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
@@ -105,13 +114,22 @@ func LoadNS() {
 	sym_compile := lang.NewSymbolUnchecked("compile")
 	sym_doseq := lang.NewSymbolUnchecked("doseq")
 	sym_eval := lang.NewSymbolUnchecked("eval")
+	sym_flush := lang.NewSymbolUnchecked("flush")
 	sym_fn := lang.NewSymbolUnchecked("fn")
 	sym_intern := lang.NewSymbolUnchecked("intern")
+	sym_line_DASH_seq := lang.NewSymbolUnchecked("line-seq")
 	sym_load := lang.NewSymbolUnchecked("load")
 	sym_load_DASH_file := lang.NewSymbolUnchecked("load-file")
+	sym_load_DASH_reader := lang.NewSymbolUnchecked("load-reader")
+	sym_newline := lang.NewSymbolUnchecked("newline")
 	sym_ns_DASH_resolve := lang.NewSymbolUnchecked("ns-resolve")
+	sym_pr := lang.NewSymbolUnchecked("pr")
 	sym_print := lang.NewSymbolUnchecked("print")
+	sym_printf := lang.NewSymbolUnchecked("printf")
+	sym_println := lang.NewSymbolUnchecked("println")
+	sym_prn := lang.NewSymbolUnchecked("prn")
 	sym_read := lang.NewSymbolUnchecked("read")
+	sym_read_DASH_line := lang.NewSymbolUnchecked("read-line")
 	sym_replace := lang.NewSymbolUnchecked("replace")
 	sym_reverse := lang.NewSymbolUnchecked("reverse")
 	sym_set := lang.NewSymbolUnchecked("set")
@@ -135,14 +153,32 @@ func LoadNS() {
 	var_ys_DOT_v0_DOT_clj_compile := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_compile)
 	// var ys.v0.clj/eval
 	var_ys_DOT_v0_DOT_clj_eval := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_eval)
+	// var ys.v0.clj/flush
+	var_ys_DOT_v0_DOT_clj_flush := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_flush)
+	// var ys.v0.clj/line-seq
+	var_ys_DOT_v0_DOT_clj_line_DASH_seq := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_line_DASH_seq)
 	// var ys.v0.clj/load
 	var_ys_DOT_v0_DOT_clj_load := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_load)
 	// var ys.v0.clj/load-file
 	var_ys_DOT_v0_DOT_clj_load_DASH_file := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_load_DASH_file)
+	// var ys.v0.clj/load-reader
+	var_ys_DOT_v0_DOT_clj_load_DASH_reader := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_load_DASH_reader)
+	// var ys.v0.clj/newline
+	var_ys_DOT_v0_DOT_clj_newline := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_newline)
+	// var ys.v0.clj/pr
+	var_ys_DOT_v0_DOT_clj_pr := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_pr)
 	// var ys.v0.clj/print
 	var_ys_DOT_v0_DOT_clj_print := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_print)
+	// var ys.v0.clj/printf
+	var_ys_DOT_v0_DOT_clj_printf := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_printf)
+	// var ys.v0.clj/println
+	var_ys_DOT_v0_DOT_clj_println := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_println)
+	// var ys.v0.clj/prn
+	var_ys_DOT_v0_DOT_clj_prn := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_prn)
 	// var ys.v0.clj/read
 	var_ys_DOT_v0_DOT_clj_read := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_read)
+	// var ys.v0.clj/read-line
+	var_ys_DOT_v0_DOT_clj_read_DASH_line := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_read_DASH_line)
 	// var ys.v0.clj/replace
 	var_ys_DOT_v0_DOT_clj_replace := lang.InternVarName(sym_ys_DOT_v0_DOT_clj, sym_replace)
 	// var ys.v0.clj/reverse
@@ -174,6 +210,15 @@ func LoadNS() {
 	var closed0 any
 	var closed1 any
 	var closed10 any
+	var closed11 any
+	var closed12 any
+	var closed13 any
+	var closed14 any
+	var closed15 any
+	var closed16 any
+	var closed17 any
+	var closed18 any
+	var closed19 any
 	var closed2 any
 	var closed3 any
 	var closed4 any
@@ -189,31 +234,58 @@ func LoadNS() {
 		closed1 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_compile)
 	}
 	{
-		closed10 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_use)
+		closed10 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_print)
+	}
+	{
+		closed11 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_printf)
+	}
+	{
+		closed12 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_println)
+	}
+	{
+		closed13 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_prn)
+	}
+	{
+		closed14 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_read)
+	}
+	{
+		closed15 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_read_DASH_line)
+	}
+	{
+		closed16 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_replace)
+	}
+	{
+		closed17 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_reverse)
+	}
+	{
+		closed18 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_set)
+	}
+	{
+		closed19 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_use)
 	}
 	{
 		closed2 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_eval)
 	}
 	{
-		closed3 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_load)
+		closed3 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_flush)
 	}
 	{
-		closed4 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_load_DASH_file)
+		closed4 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_line_DASH_seq)
 	}
 	{
-		closed5 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_print)
+		closed5 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_load)
 	}
 	{
-		closed6 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_read)
+		closed6 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_load_DASH_file)
 	}
 	{
-		closed7 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_replace)
+		closed7 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_load_DASH_reader)
 	}
 	{
-		closed8 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_reverse)
+		closed8 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_newline)
 	}
 	{
-		closed9 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_set)
+		closed9 = lang.FindOrCreateNamespace(sym_clojure_DOT_core).FindInternedVar(sym_pr)
 	}
 	// atom
 	{
@@ -290,9 +362,9 @@ func LoadNS() {
 			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(28), kw_end_DASH_line, int(14), kw_end_DASH_column, int(31), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// load
+	// flush
 	{
-		tmp0 := sym_load
+		tmp0 := sym_flush
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -310,14 +382,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn3 = tmp1
-		var_ys_DOT_v0_DOT_clj_load = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_load.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(33), kw_end_DASH_line, int(14), kw_end_DASH_column, int(36), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_flush = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_flush.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(33), kw_end_DASH_line, int(14), kw_end_DASH_column, int(37), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// load-file
+	// line-seq
 	{
-		tmp0 := sym_load_DASH_file
+		tmp0 := sym_line_DASH_seq
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -335,14 +407,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn4 = tmp1
-		var_ys_DOT_v0_DOT_clj_load_DASH_file = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_load_DASH_file.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(38), kw_end_DASH_line, int(14), kw_end_DASH_column, int(46), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_line_DASH_seq = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_line_DASH_seq.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(39), kw_end_DASH_line, int(14), kw_end_DASH_column, int(46), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// print
+	// load
 	{
-		tmp0 := sym_print
+		tmp0 := sym_load
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -360,14 +432,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn5 = tmp1
-		var_ys_DOT_v0_DOT_clj_print = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_print.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(15), kw_end_DASH_line, int(15), kw_end_DASH_column, int(19), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_load = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_load.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(48), kw_end_DASH_line, int(14), kw_end_DASH_column, int(51), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// read
+	// load-file
 	{
-		tmp0 := sym_read
+		tmp0 := sym_load_DASH_file
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -385,14 +457,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn6 = tmp1
-		var_ys_DOT_v0_DOT_clj_read = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_read.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(21), kw_end_DASH_line, int(15), kw_end_DASH_column, int(24), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_load_DASH_file = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_load_DASH_file.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(14), kw_column, int(53), kw_end_DASH_line, int(14), kw_end_DASH_column, int(61), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// replace
+	// load-reader
 	{
-		tmp0 := sym_replace
+		tmp0 := sym_load_DASH_reader
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -410,14 +482,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn7 = tmp1
-		var_ys_DOT_v0_DOT_clj_replace = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_replace.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(26), kw_end_DASH_line, int(15), kw_end_DASH_column, int(32), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_load_DASH_reader = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_load_DASH_reader.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(15), kw_end_DASH_line, int(15), kw_end_DASH_column, int(25), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// reverse
+	// newline
 	{
-		tmp0 := sym_reverse
+		tmp0 := sym_newline
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -435,14 +507,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn8 = tmp1
-		var_ys_DOT_v0_DOT_clj_reverse = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_reverse.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(34), kw_end_DASH_line, int(15), kw_end_DASH_column, int(40), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_newline = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_newline.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(27), kw_end_DASH_line, int(15), kw_end_DASH_column, int(33), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// set
+	// pr
 	{
-		tmp0 := sym_set
+		tmp0 := sym_pr
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -460,14 +532,14 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn9 = tmp1
-		var_ys_DOT_v0_DOT_clj_set = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_clj_set.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(42), kw_end_DASH_line, int(15), kw_end_DASH_column, int(44), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		var_ys_DOT_v0_DOT_clj_pr = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_pr.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(56), kw_end_DASH_line, int(15), kw_end_DASH_column, int(57), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
-	// use
+	// print
 	{
-		tmp0 := sym_use
+		tmp0 := sym_print
 		var tmp1 lang.ArityFn
 		tmp1 = lang.NewArityFn(
 			nil,
@@ -485,9 +557,234 @@ func LoadNS() {
 			0,
 		)
 		aotDirectFn10 = tmp1
+		var_ys_DOT_v0_DOT_clj_print = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_print.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(35), kw_end_DASH_line, int(15), kw_end_DASH_column, int(39), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// printf
+	{
+		tmp0 := sym_printf
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed11)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn11 = tmp1
+		var_ys_DOT_v0_DOT_clj_printf = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_printf.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(41), kw_end_DASH_line, int(15), kw_end_DASH_column, int(46), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// println
+	{
+		tmp0 := sym_println
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed12)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn12 = tmp1
+		var_ys_DOT_v0_DOT_clj_println = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_println.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(48), kw_end_DASH_line, int(15), kw_end_DASH_column, int(54), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// prn
+	{
+		tmp0 := sym_prn
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed13)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn13 = tmp1
+		var_ys_DOT_v0_DOT_clj_prn = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_prn.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(59), kw_end_DASH_line, int(15), kw_end_DASH_column, int(61), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// read
+	{
+		tmp0 := sym_read
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed14)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn14 = tmp1
+		var_ys_DOT_v0_DOT_clj_read = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_read.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(63), kw_end_DASH_line, int(15), kw_end_DASH_column, int(66), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// read-line
+	{
+		tmp0 := sym_read_DASH_line
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed15)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn15 = tmp1
+		var_ys_DOT_v0_DOT_clj_read_DASH_line = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_read_DASH_line.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(68), kw_end_DASH_line, int(15), kw_end_DASH_column, int(76), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// replace
+	{
+		tmp0 := sym_replace
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed16)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn16 = tmp1
+		var_ys_DOT_v0_DOT_clj_replace = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_replace.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(16), kw_column, int(15), kw_end_DASH_line, int(16), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// reverse
+	{
+		tmp0 := sym_reverse
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed17)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn17 = tmp1
+		var_ys_DOT_v0_DOT_clj_reverse = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_reverse.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(16), kw_column, int(23), kw_end_DASH_line, int(16), kw_end_DASH_column, int(29), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// set
+	{
+		tmp0 := sym_set
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed18)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn18 = tmp1
+		var_ys_DOT_v0_DOT_clj_set = ns.InternWithValue(tmp0, tmp1, true)
+		var_ys_DOT_v0_DOT_clj_set.SetMetaLazy(func() lang.IPersistentMap {
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(16), kw_column, int(31), kw_end_DASH_line, int(16), kw_end_DASH_column, int(33), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+		})
+	}
+	// use
+	{
+		tmp0 := sym_use
+		var tmp1 lang.ArityFn
+		tmp1 = lang.NewArityFn(
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
+				var v2 any = rest
+				_ = v2
+				tmp3 := aotExternalFn1(closed19)
+				tmp4 := aotExternalFn0(tmp3, v2)
+				return tmp4
+			}),
+			0,
+		)
+		aotDirectFn19 = tmp1
 		var_ys_DOT_v0_DOT_clj_use = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_clj_use.SetMetaLazy(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(15), kw_column, int(46), kw_end_DASH_line, int(15), kw_end_DASH_column, int(48), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
+			return lang.NewMap(kw_file, "ys/v0/clj.clj", kw_line, int(16), kw_column, int(35), kw_end_DASH_line, int(16), kw_end_DASH_column, int(37), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_clj))
 		})
 	}
 }

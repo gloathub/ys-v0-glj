@@ -72,6 +72,11 @@ func TestLoadAndNativeBackends(t *testing.T) {
 	if got := fmt.Sprint(glj.Var("ys.v0.std", "len").Invoke("hello")); got != "5" {
 		t.Fatalf("len: got %q, want 5", got)
 	}
+	shortUse := lang.NewList(lang.NewSymbol("json"))
+	normalized := glj.Var("ys.v0.ys", "normalize-use-forms").Invoke(shortUse)
+	if got := fmt.Sprint(normalized); got != "((ys.json :as json))" {
+		t.Fatalf("short use: got %q, want %q", got, "((ys.json :as json))")
+	}
 	glj.Var("ys.v0.std", "say").Invoke()
 
 	dir := filepath.Join(t.TempDir(), "nested", "directory")

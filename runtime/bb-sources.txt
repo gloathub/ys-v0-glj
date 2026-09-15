@@ -10,9 +10,15 @@ ys/v0/ext.clj
 ys/v0/http.clj
 ys/v0/json.clj
 ys/v0/manifest.clj
+ys/v0/imports.clj
 ys/v0/ys.clj
 ys/v0/fs.clj
+ys/v0/io.cljc
+ys/v0/ipc.cljc
+ys/v0/pods.clj
+ys/v0/pprint.cljc
 ys/v0/std.cljc
 ys/v0/clj.clj
+yamlscript/regex.cljc
 ys/v0/taptest.clj
 ys/v0.cljc
