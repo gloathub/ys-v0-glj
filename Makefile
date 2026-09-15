@@ -32,10 +32,22 @@ check-generated: generate
 	git diff --exit-code -- \
 	  babashka bb clojure yamlscript ys source runtime/namespaces.edn
 
+# Use v=VERSION as the short version form, a=1 to release from the current
+# branch, and d=1 to preview release actions.
+RELEASE-VERSION := \
+  $(strip $(if $(filter command line,$(origin VERSION)),$(VERSION),\
+    $(if $(filter command line,$(origin v)),$(v))))
+ifdef a
+export YS_V0_GLJ_RELEASE_ALLOW_BRANCH := 1
+endif
+ifdef d
+export YS_V0_GLJ_RELEASE_DRYRUN := 1
+endif
+
 release:
-	@$(if $(filter command line,$(origin VERSION)),,\
-	  $(error VERSION is required on the command line))
-	./script/release '$(VERSION)'
+	@$(if $(RELEASE-VERSION),,\
+	  $(error v or VERSION is required on the command line))
+	./script/release '$(RELEASE-VERSION)'
 
 $(GLOJURE-SRC):
 	git clone -q --depth 1 -b v$(GLOJURE-VERSION) \
