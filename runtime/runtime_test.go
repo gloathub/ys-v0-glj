@@ -1,11 +1,13 @@
 package runtime
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"reflect"
 	goruntime "runtime"
 	"testing"
 
@@ -16,6 +18,70 @@ import (
 
 func mapValue(value any, key string) any {
 	return glj.Var("clojure.core", "get").Invoke(value, lang.NewKeyword(key))
+}
+
+func TestJSONMapKeys(t *testing.T) {
+	Load()
+	write := glj.Var("clojure.data.json", "write-str")
+	for _, tc := range []struct {
+		name  string
+		value any
+		want  string
+	}{
+		{"colon string", lang.NewMap(":foo", true), `{":foo":true}`},
+		{"colon only", lang.NewMap(":", true), `{":":true}`},
+		{"multiple colons", lang.NewMap("::foo", true), `{"::foo":true}`},
+		{"empty string", lang.NewMap("", true), `{"":true}`},
+		{"keyword", lang.NewMap(lang.NewKeyword("foo"), true), `{"foo":true}`},
+		{"namespaced keyword", lang.NewMap(lang.NewKeyword("ns/foo"), true),
+			`{"ns/foo":true}`},
+		{"distinct string and keyword",
+			lang.NewMap(":foo", "string", lang.NewKeyword("foo"), "keyword"),
+			`{":foo":"string","foo":"keyword"}`},
+		{"escaped string", lang.NewMap(":\"\\\n", true),
+			`{":\"\\\n":true}`},
+		{"nested map", lang.NewMap("outer", lang.NewMap(":inner", true)),
+			`{"outer":{":inner":true}}`},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := fmt.Sprint(write.Invoke(tc.value))
+			var got, want any
+			if err := json.Unmarshal([]byte(encoded), &got); err != nil {
+				t.Fatalf("invalid JSON %q: %v", encoded, err)
+			}
+			if err := json.Unmarshal([]byte(tc.want), &want); err != nil {
+				t.Fatal(err)
+			}
+			if !reflect.DeepEqual(got, want) {
+				t.Fatalf("got %s, want %s", encoded, tc.want)
+			}
+		})
+	}
+}
+
+func TestMathFunctions(t *testing.T) {
+	Load()
+	eval := glj.Var("clojure.core", "eval")
+	for _, tc := range []struct{ expression, want string }{
+		{`(ys.v0.std/round -1.5)`, `-1`},
+		{`(ys.v0.std/round -0.5)`, `0`},
+		{`(ys.v0.std/round 1.5)`, `2`},
+		{`(ys.v0.std/floor -1.5)`, `-2.0`},
+		{`(ys.v0.std/pow 2 10)`, `1024`},
+		{`(integer? (ys.v0.std/pow 2 10))`, `true`},
+		{`(ys.v0.std/pow 4 0.5)`, `2.0`},
+		{`(ys.v0.std/pow 2 -3)`, `0.125`},
+		{`(ys.v0.std/pow 2 3 2)`, `512`},
+		{`(ys.v0.std/sqrt 81)`, `9.0`},
+		{`(clojure.math/get-exponent 8)`, `3`},
+	} {
+		t.Run(tc.expression, func(t *testing.T) {
+			got := eval.Invoke(glj.Read(tc.expression))
+			if !lang.Equals(got, glj.Read(tc.want)) {
+				t.Fatalf("got %v, want %s", got, tc.want)
+			}
+		})
+	}
 }
 
 func TestSetOperators(t *testing.T) {

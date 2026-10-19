@@ -31,8 +31,8 @@ The `-W` option rebuilds an existing executable after runtime changes.
 Without `YS_V0_SOURCE`, generation downloads the `org.yamlscript/ys.v0` JAR
 pinned by `YS-V0-VERSION` in the Makefile.
 Keep that version aligned with the source snapshot used for generation.
-The operator changes in this snapshot require publishing that updated library
-before releasing this module.
+The operator and math changes in this snapshot require publishing the updated
+library as part of the next YAMLScript release before releasing this module.
 Until then, use `YS_V0_SOURCE` for every generation or test command.
 
 Publish the updated YAMLScript library first, regenerate this module from the

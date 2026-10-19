@@ -1296,20 +1296,19 @@ func LoadNS() {
 															_ = v33
 															// let binding "key-str"
 															var tmp34 any
-															tmp35 := lang.First(v33)
-															tmp36 := lang.Equals(tmp35, lang.NewChar(58))
-															if tmp36 {
-																tmp37 := aotExternalFn18(v33, int64(1))
-																tmp34 = tmp37
+															tmp35 := lang.IsKeyword(v28)
+															if tmp35 {
+																tmp36 := aotExternalFn18(v33, int64(1))
+																tmp34 = tmp36
 															} else {
 																tmp34 = v33
 															}
-															var v38 any = tmp34
-															_ = v38
-															tmp39 := aotDirectFn0(v38)
-															tmp40 := aotDirectFn10.Invoke1(v30)
-															tmp41 := aotExternalFn23("\"", tmp39, "\":", tmp40)
-															tmp31 = tmp41
+															var v37 any = tmp34
+															_ = v37
+															tmp38 := aotDirectFn0(v37)
+															tmp39 := aotDirectFn10.Invoke1(v30)
+															tmp40 := aotExternalFn23("\"", tmp38, "\":", tmp39)
+															tmp31 = tmp40
 														} // end let
 														tmp25 = tmp31
 													} // end let

@@ -35,7 +35,7 @@
     (number? x) (str x)
     (map? x) (let [pairs (map (fn [[k v]]
                                 (let [ks (str k)
-                                      key-str (if (= (first ks) \:)
+                                      key-str (if (keyword? k)
                                                 (subs ks 1)
                                                 ks)]
                                   (str "\"" (escape-string key-str) "\":"

@@ -139,7 +139,6 @@ func LoadNS() {
 			"invoke-constructor",
 			"op-error",
 			"ordered-map-fn",
-			"pow*",
 			"set-pair?",
 		})
 	}

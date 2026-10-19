@@ -4,7 +4,7 @@ $(shell [ -d '$M' ] || git clone -q $R '$M')
 
 include $M/init.mk
 
-GLOJURE-VERSION := 0.7.23
+GLOJURE-VERSION := 0.7.24
 GO-VERSION := 1.24.0
 YS-V0-VERSION := 0.3.5
 VERSION := 0.1.5
