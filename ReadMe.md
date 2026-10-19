@@ -29,10 +29,23 @@ make test
 make check-generated
 ```
 
-`YS_V0_SOURCE=/path/to/yamlscript/core/src make generate` uses an unpublished
-YAMLScript source tree. Normal generation downloads the pinned Clojars
-artifact. The patch in `patches/` is temporary until its AOT-safety changes
-are released by YAMLScript.
+Change the upstream YAMLScript sources or the adaptations in `src/` and
+`patches/`, then regenerate instead of editing generated files.
+With `YS_V0_SOURCE` unset, generation downloads the Clojars JAR pinned by
+`YS-V0-VERSION` in `Makefile`.
+To generate and test against an unpublished YAMLScript source tree:
+
+```bash
+make test YS_V0_SOURCE=/path/to/yamlscript/core/src
+```
+
+Gloat automatically uses this development checkout when it is located at
+`repos/ys-v0-glj` inside the Gloat repository.
+YAMLScript's native build separately fetches its pinned runtime revision
+and regenerates it from its own sources.
+
+The patch in `patches/` is temporary until its AOT-safety changes are
+released by YAMLScript.
 
 The temporary YAMLScript changes are:
 
@@ -58,6 +71,11 @@ the runtime, verifies the committed generated files, commits the version
 change, creates the annotated root tag `vx.y.z`, and atomically pushes `main`
 and the tag. `YS-V0-VERSION` is the independently pinned YAMLScript runtime
 source version and is not changed by a module release.
+
+When updating `YS-V0-VERSION`, generate and test from the published JAR and
+commit the pin and generated files before running `make release`.
+Keep `ReadMe.md` as the sole readme file to avoid filename collisions in Go
+module archives.
 
 If publication fails after the release commit and tag were created, retry
 from a branch containing that commit:
