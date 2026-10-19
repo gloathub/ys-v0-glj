@@ -6,6 +6,7 @@ version=${1:?Usage: make release VERSION=x.y.z}
 root=$(cd "$(dirname "$0")/.." && pwd -P)
 allow_branch=${YS_V0_GLJ_RELEASE_ALLOW_BRANCH:-}
 dryrun=${YS_V0_GLJ_RELEASE_DRYRUN:-}
+resume=${YS_V0_GLJ_RELEASE_RESUME:-}
 
 run() {
   printf '+'
@@ -13,6 +14,16 @@ run() {
   printf '\n'
   if [[ ! $dryrun ]]; then
     "$@"
+  fi
+}
+
+publish() {
+  local commit=${1:-HEAD}
+  run git push --atomic origin "$commit:main" "refs/tags/$tag"
+  if [[ $dryrun ]]; then
+    echo "Dry run: would release $tag"
+  else
+    echo "Released $tag"
   fi
 }
 
@@ -29,7 +40,7 @@ if [[ $(git branch --show-current) != main && ! $allow_branch ]]; then
   exit 1
 fi
 
-if [[ -n $(git status --porcelain) ]]; then
+if [[ ! $resume && -n $(git status --porcelain) ]]; then
   echo "release: the worktree must be clean" >&2
   exit 1
 fi
@@ -48,6 +59,31 @@ if [[ ! $dryrun ]] && ! git merge-base --is-ancestor origin/main HEAD; then
 fi
 
 tag=v$version
+if [[ $resume ]]; then
+  if [[ $(git cat-file -t "refs/tags/$tag" 2>/dev/null) != tag ]]; then
+    echo "release: resume requires an existing annotated tag $tag" >&2
+    exit 1
+  fi
+  release_commit=$(git rev-parse "$tag^{commit}")
+  if ! git merge-base --is-ancestor "$release_commit" HEAD; then
+    echo "release: $tag must be in the current branch history to resume" >&2
+    exit 1
+  fi
+  if [[ ! $dryrun ]] &&
+    ! git merge-base --is-ancestor origin/main "$release_commit"; then
+    echo "release: tagged release is behind or has diverged from origin/main" >&2
+    exit 1
+  fi
+  current=$(git show "$release_commit:Makefile" |
+    perl -ne 'print $1 if /^VERSION := (.*)/')
+  if [[ $current != "$version" ]]; then
+    echo "release: committed VERSION must be $version to resume" >&2
+    exit 1
+  fi
+  publish "$release_commit"
+  exit 0
+fi
+
 if git rev-parse --verify --quiet "refs/tags/$tag" >/dev/null; then
   echo "release: tag $tag already exists" >&2
   exit 1
@@ -78,10 +114,4 @@ fi
 run git add Makefile
 run git commit -m "Release v$version"
 run git tag -a "$tag" -m "Release $tag"
-run git push --atomic origin HEAD:main "refs/tags/$tag"
-
-if [[ $dryrun ]]; then
-  echo "Dry run: would release $tag"
-else
-  echo "Released $tag"
-fi
+publish

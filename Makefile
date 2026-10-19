@@ -44,7 +44,9 @@ ifdef d
 export YS_V0_GLJ_RELEASE_DRYRUN := 1
 endif
 
-release:
+release-resume: export YS_V0_GLJ_RELEASE_RESUME := 1
+
+release release-resume:
 	@$(if $(RELEASE-VERSION),,\
 	  $(error v or VERSION is required on the command line))
 	./script/release '$(RELEASE-VERSION)'

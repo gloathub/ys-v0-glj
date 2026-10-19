@@ -58,3 +58,17 @@ the runtime, verifies the committed generated files, commits the version
 change, creates the annotated root tag `vx.y.z`, and atomically pushes `main`
 and the tag. `YS-V0-VERSION` is the independently pinned YAMLScript runtime
 source version and is not changed by a module release.
+
+If publication fails after the release commit and tag were created, retry
+from a branch containing that commit:
+
+```bash
+make release-resume v=x.y.z a=1
+```
+
+This publishes the existing tagged release commit and annotated tag without
+rebuilding or changing the version.
+The tagged commit must be in the current branch history and its version
+must match.
+Later commits and working tree changes remain local, so release helper
+fixes can be committed without changing the release being published.
