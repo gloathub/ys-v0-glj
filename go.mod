@@ -3,7 +3,7 @@ module github.com/gloathub/ys-v0-glj
 go 1.24
 
 require (
-	github.com/glojurelang/glojure v0.7.14
+	github.com/glojurelang/glojure v0.7.23
 	go.yaml.in/yaml/v4 v4.0.0-rc.6
 )
 

@@ -10,7 +10,7 @@ import (
 	exec4 "os/exec"
 	reflect "reflect"
 	regexp6 "regexp"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -20,24 +20,43 @@ var aotDirectFn3 lang.ArityFn
 var aotDirectFn4 lang.ArityFn
 var aotDirectFn5 lang.FnFunc1
 
+var aotKeywordMapShape0 = lang.NewKeywordMapShape("exit", "out", "err")
+
+type aotKeywordMapStorage0 struct {
+	lang.Map
+	values [3]any
+}
+
+func aotKeywordMapNew0(v0 any, v1 any, v2 any) lang.IPersistentMap {
+	storage := &aotKeywordMapStorage0{}
+	storage.values = [3]any{v0, v1, v2}
+	return lang.InitStaticKeywordMap(
+		&storage.Map,
+		aotKeywordMapShape0,
+		storage.values[:],
+	)
+}
 func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -50,20 +69,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -76,20 +98,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -135,8 +160,6 @@ func LoadNS() {
 	sym_concat := lang.NewSymbolUnchecked("concat")
 	sym_exec := lang.NewSymbolUnchecked("exec")
 	sym_join := lang.NewSymbolUnchecked("join")
-	sym_map_QMARK_ := lang.NewSymbolUnchecked("map?")
-	sym_not := lang.NewSymbolUnchecked("not")
 	sym_process := lang.NewSymbolUnchecked("process")
 	sym_rest := lang.NewSymbolUnchecked("rest")
 	sym_sh := lang.NewSymbolUnchecked("sh")
@@ -149,12 +172,9 @@ func LoadNS() {
 	kw_column := lang.NewKeyword("column")
 	kw_end_DASH_column := lang.NewKeyword("end-column")
 	kw_end_DASH_line := lang.NewKeyword("end-line")
-	kw_err := lang.NewKeyword("err")
-	kw_exit := lang.NewKeyword("exit")
 	kw_file := lang.NewKeyword("file")
 	kw_line := lang.NewKeyword("line")
 	kw_ns := lang.NewKeyword("ns")
-	kw_out := lang.NewKeyword("out")
 	kw_private := lang.NewKeyword("private")
 	// var babashka.process/bytes-to-str
 	var_babashka_DOT_process_bytes_DASH_to_DASH_str := lang.InternVarName(sym_babashka_DOT_process, sym_bytes_DASH_to_DASH_str)
@@ -172,10 +192,6 @@ func LoadNS() {
 	var_clojure_DOT_core_apply := lang.InternVarName(sym_clojure_DOT_core, sym_apply)
 	// var clojure.core/concat
 	var_clojure_DOT_core_concat := lang.InternVarName(sym_clojure_DOT_core, sym_concat)
-	// var clojure.core/map?
-	var_clojure_DOT_core_map_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_map_QMARK_)
-	// var clojure.core/not
-	var_clojure_DOT_core_not := lang.InternVarName(sym_clojure_DOT_core, sym_not)
 	// var clojure.core/rest
 	var_clojure_DOT_core_rest := lang.InternVarName(sym_clojure_DOT_core, sym_rest)
 	// var clojure.core/str
@@ -189,10 +205,8 @@ func LoadNS() {
 	aotExternalFn0 := aotLinkFn2(var_clojure_DOT_core_apply)
 	aotExternalFn10 := aotLinkFn3(var_clojure_DOT_core_apply)
 	aotExternalFn11 := aotLinkFn1(var_clojure_DOT_core_vec)
-	aotExternalFn12 := aotLinkFn1(var_clojure_DOT_core_not)
 	aotExternalFn13 := aotLinkFn2(var_clojure_DOT_core_str)
 	aotExternalFn14 := aotLinkFn2(var_clojure_DOT_string_join)
-	aotExternalFn15 := aotLinkFn1(var_clojure_DOT_core_map_QMARK_)
 	aotExternalFn6 := aotLinkFn2(var_clojure_DOT_string_split)
 	aotExternalFn7 := aotLinkFn1(var_clojure_DOT_core_str)
 	aotExternalFn8 := aotLinkFn2(var_clojure_DOT_core_concat)
@@ -281,8 +295,16 @@ func LoadNS() {
 	}
 	ns.AddAlias(sym_str, lang.FindOrCreateNamespace(sym_clojure_DOT_string))
 	var closed0 any
+	var closed1 any
+	var closed2 any
 	{
-		closed0 = regexp6.MustCompile("\\s+")
+		closed0 = aotKeywordMapNew0(int64(1), "", "No command specified")
+	}
+	{
+		closed1 = regexp6.MustCompile("\\s+")
+	}
+	{
+		closed2 = lang.NewMap()
 	}
 	// bytes-to-str
 	{
@@ -297,9 +319,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_babashka_DOT_process_bytes_DASH_to_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_bytes_DASH_to_DASH_str.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_bytes_DASH_to_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "babashka/process.clj", kw_line, int(13), kw_column, int(8), kw_end_DASH_line, int(13), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 	// sh
 	{
@@ -331,243 +353,242 @@ func LoadNS() {
 					_ = v9
 					var tmp10 any
 					tmp11 := lang.IsEmpty(v9)
-					if lang.IsTruthy(tmp11) {
-						tmp12 := lang.NewMap(kw_exit, int64(1), kw_out, "", kw_err, "No command specified")
-						tmp10 = tmp12
+					if tmp11 {
+						tmp10 = closed0
 					} else {
-						var tmp13 any
+						var tmp12 any
 						{ // let
 							// let binding "vec__4"
-							var v14 any = v9
-							_ = v14
+							var v13 any = v9
+							_ = v13
 							// let binding "seq__5"
-							tmp15 := lang.Seq(v14)
-							var v16 any = tmp15
-							_ = v16
+							tmp14 := lang.Seq(v13)
+							var v15 any = tmp14
+							_ = v15
 							// let binding "first__6"
-							tmp17 := lang.First(v16)
-							var v18 any = tmp17
-							_ = v18
+							tmp16 := lang.First(v15)
+							var v17 any = tmp16
+							_ = v17
 							// let binding "seq__5"
-							tmp19 := lang.Next(v16)
-							var v20 any = tmp19
+							tmp18 := lang.Next(v15)
+							var v19 any = tmp18
+							_ = v19
+							// let binding "cmd-name"
+							var v20 any = v17
 							_ = v20
-							// let binding "cmd-name"
-							var v21 any = v18
+							// let binding "cmd-args"
+							var v21 any = v19
 							_ = v21
-							// let binding "cmd-args"
-							var v22 any = v20
-							_ = v22
 							// let binding "command"
-							tmp23 := aotExternalFn7(v21)
-							tmp24 := aotExternalFn6(tmp23, closed0)
-							var v25 any = tmp24
-							_ = v25
+							tmp22 := aotExternalFn7(v20)
+							tmp23 := aotExternalFn6(tmp22, closed1)
+							var v24 any = tmp23
+							_ = v24
 							// let binding "cmd-name"
-							tmp26 := lang.First(v25)
-							var v27 any = tmp26
-							_ = v27
+							tmp25 := lang.First(v24)
+							var v26 any = tmp25
+							_ = v26
 							// let binding "cmd-args"
-							tmp28 := aotExternalFn9(v25)
-							tmp29 := aotExternalFn8(tmp28, v22)
-							var v30 any = tmp29
-							_ = v30
+							tmp27 := aotExternalFn9(v24)
+							tmp28 := aotExternalFn8(tmp27, v21)
+							var v29 any = tmp28
+							_ = v29
 							// let binding "cmd"
-							tmp31 := aotExternalFn11(v30)
-							tmp32 := aotExternalFn10(exec4.Command, v27, tmp31)
-							var v33 any = tmp32
-							_ = v33
+							tmp30 := aotExternalFn11(v29)
+							tmp31 := aotExternalFn10(exec4.Command, v26, tmp30)
+							var v32 any = tmp31
+							_ = v32
 							// let binding "vec__7"
-							tmp34, ok := lang.FieldOrMethod(v33, "StdoutPipe")
+							tmp33, ok := lang.FieldOrMethod(v32, "StdoutPipe")
 							if !ok {
-								panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v33, "StdoutPipe")))
+								panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "StdoutPipe")))
 							}
-							var tmp35 any
-							switch reflect.TypeOf(tmp34).Kind() {
+							var tmp34 any
+							switch reflect.TypeOf(tmp33).Kind() {
 							case reflect.Func:
-								tmp35 = lang.Apply(tmp34, nil)
+								tmp34 = lang.Apply(tmp33, nil)
 							default:
-								tmp35 = tmp34
+								tmp34 = tmp33
 							}
-							var v36 any = tmp35
-							_ = v36
+							var v35 any = tmp34
+							_ = v35
 							// let binding "stdout-pipe"
-							tmp37 := runtime.RT.NthDefault(v36, lang.IntCast(int64(0)), nil)
-							var v38 any = tmp37
-							_ = v38
+							tmp36 := runtime.RT.NthDefault(v35, lang.IntCast(int64(0)), nil)
+							var v37 any = tmp36
+							_ = v37
 							// let binding "stdout-err"
-							tmp39 := runtime.RT.NthDefault(v36, lang.IntCast(int64(1)), nil)
-							var v40 any = tmp39
-							_ = v40
+							tmp38 := runtime.RT.NthDefault(v35, lang.IntCast(int64(1)), nil)
+							var v39 any = tmp38
+							_ = v39
 							// let binding "vec__10"
-							tmp41, ok := lang.FieldOrMethod(v33, "StderrPipe")
+							tmp40, ok := lang.FieldOrMethod(v32, "StderrPipe")
 							if !ok {
-								panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v33, "StderrPipe")))
+								panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "StderrPipe")))
 							}
-							var tmp42 any
-							switch reflect.TypeOf(tmp41).Kind() {
+							var tmp41 any
+							switch reflect.TypeOf(tmp40).Kind() {
 							case reflect.Func:
-								tmp42 = lang.Apply(tmp41, nil)
+								tmp41 = lang.Apply(tmp40, nil)
 							default:
-								tmp42 = tmp41
+								tmp41 = tmp40
 							}
-							var v43 any = tmp42
-							_ = v43
+							var v42 any = tmp41
+							_ = v42
 							// let binding "stderr-pipe"
-							tmp44 := runtime.RT.NthDefault(v43, lang.IntCast(int64(0)), nil)
-							var v45 any = tmp44
-							_ = v45
+							tmp43 := runtime.RT.NthDefault(v42, lang.IntCast(int64(0)), nil)
+							var v44 any = tmp43
+							_ = v44
 							// let binding "stderr-err"
-							tmp46 := runtime.RT.NthDefault(v43, lang.IntCast(int64(1)), nil)
-							var v47 any = tmp46
-							_ = v47
+							tmp45 := runtime.RT.NthDefault(v42, lang.IntCast(int64(1)), nil)
+							var v46 any = tmp45
+							_ = v46
+							var tmp47 any
 							var tmp48 any
-							var tmp49 any
 							{ // let
 								// let binding "or__0__auto__"
-								tmp50 := lang.Identical(v40, nil)
-								tmp51 := aotExternalFn12(tmp50)
-								var v52 any = tmp51
-								_ = v52
-								var tmp53 any
-								if lang.IsTruthy(v52) {
-									tmp53 = v52
-								} else {
-									tmp54 := lang.Identical(v47, nil)
-									tmp55 := aotExternalFn12(tmp54)
-									tmp53 = tmp55
-								}
-								tmp49 = tmp53
-							} // end let
-							if lang.IsTruthy(tmp49) {
-								tmp50 := aotExternalFn7("Failed to create pipes")
-								tmp51 := lang.NewMap(kw_exit, int64(1), kw_out, "", kw_err, tmp50)
-								tmp48 = tmp51
-							} else {
+								tmp49 := lang.Identical(v39, nil)
+								tmp50 := !lang.IsTruthy(tmp49)
+								var v51 any = tmp50
+								_ = v51
 								var tmp52 any
+								if lang.IsTruthy(v51) {
+									tmp52 = v51
+								} else {
+									tmp53 := lang.Identical(v46, nil)
+									tmp54 := !lang.IsTruthy(tmp53)
+									tmp52 = tmp54
+								}
+								tmp48 = tmp52
+							} // end let
+							if lang.IsTruthy(tmp48) {
+								tmp49 := aotExternalFn7("Failed to create pipes")
+								tmp50 := aotKeywordMapNew0(int64(1), "", tmp49)
+								tmp47 = tmp50
+							} else {
+								var tmp51 any
 								{ // let
 									// let binding "start-err"
-									tmp53, ok := lang.FieldOrMethod(v33, "Start")
+									tmp52, ok := lang.FieldOrMethod(v32, "Start")
 									if !ok {
-										panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v33, "Start")))
+										panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "Start")))
 									}
-									var tmp54 any
-									switch reflect.TypeOf(tmp53).Kind() {
+									var tmp53 any
+									switch reflect.TypeOf(tmp52).Kind() {
 									case reflect.Func:
-										tmp54 = lang.Apply(tmp53, nil)
+										tmp53 = lang.Apply(tmp52, nil)
 									default:
-										tmp54 = tmp53
+										tmp53 = tmp52
 									}
-									var v55 any = tmp54
-									_ = v55
-									var tmp56 any
-									tmp57 := lang.Identical(v55, nil)
-									tmp58 := aotExternalFn12(tmp57)
-									if lang.IsTruthy(tmp58) {
-										tmp59 := aotExternalFn13("Failed to start: ", v55)
-										tmp60 := lang.NewMap(kw_exit, int64(1), kw_out, "", kw_err, tmp59)
-										tmp56 = tmp60
+									var v54 any = tmp53
+									_ = v54
+									var tmp55 any
+									tmp56 := lang.Identical(v54, nil)
+									tmp57 := !lang.IsTruthy(tmp56)
+									if tmp57 {
+										tmp58 := aotExternalFn13("Failed to start: ", v54)
+										tmp59 := aotKeywordMapNew0(int64(1), "", tmp58)
+										tmp55 = tmp59
 									} else {
-										var tmp61 any
+										var tmp60 any
 										{ // let
 											// let binding "vec__13"
-											tmp62 := lang.Apply1(io5.ReadAll, v38)
-											var v63 any = tmp62
-											_ = v63
+											tmp61 := lang.Apply1(io5.ReadAll, v37)
+											var v62 any = tmp61
+											_ = v62
 											// let binding "stdout-bytes"
-											tmp64 := runtime.RT.NthDefault(v63, lang.IntCast(int64(0)), nil)
-											var v65 any = tmp64
-											_ = v65
+											tmp63 := runtime.RT.NthDefault(v62, lang.IntCast(int64(0)), nil)
+											var v64 any = tmp63
+											_ = v64
 											// let binding "stdout-read-err"
-											tmp66 := runtime.RT.NthDefault(v63, lang.IntCast(int64(1)), nil)
-											var v67 any = tmp66
-											_ = v67
+											tmp65 := runtime.RT.NthDefault(v62, lang.IntCast(int64(1)), nil)
+											var v66 any = tmp65
+											_ = v66
 											// let binding "vec__16"
-											tmp68 := lang.Apply1(io5.ReadAll, v45)
-											var v69 any = tmp68
-											_ = v69
+											tmp67 := lang.Apply1(io5.ReadAll, v44)
+											var v68 any = tmp67
+											_ = v68
 											// let binding "stderr-bytes"
-											tmp70 := runtime.RT.NthDefault(v69, lang.IntCast(int64(0)), nil)
-											var v71 any = tmp70
-											_ = v71
+											tmp69 := runtime.RT.NthDefault(v68, lang.IntCast(int64(0)), nil)
+											var v70 any = tmp69
+											_ = v70
 											// let binding "stderr-read-err"
-											tmp72 := runtime.RT.NthDefault(v69, lang.IntCast(int64(1)), nil)
-											var v73 any = tmp72
-											_ = v73
+											tmp71 := runtime.RT.NthDefault(v68, lang.IntCast(int64(1)), nil)
+											var v72 any = tmp71
+											_ = v72
 											// let binding "wait-err"
-											tmp74, ok := lang.FieldOrMethod(v33, "Wait")
+											tmp73, ok := lang.FieldOrMethod(v32, "Wait")
 											if !ok {
-												panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v33, "Wait")))
+												panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "Wait")))
 											}
-											var tmp75 any
-											switch reflect.TypeOf(tmp74).Kind() {
+											var tmp74 any
+											switch reflect.TypeOf(tmp73).Kind() {
 											case reflect.Func:
-												tmp75 = lang.Apply(tmp74, nil)
+												tmp74 = lang.Apply(tmp73, nil)
 											default:
-												tmp75 = tmp74
+												tmp74 = tmp73
 											}
-											var v76 any = tmp75
-											_ = v76
+											var v75 any = tmp74
+											_ = v75
 											// let binding "exit-code"
-											var tmp77 any
-											tmp78 := lang.Identical(v76, nil)
-											if lang.IsTruthy(tmp78) {
-												tmp77 = int64(0)
+											var tmp76 any
+											tmp77 := lang.Identical(v75, nil)
+											if lang.IsTruthy(tmp77) {
+												tmp76 = int64(0)
 											} else {
-												tmp79, ok := lang.FieldOrMethod(v33, "ProcessState")
+												tmp78, ok := lang.FieldOrMethod(v32, "ProcessState")
 												if !ok {
-													panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v33, "ProcessState")))
+													panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "ProcessState")))
 												}
-												var tmp80 any
-												switch reflect.TypeOf(tmp79).Kind() {
+												var tmp79 any
+												switch reflect.TypeOf(tmp78).Kind() {
 												case reflect.Func:
-													tmp80 = lang.Apply(tmp79, nil)
+													tmp79 = lang.Apply(tmp78, nil)
 												default:
-													tmp80 = tmp79
+													tmp79 = tmp78
 												}
-												tmp81, ok := lang.FieldOrMethod(tmp80, "ExitCode")
+												tmp80, ok := lang.FieldOrMethod(tmp79, "ExitCode")
 												if !ok {
-													panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", tmp80, "ExitCode")))
+													panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", tmp79, "ExitCode")))
 												}
-												var tmp82 any
-												switch reflect.TypeOf(tmp81).Kind() {
+												var tmp81 any
+												switch reflect.TypeOf(tmp80).Kind() {
 												case reflect.Func:
-													tmp82 = lang.Apply(tmp81, nil)
+													tmp81 = lang.Apply(tmp80, nil)
 												default:
-													tmp82 = tmp81
+													tmp81 = tmp80
 												}
-												tmp77 = tmp82
+												tmp76 = tmp81
 											}
-											var v83 any = tmp77
-											_ = v83
-											var tmp84 any
-											tmp85 := lang.Identical(v67, nil)
-											if lang.IsTruthy(tmp85) {
-												tmp86 := aotDirectFn0(v65)
-												tmp84 = tmp86
+											var v82 any = tmp76
+											_ = v82
+											var tmp83 any
+											tmp84 := lang.Identical(v66, nil)
+											if lang.IsTruthy(tmp84) {
+												tmp85 := aotDirectFn0(v64)
+												tmp83 = tmp85
 											} else {
-												tmp84 = ""
+												tmp83 = ""
 											}
-											var tmp87 any
-											tmp88 := lang.Identical(v73, nil)
-											if lang.IsTruthy(tmp88) {
-												tmp89 := aotDirectFn0(v71)
-												tmp87 = tmp89
+											var tmp86 any
+											tmp87 := lang.Identical(v72, nil)
+											if lang.IsTruthy(tmp87) {
+												tmp88 := aotDirectFn0(v70)
+												tmp86 = tmp88
 											} else {
-												tmp87 = ""
+												tmp86 = ""
 											}
-											tmp90 := lang.NewMap(kw_exit, v83, kw_out, tmp84, kw_err, tmp87)
-											tmp61 = tmp90
+											tmp89 := aotKeywordMapNew0(v82, tmp83, tmp86)
+											tmp60 = tmp89
 										} // end let
-										tmp56 = tmp61
+										tmp55 = tmp60
 									}
-									tmp52 = tmp56
+									tmp51 = tmp55
 								} // end let
-								tmp48 = tmp52
+								tmp47 = tmp51
 							}
-							tmp13 = tmp48
+							tmp12 = tmp47
 						} // end let
-						tmp10 = tmp13
+						tmp10 = tmp12
 					}
 					tmp3 = tmp10
 				} // end let
@@ -577,9 +598,9 @@ func LoadNS() {
 		)
 		aotDirectFn3 = tmp1
 		var_babashka_DOT_process_sh = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_sh.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_sh.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(26), kw_column, int(7), kw_end_DASH_line, int(26), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_all_DASH_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 	// shell
 	{
@@ -622,9 +643,9 @@ func LoadNS() {
 		)
 		aotDirectFn4 = tmp1
 		var_babashka_DOT_process_shell = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_shell.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_shell.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(57), kw_column, int(7), kw_end_DASH_line, int(57), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_all_DASH_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 	// split-opts
 	{
@@ -635,24 +656,23 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			tmp4 := lang.First(v2)
-			tmp5 := aotExternalFn15(tmp4)
-			if lang.IsTruthy(tmp5) {
+			tmp5 := lang.IsMap(tmp4)
+			if tmp5 {
 				tmp6 := lang.First(v2)
 				tmp7 := aotExternalFn9(v2)
 				tmp8 := lang.NewVector(tmp6, tmp7)
 				tmp3 = tmp8
 			} else {
-				tmp9 := lang.NewMap()
-				tmp10 := lang.NewVector(tmp9, v2)
-				tmp3 = tmp10
+				tmp9 := lang.NewVector(closed2, v2)
+				tmp3 = tmp9
 			}
 			return tmp3
 		})
 		aotDirectFn5 = tmp1
 		var_babashka_DOT_process_split_DASH_opts = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_split_DASH_opts.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_split_DASH_opts.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "babashka/process.clj", kw_line, int(21), kw_column, int(8), kw_end_DASH_line, int(21), kw_end_DASH_column, int(17), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 	// exec
 	{
@@ -675,9 +695,9 @@ func LoadNS() {
 		)
 		aotDirectFn1 = tmp1
 		var_babashka_DOT_process_exec = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_exec.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_exec.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(64), kw_column, int(7), kw_end_DASH_line, int(64), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 	// process
 	{
@@ -700,8 +720,8 @@ func LoadNS() {
 		)
 		aotDirectFn2 = tmp1
 		var_babashka_DOT_process_process = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_process_process.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_process_process.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(63), kw_column, int(7), kw_end_DASH_line, int(63), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
-		})
+		}, false)
 	}
 }

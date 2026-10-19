@@ -10,7 +10,7 @@ import (
 	http5 "net/http"
 	reflect "reflect"
 	strings4 "strings"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -37,24 +37,47 @@ var aotDirectFn7Arity1 lang.FnFunc1
 var aotDirectFn7Arity2 lang.FnFunc2
 var aotDirectFn8 lang.FnFunc3
 
+var aotKeywordSite0 lang.KeywordSite
+var aotKeywordMapShape0 = lang.NewKeywordMapShape("status", "body")
+
+type aotKeywordMapStorage0 struct {
+	lang.Map
+	values [2]any
+}
+
+func aotKeywordMapNew0(v0 any, v1 any) lang.IPersistentMap {
+	storage := &aotKeywordMapStorage0{}
+	storage.values = [2]any{v0, v1}
+	return lang.InitStaticKeywordMap(
+		&storage.Map,
+		aotKeywordMapShape0,
+		storage.values[:],
+	)
+}
+
+var aotKeywordSite1 lang.KeywordSite
+
 func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -67,20 +90,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -93,20 +119,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -153,7 +182,6 @@ func LoadNS() {
 	sym_head := lang.NewSymbolUnchecked("head")
 	sym_method := lang.NewSymbolUnchecked("method")
 	sym_name := lang.NewSymbolUnchecked("name")
-	sym_not := lang.NewSymbolUnchecked("not")
 	sym_options := lang.NewSymbolUnchecked("options")
 	sym_opts := lang.NewSymbolUnchecked("opts")
 	sym_patch := lang.NewSymbolUnchecked("patch")
@@ -173,7 +201,6 @@ func LoadNS() {
 	kw_line := lang.NewKeyword("line")
 	kw_ns := lang.NewKeyword("ns")
 	kw_private := lang.NewKeyword("private")
-	kw_status := lang.NewKeyword("status")
 	// var babashka.http-client/bytes-to-str
 	var_babashka_DOT_http_DASH_client_bytes_DASH_to_DASH_str := lang.InternVarName(sym_babashka_DOT_http_DASH_client, sym_bytes_DASH_to_DASH_str)
 	// var babashka.http-client/delete
@@ -200,11 +227,8 @@ func LoadNS() {
 	var_clojure_DOT_core_chunked_DASH_seq_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_chunked_DASH_seq_QMARK_)
 	// var clojure.core/name
 	var_clojure_DOT_core_name := lang.InternVarName(sym_clojure_DOT_core, sym_name)
-	// var clojure.core/not
-	var_clojure_DOT_core_not := lang.InternVarName(sym_clojure_DOT_core, sym_not)
 	// var clojure.core/str
 	var_clojure_DOT_core_str := lang.InternVarName(sym_clojure_DOT_core, sym_str)
-	aotExternalFn1 := aotLinkFn1(var_clojure_DOT_core_not)
 	aotExternalFn2 := aotLinkFn2(var_clojure_DOT_core_str)
 	aotExternalFn4 := aotLinkFn1(var_clojure_DOT_core_name)
 	aotExternalFn5 := aotLinkFn1(var_clojure_DOT_core_str)
@@ -295,6 +319,10 @@ func LoadNS() {
 		})
 	}
 	ns.AddAlias(sym_str, lang.FindOrCreateNamespace(sym_clojure_DOT_string))
+	var closed0 any
+	{
+		closed0 = lang.NewMap()
+	}
 	// bytes-to-str
 	{
 		tmp0 := sym_bytes_DASH_to_DASH_str
@@ -308,9 +336,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_babashka_DOT_http_DASH_client_bytes_DASH_to_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_bytes_DASH_to_DASH_str.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_bytes_DASH_to_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "babashka/http_client.clj", kw_line, int(14), kw_column, int(8), kw_end_DASH_line, int(14), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// delete
 	{
@@ -319,9 +347,8 @@ func LoadNS() {
 		aotDirectFn1Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn1Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn1Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn1Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -342,9 +369,9 @@ func LoadNS() {
 		)
 		aotDirectFn1 = tmp1
 		var_babashka_DOT_http_DASH_client_delete = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_delete.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_delete.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(44), kw_column, int(7), kw_end_DASH_line, int(44), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// get
 	{
@@ -353,9 +380,8 @@ func LoadNS() {
 		aotDirectFn2Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn2Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn2Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn2Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -376,9 +402,9 @@ func LoadNS() {
 		)
 		aotDirectFn2 = tmp1
 		var_babashka_DOT_http_DASH_client_get = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_get.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_get.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "babashka/http_client.clj", kw_line, int(51), kw_column, int(7), kw_end_DASH_line, int(51), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_doc, "HTTP GET request\n   url: string\n   opts (optional): {:headers {\"Key\" \"Value\"}}\n   returns: {:status N :body \"...\"}", kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// head
 	{
@@ -387,9 +413,8 @@ func LoadNS() {
 		aotDirectFn3Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn3Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn3Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn3Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -410,9 +435,9 @@ func LoadNS() {
 		)
 		aotDirectFn3 = tmp1
 		var_babashka_DOT_http_DASH_client_head = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_head.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_head.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(45), kw_column, int(7), kw_end_DASH_line, int(45), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// options
 	{
@@ -421,9 +446,8 @@ func LoadNS() {
 		aotDirectFn4Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn4Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn4Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn4Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -444,9 +468,9 @@ func LoadNS() {
 		)
 		aotDirectFn4 = tmp1
 		var_babashka_DOT_http_DASH_client_options = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_options.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_options.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(46), kw_column, int(7), kw_end_DASH_line, int(46), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// patch
 	{
@@ -455,9 +479,8 @@ func LoadNS() {
 		aotDirectFn5Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn5Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn5Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn5Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -478,9 +501,9 @@ func LoadNS() {
 		)
 		aotDirectFn5 = tmp1
 		var_babashka_DOT_http_DASH_client_patch = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_patch.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_patch.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(47), kw_column, int(7), kw_end_DASH_line, int(47), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// post
 	{
@@ -489,9 +512,8 @@ func LoadNS() {
 		aotDirectFn6Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn6Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn6Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn6Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -512,9 +534,9 @@ func LoadNS() {
 		)
 		aotDirectFn6 = tmp1
 		var_babashka_DOT_http_DASH_client_post = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_post.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_post.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(48), kw_column, int(7), kw_end_DASH_line, int(48), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// put
 	{
@@ -523,9 +545,8 @@ func LoadNS() {
 		aotDirectFn7Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := lang.NewMap()
-			tmp4 := aotDirectFn7Arity2(v2, tmp3)
-			return tmp4
+			tmp3 := aotDirectFn7Arity2(v2, closed0)
+			return tmp3
 		})
 		aotDirectFn7Arity2 = lang.FnFunc2(func(p0, p1 any) any {
 			v2 := p0
@@ -546,9 +567,9 @@ func LoadNS() {
 		)
 		aotDirectFn7 = tmp1
 		var_babashka_DOT_http_DASH_client_put = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_put.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_put.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(49), kw_column, int(7), kw_end_DASH_line, int(49), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 	// request
 	{
@@ -567,7 +588,7 @@ func LoadNS() {
 				var tmp6 any
 				{ // let
 					// let binding "or__0__auto__"
-					tmp7 := kw_body.Invoke1(v4)
+					tmp7 := aotKeywordSite0.Get(kw_body, v4, nil)
 					var v8 any = tmp7
 					_ = v8
 					var tmp9 any
@@ -598,8 +619,8 @@ func LoadNS() {
 				_ = v15
 				var tmp16 any
 				tmp17 := lang.Identical(v15, nil)
-				tmp18 := aotExternalFn1(tmp17)
-				if lang.IsTruthy(tmp18) {
+				tmp18 := !lang.IsTruthy(tmp17)
+				if tmp18 {
 					tmp19, ok := lang.FieldOrMethod(v15, "Error")
 					if !ok {
 						panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v15, "Error")))
@@ -612,13 +633,13 @@ func LoadNS() {
 						tmp20 = tmp19
 					}
 					tmp21 := aotExternalFn2("Failed to create request: ", tmp20)
-					tmp22 := lang.NewMap(kw_status, int64(500), kw_body, tmp21)
+					tmp22 := aotKeywordMapNew0(int64(500), tmp21)
 					tmp16 = tmp22
 				} else {
 					var tmp23 any
 					{ // let
 						// let binding "seq_4"
-						tmp24 := kw_headers.Invoke1(v4)
+						tmp24 := aotKeywordSite1.Get(kw_headers, v4, nil)
 						tmp25 := lang.Seq(tmp24)
 						var v26 any = tmp25
 						_ = v26
@@ -802,8 +823,8 @@ func LoadNS() {
 						_ = v32
 						var tmp33 any
 						tmp34 := lang.Identical(v32, nil)
-						tmp35 := aotExternalFn1(tmp34)
-						if lang.IsTruthy(tmp35) {
+						tmp35 := !lang.IsTruthy(tmp34)
+						if tmp35 {
 							tmp36, ok := lang.FieldOrMethod(v32, "Error")
 							if !ok {
 								panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v32, "Error")))
@@ -816,7 +837,7 @@ func LoadNS() {
 								tmp37 = tmp36
 							}
 							tmp38 := aotExternalFn2("Request failed: ", tmp37)
-							tmp39 := lang.NewMap(kw_status, int64(500), kw_body, tmp38)
+							tmp39 := aotKeywordMapNew0(int64(500), tmp38)
 							tmp33 = tmp39
 						} else {
 							var tmp40 any
@@ -898,7 +919,7 @@ func LoadNS() {
 									tmp60 := aotExternalFn2("Failed to read response: ", tmp59)
 									tmp55 = tmp60
 								}
-								tmp61 := lang.NewMap(kw_status, tmp54, kw_body, tmp55)
+								tmp61 := aotKeywordMapNew0(tmp54, tmp55)
 								tmp40 = tmp61
 							} // end let
 							tmp33 = tmp40
@@ -913,8 +934,8 @@ func LoadNS() {
 		})
 		aotDirectFn8 = tmp1
 		var_babashka_DOT_http_DASH_client_request = ns.InternWithValue(tmp0, tmp1, true)
-		var_babashka_DOT_http_DASH_client_request.SetMetaLazy(func() lang.IPersistentMap {
+		var_babashka_DOT_http_DASH_client_request.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "babashka/http_client.clj", kw_line, int(22), kw_column, int(8), kw_end_DASH_line, int(22), kw_end_DASH_column, int(14), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_method, sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
-		})
+		}, false)
 	}
 }

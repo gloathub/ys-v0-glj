@@ -8,7 +8,7 @@ import (
 	lang "github.com/glojurelang/glojure/pkg/lang"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -23,20 +23,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -220,9 +223,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_csv_read = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_read.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_read.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(34), kw_column, int(7), kw_end_DASH_line, int(34), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_s)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// read-csv
 	{
@@ -238,9 +241,9 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_csv_read_DASH_csv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_read_DASH_csv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_read_DASH_csv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(15), kw_column, int(7), kw_end_DASH_line, int(15), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_s)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// read-tsv
 	{
@@ -256,9 +259,9 @@ func LoadNS() {
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_csv_read_DASH_tsv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_read_DASH_tsv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_read_DASH_tsv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(19), kw_column, int(7), kw_end_DASH_line, int(19), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_s)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// write
 	{
@@ -272,9 +275,9 @@ func LoadNS() {
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_csv_write = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_write.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_write.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(37), kw_column, int(7), kw_end_DASH_line, int(37), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_data)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// write-csv
 	{
@@ -289,9 +292,9 @@ func LoadNS() {
 		})
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_csv_write_DASH_csv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_write_DASH_csv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_write_DASH_csv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(28), kw_column, int(7), kw_end_DASH_line, int(28), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_data)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// write-str
 	{
@@ -339,9 +342,9 @@ func LoadNS() {
 		})
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_csv_write_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_write_DASH_str.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_write_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/csv.clj", kw_line, int(23), kw_column, int(8), kw_end_DASH_line, int(23), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_write_DASH_fn, sym_data, sym_sep)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 	// write-tsv
 	{
@@ -356,8 +359,8 @@ func LoadNS() {
 		})
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_csv_write_DASH_tsv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_csv_write_DASH_tsv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_csv_write_DASH_tsv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/csv.clj", kw_line, int(31), kw_column, int(7), kw_end_DASH_line, int(31), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_data)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_csv))
-		})
+		}, false)
 	}
 }

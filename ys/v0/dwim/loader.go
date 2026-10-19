@@ -7,7 +7,7 @@ import (
 	lang "github.com/glojurelang/glojure/pkg/lang"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc2
@@ -64,20 +64,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -90,20 +93,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -116,20 +122,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -142,20 +151,23 @@ func aotLinkFn4(vr *lang.Var) lang.FnFunc4 {
 	if vr.IsBound() {
 		return aotLinkBoundFn4(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc4
+	var linked atomic.Pointer[lang.FnFunc4]
 	return func(p0 any, p1 any, p2 any, p3 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2, p3)
+		}
 		if !vr.IsBound() {
 			return lang.Apply4(checkDerefVar(vr), p0, p1, p2, p3)
 		}
-		once.Do(func() { linked = aotLinkBoundFn4(vr) })
-		return linked(p0, p1, p2, p3)
+		fn := aotLinkBoundFn4(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2, p3)
 	}
 }
 
 func aotLinkBoundFn4(vr *lang.Var) lang.FnFunc4 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc4); ok {
+	if direct, ok := lang.DirectFn4(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn4); ok {
@@ -168,14 +180,17 @@ func aotLinkFn5(vr *lang.Var) lang.FnFunc5 {
 	if vr.IsBound() {
 		return aotLinkBoundFn5(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc5
+	var linked atomic.Pointer[lang.FnFunc5]
 	return func(p0 any, p1 any, p2 any, p3 any, p4 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2, p3, p4)
+		}
 		if !vr.IsBound() {
 			return lang.Apply5(checkDerefVar(vr), p0, p1, p2, p3, p4)
 		}
-		once.Do(func() { linked = aotLinkBoundFn5(vr) })
-		return linked(p0, p1, p2, p3, p4)
+		fn := aotLinkBoundFn5(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2, p3, p4)
 	}
 }
 
@@ -292,7 +307,6 @@ func LoadNS() {
 	sym_keep := lang.NewSymbolUnchecked("keep")
 	sym_list := lang.NewSymbolUnchecked("list")
 	sym_map := lang.NewSymbolUnchecked("map")
-	sym_map_QMARK_ := lang.NewSymbolUnchecked("map?")
 	sym_mapcat := lang.NewSymbolUnchecked("mapcat")
 	sym_mapv := lang.NewSymbolUnchecked("mapv")
 	sym_name := lang.NewSymbolUnchecked("name")
@@ -318,7 +332,6 @@ func LoadNS() {
 	sym_split_DASH_at := lang.NewSymbolUnchecked("split-at")
 	sym_split_DASH_with := lang.NewSymbolUnchecked("split-with")
 	sym_str := lang.NewSymbolUnchecked("str")
-	sym_string_QMARK_ := lang.NewSymbolUnchecked("string?")
 	sym_symbol := lang.NewSymbolUnchecked("symbol")
 	sym_take := lang.NewSymbolUnchecked("take")
 	sym_take_DASH_last := lang.NewSymbolUnchecked("take-last")
@@ -375,8 +388,6 @@ func LoadNS() {
 	var_clojure_DOT_core_list := lang.InternVarName(sym_clojure_DOT_core, sym_list)
 	// var clojure.core/map
 	var_clojure_DOT_core_map := lang.InternVarName(sym_clojure_DOT_core, sym_map)
-	// var clojure.core/map?
-	var_clojure_DOT_core_map_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_map_QMARK_)
 	// var clojure.core/mapcat
 	var_clojure_DOT_core_mapcat := lang.InternVarName(sym_clojure_DOT_core, sym_mapcat)
 	// var clojure.core/mapv
@@ -417,8 +428,6 @@ func LoadNS() {
 	var_clojure_DOT_core_split_DASH_with := lang.InternVarName(sym_clojure_DOT_core, sym_split_DASH_with)
 	// var clojure.core/str
 	var_clojure_DOT_core_str := lang.InternVarName(sym_clojure_DOT_core, sym_str)
-	// var clojure.core/string?
-	var_clojure_DOT_core_string_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_string_QMARK_)
 	// var clojure.core/symbol
 	var_clojure_DOT_core_symbol := lang.InternVarName(sym_clojure_DOT_core, sym_symbol)
 	// var clojure.core/take
@@ -537,13 +546,11 @@ func LoadNS() {
 	aotExternalFn11 := aotLinkFn2(var_clojure_DOT_core_drop)
 	aotExternalFn12 := aotLinkFn2(var_clojure_DOT_core_drop_DASH_last)
 	aotExternalFn13 := aotLinkFn2(var_clojure_DOT_core_drop_DASH_while)
-	aotExternalFn14 := aotLinkFn1(var_clojure_DOT_core_map_QMARK_)
 	aotExternalFn15 := aotLinkFn2(var_clojure_DOT_string_escape)
 	aotExternalFn16 := aotLinkFn2(var_clojure_DOT_core_every_QMARK_)
 	aotExternalFn17 := aotLinkFn4(var_clojure_DOT_core_apply)
 	aotExternalFn18 := aotLinkFn2(var_clojure_DOT_core_interpose)
 	aotExternalFn19 := aotLinkFn2(var_clojure_DOT_core_mapcat)
-	aotExternalFn2 := aotLinkFn1(var_clojure_DOT_core_string_QMARK_)
 	aotExternalFn20 := aotLinkFn2(var_clojure_DOT_core_not_DASH_any_QMARK_)
 	aotExternalFn21 := aotLinkFn2(var_clojure_DOT_core_concat)
 	aotExternalFn22 := aotLinkFn3(var_clojure_DOT_core_apply)
@@ -702,7 +709,7 @@ func LoadNS() {
 						if lang.IsTruthy(v11) {
 							tmp12 = v11
 						} else {
-							tmp13 := aotExternalFn2(v2)
+							tmp13 := lang.IsString(v2)
 							tmp12 = tmp13
 						}
 						tmp9 = tmp12
@@ -724,9 +731,9 @@ func LoadNS() {
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_map = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_map.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_map.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(24), kw_column, int(7), kw_end_DASH_line, int(24), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++mapv
 	{
@@ -756,7 +763,7 @@ func LoadNS() {
 						if lang.IsTruthy(v11) {
 							tmp12 = v11
 						} else {
-							tmp13 := aotExternalFn2(v2)
+							tmp13 := lang.IsString(v2)
 							tmp12 = tmp13
 						}
 						tmp9 = tmp12
@@ -778,9 +785,9 @@ func LoadNS() {
 		})
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_mapv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_mapv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_mapv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(29), kw_column, int(7), kw_end_DASH_line, int(29), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++replace
 	{
@@ -815,9 +822,9 @@ func LoadNS() {
 		)
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_replace = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_replace.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_replace.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(36), kw_column, int(7), kw_end_DASH_line, int(36), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b), lang.NewVector(sym_a, sym_b, sym_c)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +apply
 	{
@@ -841,9 +848,9 @@ func LoadNS() {
 		})
 		aotDirectFn8 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_apply = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_apply.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_apply.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +chop
 	{
@@ -867,9 +874,9 @@ func LoadNS() {
 		})
 		aotDirectFn9 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_chop = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_chop.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_chop.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +cons
 	{
@@ -893,9 +900,9 @@ func LoadNS() {
 		})
 		aotDirectFn10 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_cons = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_cons.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_cons.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +contains?
 	{
@@ -919,9 +926,9 @@ func LoadNS() {
 		})
 		aotDirectFn11 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_contains_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_contains_QMARK_.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_contains_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +drop
 	{
@@ -945,9 +952,9 @@ func LoadNS() {
 		})
 		aotDirectFn12 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_drop = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_drop.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_drop.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +drop-last
 	{
@@ -971,9 +978,9 @@ func LoadNS() {
 		})
 		aotDirectFn13 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_last = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_last.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_last.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +drop-while
 	{
@@ -997,9 +1004,9 @@ func LoadNS() {
 		})
 		aotDirectFn14 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_while = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_while.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_drop_DASH_while.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +escape
 	{
@@ -1011,8 +1018,8 @@ func LoadNS() {
 			v3 := p1
 			_ = v3
 			var tmp4 any
-			tmp5 := aotExternalFn14(v2)
-			if lang.IsTruthy(tmp5) {
+			tmp5 := lang.IsMap(v2)
+			if tmp5 {
 				tmp6 := aotExternalFn15(v3, v2)
 				tmp4 = tmp6
 			} else {
@@ -1023,9 +1030,9 @@ func LoadNS() {
 		})
 		aotDirectFn15 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_escape = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_escape.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_escape.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +every?
 	{
@@ -1049,9 +1056,9 @@ func LoadNS() {
 		})
 		aotDirectFn16 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_every_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_every_QMARK_.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_every_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +filter
 	{
@@ -1075,9 +1082,9 @@ func LoadNS() {
 		})
 		aotDirectFn17 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_filter = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_filter.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_filter.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +filterv
 	{
@@ -1101,9 +1108,9 @@ func LoadNS() {
 		})
 		aotDirectFn18 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_filterv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_filterv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_filterv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +interpose
 	{
@@ -1127,9 +1134,9 @@ func LoadNS() {
 		})
 		aotDirectFn20 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_interpose = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_interpose.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_interpose.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +keep
 	{
@@ -1153,9 +1160,9 @@ func LoadNS() {
 		})
 		aotDirectFn21 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_keep = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_keep.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_keep.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +map
 	{
@@ -1179,9 +1186,9 @@ func LoadNS() {
 		})
 		aotDirectFn22 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_map = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_map.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_map.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +mapcat
 	{
@@ -1205,9 +1212,9 @@ func LoadNS() {
 		})
 		aotDirectFn23 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_mapcat = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_mapcat.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_mapcat.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +mapv
 	{
@@ -1231,9 +1238,9 @@ func LoadNS() {
 		})
 		aotDirectFn24 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_mapv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_mapv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_mapv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +not-any?
 	{
@@ -1257,9 +1264,9 @@ func LoadNS() {
 		})
 		aotDirectFn25 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_not_DASH_any_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_not_DASH_any_QMARK_.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_not_DASH_any_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +nth
 	{
@@ -1283,9 +1290,9 @@ func LoadNS() {
 		})
 		aotDirectFn26 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_nth = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_nth.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_nth.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +random-sample
 	{
@@ -1309,9 +1316,9 @@ func LoadNS() {
 		})
 		aotDirectFn28 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_random_DASH_sample = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_random_DASH_sample.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_random_DASH_sample.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +re-find
 	{
@@ -1335,9 +1342,9 @@ func LoadNS() {
 		})
 		aotDirectFn29 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_find = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_find.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_find.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +re-matches
 	{
@@ -1361,9 +1368,9 @@ func LoadNS() {
 		})
 		aotDirectFn30 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_matches = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_matches.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_matches.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +re-seq
 	{
@@ -1387,9 +1394,9 @@ func LoadNS() {
 		})
 		aotDirectFn31 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_seq = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_seq.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_re_DASH_seq.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +remove
 	{
@@ -1413,9 +1420,9 @@ func LoadNS() {
 		})
 		aotDirectFn33 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_remove = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_remove.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_remove.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +repeat
 	{
@@ -1439,9 +1446,9 @@ func LoadNS() {
 		})
 		aotDirectFn34 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_repeat = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_repeat.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_repeat.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +replace
 	{
@@ -1492,9 +1499,9 @@ func LoadNS() {
 		)
 		aotDirectFn35 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_replace = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_replace.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_replace.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__), lang.NewVector(sym_x__0__auto__, sym_y__1__auto__, sym_z__2__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +some
 	{
@@ -1518,9 +1525,9 @@ func LoadNS() {
 		})
 		aotDirectFn36 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_some = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_some.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_some.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +sort
 	{
@@ -1544,9 +1551,9 @@ func LoadNS() {
 		})
 		aotDirectFn37 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_sort = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_sort.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_sort.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +sort-by
 	{
@@ -1570,9 +1577,9 @@ func LoadNS() {
 		})
 		aotDirectFn38 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_sort_DASH_by = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_sort_DASH_by.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_sort_DASH_by.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +split-at
 	{
@@ -1596,9 +1603,9 @@ func LoadNS() {
 		})
 		aotDirectFn39 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_at = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_at.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_at.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +split-with
 	{
@@ -1622,9 +1629,9 @@ func LoadNS() {
 		})
 		aotDirectFn40 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_with = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_with.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_split_DASH_with.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +take
 	{
@@ -1648,9 +1655,9 @@ func LoadNS() {
 		})
 		aotDirectFn41 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_take = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_take.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_take.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +take-last
 	{
@@ -1674,9 +1681,9 @@ func LoadNS() {
 		})
 		aotDirectFn42 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_last = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_last.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_last.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +take-while
 	{
@@ -1700,9 +1707,9 @@ func LoadNS() {
 		})
 		aotDirectFn43 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_while = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_while.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_take_DASH_while.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// regex-to-fn
 	{
@@ -1741,9 +1748,9 @@ func LoadNS() {
 		})
 		aotDirectFn44 = tmp1
 		var_ys_DOT_v0_DOT_dwim_regex_DASH_to_DASH_fn = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim_regex_DASH_to_DASH_fn.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim_regex_DASH_to_DASH_fn.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/dwim.clj", kw_line, int(12), kw_column, int(8), kw_end_DASH_line, int(12), kw_end_DASH_column, int(18), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b, sym_f)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++filter
 	{
@@ -1760,9 +1767,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filter = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filter.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filter.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(18), kw_column, int(7), kw_end_DASH_line, int(18), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++filterv
 	{
@@ -1779,9 +1786,9 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filterv = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filterv.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_filterv.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(20), kw_column, int(7), kw_end_DASH_line, int(20), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++keep
 	{
@@ -1798,9 +1805,9 @@ func LoadNS() {
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_keep = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_keep.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_keep.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(22), kw_column, int(7), kw_end_DASH_line, int(22), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++remove
 	{
@@ -1817,9 +1824,9 @@ func LoadNS() {
 		})
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_remove = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_remove.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_remove.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(34), kw_column, int(7), kw_end_DASH_line, int(34), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// ++take-while
 	{
@@ -1836,9 +1843,9 @@ func LoadNS() {
 		})
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_take_DASH_while = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_take_DASH_while.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS__PLUS_take_DASH_while.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/dwim.clj", kw_line, int(40), kw_column, int(7), kw_end_DASH_line, int(40), kw_end_DASH_column, int(18), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +format
 	{
@@ -1858,8 +1865,8 @@ func LoadNS() {
 				var v4 any = rest
 				_ = v4
 				var tmp5 any
-				tmp6 := aotExternalFn2(v3)
-				if lang.IsTruthy(tmp6) {
+				tmp6 := lang.IsString(v3)
+				if tmp6 {
 					tmp7 := checkDerefVar(var_clojure_DOT_core_format)
 					tmp8 := aotExternalFn17(tmp7, v3, v2, v4)
 					tmp5 = tmp8
@@ -1874,9 +1881,9 @@ func LoadNS() {
 		)
 		aotDirectFn19 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_format = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_format.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_format.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym_y__1__auto__, sym__AMP_, sym_xs__2__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +partition
 	{
@@ -1912,9 +1919,9 @@ func LoadNS() {
 		)
 		aotDirectFn27 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_partition = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_partition.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_partition.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym__AMP_, sym_xs__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// +reduce
 	{
@@ -1950,9 +1957,9 @@ func LoadNS() {
 		)
 		aotDirectFn32 = tmp1
 		var_ys_DOT_v0_DOT_dwim__PLUS_reduce = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim__PLUS_reduce.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim__PLUS_reduce.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_arglists, lang.NewList(lang.NewVector(sym_x__0__auto__, sym__AMP_, sym_xs__1__auto__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim))
-		})
+		}, false)
 	}
 	// dwim
 	{
@@ -2381,8 +2388,8 @@ func LoadNS() {
 			return tmp7
 		})
 		var_ys_DOT_v0_DOT_dwim_dwim = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_dwim_dwim.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_dwim_dwim.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/dwim.clj", kw_line, int(44), kw_column, int(11), kw_end_DASH_line, int(44), kw_end_DASH_column, int(24), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_type, sym_idfn, sym_name)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_dwim), kw_macro, true)
-		})
+		}, true)
 	}
 }

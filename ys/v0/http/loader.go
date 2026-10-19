@@ -7,7 +7,7 @@ import (
 	lang "github.com/glojurelang/glojure/pkg/lang"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -19,24 +19,29 @@ var aotDirectFn5 lang.ArityFn
 var aotDirectFn6 lang.ArityFn
 var aotDirectFn7 lang.ArityFn
 
+var aotKeywordSite0 lang.KeywordSite
+
 func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -49,20 +54,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -260,9 +268,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_http_backend = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_backend.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_backend.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/http.clj", kw_line, int(13), kw_column, int(8), kw_end_DASH_line, int(13), kw_end_DASH_column, int(14), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_name)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// curl
 	{
@@ -284,7 +292,7 @@ func LoadNS() {
 				var tmp8 any
 				{ // let
 					// let binding "temp__0__auto__"
-					tmp9 := kw_body.Invoke1(v7)
+					tmp9 := aotKeywordSite0.Get(kw_body, v7, nil)
 					var v10 any = tmp9
 					_ = v10
 					var tmp11 any
@@ -310,9 +318,9 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_http_curl = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_curl.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_curl.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(23), kw_column, int(7), kw_end_DASH_line, int(23), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// delete
 	{
@@ -335,9 +343,9 @@ func LoadNS() {
 		)
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_http_delete = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_delete.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_delete.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(16), kw_column, int(7), kw_end_DASH_line, int(16), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// get
 	{
@@ -360,9 +368,9 @@ func LoadNS() {
 		)
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_http_get = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_get.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_get.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(17), kw_column, int(7), kw_end_DASH_line, int(17), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// head
 	{
@@ -385,9 +393,9 @@ func LoadNS() {
 		)
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_http_head = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_head.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_head.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(18), kw_column, int(7), kw_end_DASH_line, int(18), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// patch
 	{
@@ -410,9 +418,9 @@ func LoadNS() {
 		)
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_http_patch = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_patch.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_patch.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(19), kw_column, int(7), kw_end_DASH_line, int(19), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// post
 	{
@@ -435,9 +443,9 @@ func LoadNS() {
 		)
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_http_post = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_post.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_post.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(20), kw_column, int(7), kw_end_DASH_line, int(20), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 	// put
 	{
@@ -460,8 +468,8 @@ func LoadNS() {
 		)
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_http_put = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_http_put.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_http_put.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/http.clj", kw_line, int(21), kw_column, int(7), kw_end_DASH_line, int(21), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_http))
-		})
+		}, false)
 	}
 }

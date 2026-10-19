@@ -7,7 +7,7 @@ import (
 	lang "github.com/glojurelang/glojure/pkg/lang"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc3
@@ -23,18 +23,50 @@ var aotDirectFn7 lang.FnFunc2
 var aotDirectFn8 lang.FnFunc1
 var aotDirectFn9 lang.ArityFn
 
+var aotKeywordSite0 lang.KeywordSite
+var aotKeywordSite1 lang.KeywordSite
+var aotKeywordSite2 lang.KeywordSite
+var aotKeywordSite3 lang.KeywordSite
+var aotKeywordSite4 lang.KeywordSite
+var aotKeywordSite5 lang.KeywordSite
+var aotKeywordMapShape0 = lang.NewKeywordMapShape("length", "level", "miser-width", "pretty", "right-margin", "stream", "suppress-namespaces")
+
+type aotKeywordMapStorage0 struct {
+	lang.Map
+	values [7]any
+}
+
+func aotKeywordMapNew0(v0 any, v1 any, v2 any, v3 any, v4 any, v5 any, v6 any) lang.IPersistentMap {
+	storage := &aotKeywordMapStorage0{}
+	storage.values = [7]any{v0, v1, v2, v3, v4, v5, v6}
+	return lang.InitStaticKeywordMap(
+		&storage.Map,
+		aotKeywordMapShape0,
+		storage.values[:],
+	)
+}
+
+var aotKeywordSite6 lang.KeywordSite
+var aotKeywordSite7 lang.KeywordSite
+var aotKeywordSite8 lang.KeywordSite
+var aotKeywordSite9 lang.KeywordSite
+var aotKeywordSite10 lang.KeywordSite
+
 func aotLinkFn0(vr *lang.Var) lang.FnFunc0 {
 	if vr.IsBound() {
 		return aotLinkBoundFn0(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc0
+	var linked atomic.Pointer[lang.FnFunc0]
 	return func() any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)()
+		}
 		if !vr.IsBound() {
 			return lang.Apply0(checkDerefVar(vr))
 		}
-		once.Do(func() { linked = aotLinkBoundFn0(vr) })
-		return linked()
+		fn := aotLinkBoundFn0(vr)
+		linked.Store(&fn)
+		return fn()
 	}
 }
 
@@ -53,20 +85,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -79,20 +114,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -105,20 +143,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -131,20 +172,23 @@ func aotLinkFn4(vr *lang.Var) lang.FnFunc4 {
 	if vr.IsBound() {
 		return aotLinkBoundFn4(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc4
+	var linked atomic.Pointer[lang.FnFunc4]
 	return func(p0 any, p1 any, p2 any, p3 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2, p3)
+		}
 		if !vr.IsBound() {
 			return lang.Apply4(checkDerefVar(vr), p0, p1, p2, p3)
 		}
-		once.Do(func() { linked = aotLinkBoundFn4(vr) })
-		return linked(p0, p1, p2, p3)
+		fn := aotLinkBoundFn4(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2, p3)
 	}
 }
 
 func aotLinkBoundFn4(vr *lang.Var) lang.FnFunc4 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc4); ok {
+	if direct, ok := lang.DirectFn4(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn4); ok {
@@ -183,7 +227,6 @@ func LoadNS() {
 	sym__STAR_out_STAR_ := lang.NewSymbolUnchecked("*out*")
 	sym__STAR_right_DASH_margin_STAR_ := lang.NewSymbolUnchecked("*right-margin*")
 	sym__DOT__DOT__DOT_ := lang.NewSymbolUnchecked("...")
-	sym__EQ_ := lang.NewSymbolUnchecked("=")
 	sym_apply := lang.NewSymbolUnchecked("apply")
 	sym_args := lang.NewSymbolUnchecked("args")
 	sym_clojure_DOT_core := lang.NewSymbolUnchecked("clojure.core")
@@ -202,13 +245,11 @@ func LoadNS() {
 	sym_length := lang.NewSymbolUnchecked("length")
 	sym_limited_DASH_items := lang.NewSymbolUnchecked("limited-items")
 	sym_map := lang.NewSymbolUnchecked("map")
-	sym_map_QMARK_ := lang.NewSymbolUnchecked("map?")
 	sym_mapv := lang.NewSymbolUnchecked("mapv")
 	sym_merge := lang.NewSymbolUnchecked("merge")
 	sym_n := lang.NewSymbolUnchecked("n")
 	sym_name := lang.NewSymbolUnchecked("name")
 	sym_namespace := lang.NewSymbolUnchecked("namespace")
-	sym_not := lang.NewSymbolUnchecked("not")
 	sym_odd_QMARK_ := lang.NewSymbolUnchecked("odd?")
 	sym_open := lang.NewSymbolUnchecked("open")
 	sym_option_DASH_names := lang.NewSymbolUnchecked("option-names")
@@ -236,7 +277,6 @@ func LoadNS() {
 	sym_take := lang.NewSymbolUnchecked("take")
 	sym_value := lang.NewSymbolUnchecked("value")
 	sym_vec := lang.NewSymbolUnchecked("vec")
-	sym_vector_QMARK_ := lang.NewSymbolUnchecked("vector?")
 	sym_write := lang.NewSymbolUnchecked("write")
 	sym_writer := lang.NewSymbolUnchecked("writer")
 	sym_ys_DOT_v0_DOT_global := lang.NewSymbolUnchecked("ys.v0.global")
@@ -257,8 +297,6 @@ func LoadNS() {
 	kw_right_DASH_margin := lang.NewKeyword("right-margin")
 	kw_stream := lang.NewKeyword("stream")
 	kw_suppress_DASH_namespaces := lang.NewKeyword("suppress-namespaces")
-	// var clojure.core/=
-	var_clojure_DOT_core__EQ_ := lang.InternVarName(sym_clojure_DOT_core, sym__EQ_)
 	// var clojure.core/*out*
 	var_clojure_DOT_core__STAR_out_STAR_ := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_out_STAR_)
 	// var clojure.core/apply
@@ -273,8 +311,6 @@ func LoadNS() {
 	var_clojure_DOT_core_keys := lang.InternVarName(sym_clojure_DOT_core, sym_keys)
 	// var clojure.core/map
 	var_clojure_DOT_core_map := lang.InternVarName(sym_clojure_DOT_core, sym_map)
-	// var clojure.core/map?
-	var_clojure_DOT_core_map_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_map_QMARK_)
 	// var clojure.core/mapv
 	var_clojure_DOT_core_mapv := lang.InternVarName(sym_clojure_DOT_core, sym_mapv)
 	// var clojure.core/merge
@@ -283,8 +319,6 @@ func LoadNS() {
 	var_clojure_DOT_core_name := lang.InternVarName(sym_clojure_DOT_core, sym_name)
 	// var clojure.core/namespace
 	var_clojure_DOT_core_namespace := lang.InternVarName(sym_clojure_DOT_core, sym_namespace)
-	// var clojure.core/not
-	var_clojure_DOT_core_not := lang.InternVarName(sym_clojure_DOT_core, sym_not)
 	// var clojure.core/odd?
 	var_clojure_DOT_core_odd_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_odd_QMARK_)
 	// var clojure.core/pop-thread-bindings
@@ -315,8 +349,6 @@ func LoadNS() {
 	var_clojure_DOT_core_take := lang.InternVarName(sym_clojure_DOT_core, sym_take)
 	// var clojure.core/vec
 	var_clojure_DOT_core_vec := lang.InternVarName(sym_clojure_DOT_core, sym_vec)
-	// var clojure.core/vector?
-	var_clojure_DOT_core_vector_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_vector_QMARK_)
 	// var clojure.string/join
 	var_clojure_DOT_string_join := lang.InternVarName(sym_clojure_DOT_string, sym_join)
 	// var ys.v0.global/current-output
@@ -347,7 +379,6 @@ func LoadNS() {
 	var_ys_DOT_v0_DOT_pprint_spaces := lang.InternVarName(sym_ys_DOT_v0_DOT_pprint, sym_spaces)
 	// var ys.v0.pprint/write
 	var_ys_DOT_v0_DOT_pprint_write := lang.InternVarName(sym_ys_DOT_v0_DOT_pprint, sym_write)
-	aotExternalFn0 := aotLinkFn1(var_clojure_DOT_core_map_QMARK_)
 	aotExternalFn10 := aotLinkFn1(var_clojure_DOT_core_seq_QMARK_)
 	aotExternalFn11 := aotLinkFn2(var_clojure_DOT_core_take)
 	aotExternalFn13 := aotLinkFn1(var_clojure_DOT_core_odd_QMARK_)
@@ -364,7 +395,6 @@ func LoadNS() {
 	aotExternalFn25 := aotLinkFn0(var_clojure_DOT_core_pop_DASH_thread_DASH_bindings)
 	aotExternalFn26 := aotLinkFn1(var_clojure_DOT_core_print)
 	aotExternalFn27 := aotLinkFn0(var_clojure_DOT_core_println)
-	aotExternalFn28 := aotLinkFn1(var_clojure_DOT_core_not)
 	aotExternalFn29 := aotLinkFn1(var_clojure_DOT_core_coll_QMARK_)
 	aotExternalFn3 := aotLinkFn3(var_clojure_DOT_core_str)
 	aotExternalFn31 := aotLinkFn4(var_clojure_DOT_core_str)
@@ -374,10 +404,8 @@ func LoadNS() {
 	aotExternalFn35 := aotLinkFn1(var_clojure_DOT_core_name)
 	aotExternalFn36 := aotLinkFn1(var_clojure_DOT_core_pr_DASH_str)
 	aotExternalFn37 := aotLinkFn2(var_clojure_DOT_core_repeat)
-	aotExternalFn38 := aotLinkFn2(var_clojure_DOT_core__EQ_)
 	aotExternalFn4 := aotLinkFn2(var_clojure_DOT_string_join)
 	aotExternalFn5 := aotLinkFn1(var_clojure_DOT_core_vec)
-	aotExternalFn7 := aotLinkFn1(var_clojure_DOT_core_vector_QMARK_)
 	aotExternalFn8 := aotLinkFn2(var_clojure_DOT_core_mapv)
 	aotExternalFn9 := aotLinkFn1(var_clojure_DOT_core_set_QMARK_)
 	// reference fmt to avoid unused import error
@@ -464,22 +492,26 @@ func LoadNS() {
 	}
 	ns.AddAlias(sym_str, lang.FindOrCreateNamespace(sym_clojure_DOT_string))
 	ns.AddAlias(sym_global, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_global))
+	var closed0 any
+	{
+		closed0 = lang.NewMap()
+	}
 	// *miser-width*
 	{
 		tmp0 := sym__STAR_miser_DASH_width_STAR_
 		var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_ = ns.InternWithValue(tmp0, int64(40), true)
-		var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/pprint.cljc", kw_line, int(12), kw_column, int(6), kw_end_DASH_line, int(12), kw_end_DASH_column, int(28), kw_dynamic, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 		var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_.SetDynamic()
 	}
 	// *right-margin*
 	{
 		tmp0 := sym__STAR_right_DASH_margin_STAR_
 		var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_ = ns.InternWithValue(tmp0, int64(72), true)
-		var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/pprint.cljc", kw_line, int(11), kw_column, int(6), kw_end_DASH_line, int(11), kw_end_DASH_column, int(29), kw_dynamic, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 		var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_.SetDynamic()
 	}
 	// flat-str
@@ -496,7 +528,7 @@ func LoadNS() {
 			var tmp5 any
 			{ // let
 				// let binding "level"
-				tmp6 := kw_level.Invoke1(v3)
+				tmp6 := aotKeywordSite0.Get(kw_level, v3, nil)
 				var v7 any = tmp6
 				_ = v7
 				var tmp8 any
@@ -518,12 +550,12 @@ func LoadNS() {
 					tmp8 = "#"
 				} else {
 					var tmp10 any
-					tmp11 := aotExternalFn0(v2)
-					if lang.IsTruthy(tmp11) {
+					tmp11 := lang.IsMap(v2)
+					if tmp11 {
 						var tmp12 any
 						{ // let
 							// let binding "vec__49"
-							tmp13 := kw_length.Invoke1(v3)
+							tmp13 := aotKeywordSite1.Get(kw_length, v3, nil)
 							tmp14 := aotDirectFn1(v2, tmp13)
 							var v15 any = tmp14
 							_ = v15
@@ -587,12 +619,12 @@ func LoadNS() {
 						tmp10 = tmp12
 					} else {
 						var tmp13 any
-						tmp14 := aotExternalFn7(v2)
-						if lang.IsTruthy(tmp14) {
+						tmp14 := lang.IsVector(v2)
+						if tmp14 {
 							var tmp15 any
 							{ // let
 								// let binding "vec__57"
-								tmp16 := kw_length.Invoke1(v3)
+								tmp16 := aotKeywordSite2.Get(kw_length, v3, nil)
 								tmp17 := aotDirectFn1(v2, tmp16)
 								var v18 any = tmp17
 								_ = v18
@@ -639,7 +671,7 @@ func LoadNS() {
 								var tmp18 any
 								{ // let
 									// let binding "vec__61"
-									tmp19 := kw_length.Invoke1(v3)
+									tmp19 := aotKeywordSite3.Get(kw_length, v3, nil)
 									tmp20 := aotDirectFn1(v2, tmp19)
 									var v21 any = tmp20
 									_ = v21
@@ -686,7 +718,7 @@ func LoadNS() {
 									var tmp21 any
 									{ // let
 										// let binding "vec__65"
-										tmp22 := kw_length.Invoke1(v3)
+										tmp22 := aotKeywordSite4.Get(kw_length, v3, nil)
 										tmp23 := aotDirectFn1(v2, tmp22)
 										var v24 any = tmp23
 										_ = v24
@@ -727,7 +759,7 @@ func LoadNS() {
 									} // end let
 									tmp19 = tmp21
 								} else {
-									tmp22 := kw_suppress_DASH_namespaces.Invoke1(v3)
+									tmp22 := aotKeywordSite5.Get(kw_suppress_DASH_namespaces, v3, nil)
 									tmp23 := aotDirectFn7(v2, tmp22)
 									tmp19 = tmp23
 								}
@@ -745,9 +777,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_pprint_flat_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_flat_DASH_str.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_flat_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(34), kw_column, int(8), kw_end_DASH_line, int(34), kw_end_DASH_column, int(15), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_options, sym_depth)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// limited-items
 	{
@@ -801,17 +833,17 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_pprint_limited_DASH_items = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_limited_DASH_items.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_limited_DASH_items.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(28), kw_column, int(8), kw_end_DASH_line, int(28), kw_end_DASH_column, int(20), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_length)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// option-names
 	{
 		tmp0 := sym_option_DASH_names
 		var_ys_DOT_v0_DOT_pprint_option_DASH_names = ns.InternWithValue(tmp0, lang.NewSet(kw_length, kw_right_DASH_margin, kw_miser_DASH_width, kw_level, kw_suppress_DASH_namespaces, kw_stream, kw_pretty), true)
-		var_ys_DOT_v0_DOT_pprint_option_DASH_names.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_option_DASH_names.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/pprint.cljc", kw_line, int(14), kw_column, int(6), kw_end_DASH_line, int(14), kw_end_DASH_column, int(27), kw_private, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// pp
 	{
@@ -881,9 +913,9 @@ func LoadNS() {
 		)
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_pprint_pp = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_pp.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_pp.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/pprint.cljc", kw_line, int(147), kw_column, int(7), kw_end_DASH_line, int(147), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_value), lang.NewVector(sym_value, sym_writer)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// render
 	{
@@ -905,15 +937,15 @@ func LoadNS() {
 				var v8 any = tmp7
 				_ = v8
 				// let binding "margin"
-				tmp9 := kw_right_DASH_margin.Invoke1(v5)
+				tmp9 := aotKeywordSite6.Get(kw_right_DASH_margin, v5, nil)
 				var v10 any = tmp9
 				_ = v10
 				var tmp11 any
 				var tmp12 any
 				{ // let
 					// let binding "or__0__auto__"
-					tmp13 := kw_pretty.Invoke1(v5)
-					tmp14 := aotExternalFn28(tmp13)
+					tmp13 := aotKeywordSite7.Get(kw_pretty, v5, nil)
+					tmp14 := !lang.IsTruthy(tmp13)
 					var v15 any = tmp14
 					_ = v15
 					var tmp16 any
@@ -933,7 +965,7 @@ func LoadNS() {
 								tmp22 = v21
 							} else {
 								tmp23 := aotExternalFn29(v2)
-								tmp24 := aotExternalFn28(tmp23)
+								tmp24 := !lang.IsTruthy(tmp23)
 								tmp22 = tmp24
 							}
 							tmp17 = tmp22
@@ -946,14 +978,14 @@ func LoadNS() {
 					tmp11 = v8
 				} else {
 					var tmp13 any
-					tmp14 := aotExternalFn0(v2)
-					if lang.IsTruthy(tmp14) {
+					tmp14 := lang.IsMap(v2)
+					if tmp14 {
 						tmp15 := aotDirectFn5(v2, v3, v4, v5)
 						tmp13 = tmp15
 					} else {
 						var tmp16 any
-						tmp17 := aotExternalFn7(v2)
-						if lang.IsTruthy(tmp17) {
+						tmp17 := lang.IsVector(v2)
+						if tmp17 {
 							tmp18 := aotDirectFn6(v2, v3, v4, v5, "[", "]")
 							tmp16 = tmp18
 						} else {
@@ -986,9 +1018,9 @@ func LoadNS() {
 		})
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_pprint_render = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_render.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_render.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(105), kw_column, int(8), kw_end_DASH_line, int(105), kw_end_DASH_column, int(13), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_column, sym_depth, sym_options)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// scalar-str
 	{
@@ -1039,9 +1071,9 @@ func LoadNS() {
 		})
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_pprint_scalar_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_scalar_DASH_str.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_scalar_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(21), kw_column, int(8), kw_end_DASH_line, int(21), kw_end_DASH_column, int(17), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_suppress_DASH_namespaces)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// parse-options
 	{
@@ -1054,49 +1086,47 @@ func LoadNS() {
 			tmp4 := lang.Count(v2)
 			tmp5 := aotExternalFn13(tmp4)
 			if lang.IsTruthy(tmp5) {
-				tmp6 := lang.NewMap()
-				tmp7 := aotExternalFn14("ys::pprint/write requires key/value options", tmp6)
-				panic(tmp7)
+				tmp6 := aotExternalFn14("ys::pprint/write requires key/value options", closed0)
+				panic(tmp6)
 			} else {
 			}
 			_ = tmp3
-			var tmp8 any
+			var tmp7 any
 			{ // let
 				// let binding "options"
-				tmp9 := checkDerefVar(var_clojure_DOT_core_hash_DASH_map)
-				tmp10 := aotExternalFn15(tmp9, v2)
-				var v11 any = tmp10
-				_ = v11
+				tmp8 := checkDerefVar(var_clojure_DOT_core_hash_DASH_map)
+				tmp9 := aotExternalFn15(tmp8, v2)
+				var v10 any = tmp9
+				_ = v10
 				// let binding "invalid"
-				tmp12 := checkDerefVar(var_ys_DOT_v0_DOT_pprint_option_DASH_names)
-				tmp13 := aotExternalFn18(v11)
-				tmp14 := aotExternalFn17(tmp12, tmp13)
-				tmp15 := lang.Seq(tmp14)
-				var v16 any = tmp15
-				_ = v16
-				var tmp17 any
-				if lang.IsTruthy(v16) {
-					tmp18 := lang.First(v16)
-					tmp19 := aotExternalFn19("Invalid ys::pprint/write option: ", tmp18)
-					tmp20 := lang.NewMap()
-					tmp21 := aotExternalFn14(tmp19, tmp20)
-					panic(tmp21)
+				tmp11 := checkDerefVar(var_ys_DOT_v0_DOT_pprint_option_DASH_names)
+				tmp12 := aotExternalFn18(v10)
+				tmp13 := aotExternalFn17(tmp11, tmp12)
+				tmp14 := lang.Seq(tmp13)
+				var v15 any = tmp14
+				_ = v15
+				var tmp16 any
+				if lang.IsTruthy(v15) {
+					tmp17 := lang.First(v15)
+					tmp18 := aotExternalFn19("Invalid ys::pprint/write option: ", tmp17)
+					tmp19 := aotExternalFn14(tmp18, closed0)
+					panic(tmp19)
 				} else {
 				}
-				_ = tmp17
-				tmp22 := checkDerefVar(var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_)
-				tmp23 := checkDerefVar(var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_)
-				tmp24 := lang.NewMap(kw_length, nil, kw_level, nil, kw_miser_DASH_width, tmp22, kw_pretty, true, kw_right_DASH_margin, tmp23, kw_stream, true, kw_suppress_DASH_namespaces, false)
-				tmp25 := aotExternalFn21(tmp24, v11)
-				tmp8 = tmp25
+				_ = tmp16
+				tmp20 := checkDerefVar(var_ys_DOT_v0_DOT_pprint__STAR_miser_DASH_width_STAR_)
+				tmp21 := checkDerefVar(var_ys_DOT_v0_DOT_pprint__STAR_right_DASH_margin_STAR_)
+				tmp22 := aotKeywordMapNew0(nil, nil, tmp20, true, tmp21, true, false)
+				tmp23 := aotExternalFn21(tmp22, v10)
+				tmp7 = tmp23
 			} // end let
-			return tmp8
+			return tmp7
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_pprint_parse_DASH_options = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_parse_DASH_options.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_parse_DASH_options.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(119), kw_column, int(8), kw_end_DASH_line, int(119), kw_end_DASH_column, int(20), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// render-map
 	{
@@ -1114,7 +1144,7 @@ func LoadNS() {
 			var tmp6 any
 			{ // let
 				// let binding "vec__73"
-				tmp7 := kw_length.Invoke1(v5)
+				tmp7 := aotKeywordSite8.Get(kw_length, v5, nil)
 				tmp8 := aotDirectFn1(v2, tmp7)
 				var v9 any = tmp8
 				_ = v9
@@ -1193,7 +1223,7 @@ func LoadNS() {
 				_ = v20
 				var tmp21 any
 				tmp22 := lang.IsEmpty(v18)
-				if lang.IsTruthy(tmp22) {
+				if tmp22 {
 					tmp21 = "{}"
 				} else {
 					tmp23 := lang.First(v18)
@@ -1218,9 +1248,9 @@ func LoadNS() {
 		})
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_pprint_render_DASH_map = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_render_DASH_map.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_render_DASH_map.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(86), kw_column, int(8), kw_end_DASH_line, int(86), kw_end_DASH_column, int(17), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_column, sym_depth, sym_options)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// render-seq
 	{
@@ -1242,7 +1272,7 @@ func LoadNS() {
 			var tmp8 any
 			{ // let
 				// let binding "vec__69"
-				tmp9 := kw_length.Invoke1(v5)
+				tmp9 := aotKeywordSite9.Get(kw_length, v5, nil)
 				tmp10 := aotDirectFn1(v2, tmp9)
 				var v11 any = tmp10
 				_ = v11
@@ -1278,7 +1308,7 @@ func LoadNS() {
 				_ = v19
 				var tmp20 any
 				tmp21 := lang.IsEmpty(v17)
-				if lang.IsTruthy(tmp21) {
+				if tmp21 {
 					tmp22 := aotExternalFn19(v6, v7)
 					tmp20 = tmp22
 				} else {
@@ -1308,9 +1338,9 @@ func LoadNS() {
 		})
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_pprint_render_DASH_seq = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_render_DASH_seq.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_render_DASH_seq.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(72), kw_column, int(8), kw_end_DASH_line, int(72), kw_end_DASH_column, int(17), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_column, sym_depth, sym_options, sym_open, sym_close)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// spaces
 	{
@@ -1326,9 +1356,9 @@ func LoadNS() {
 		})
 		aotDirectFn8 = tmp1
 		var_ys_DOT_v0_DOT_pprint_spaces = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_spaces.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_spaces.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/pprint.cljc", kw_line, int(18), kw_column, int(8), kw_end_DASH_line, int(18), kw_end_DASH_column, int(13), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_n)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 	// write
 	{
@@ -1356,7 +1386,7 @@ func LoadNS() {
 					var v8 any = tmp7
 					_ = v8
 					// let binding "stream"
-					tmp9 := kw_stream.Invoke1(v6)
+					tmp9 := aotKeywordSite10.Get(kw_stream, v6, nil)
 					var v10 any = tmp9
 					_ = v10
 					var tmp11 any
@@ -1368,8 +1398,8 @@ func LoadNS() {
 						{ // let
 							tmp14 := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_out_STAR_)
 							var tmp15 any
-							tmp16 := aotExternalFn38(true, v10)
-							if lang.IsTruthy(tmp16) {
+							tmp16 := lang.Equals(true, v10)
+							if tmp16 {
 								tmp17 := checkDerefVar(var_clojure_DOT_core__STAR_out_STAR_)
 								tmp15 = tmp17
 							} else {
@@ -1399,8 +1429,8 @@ func LoadNS() {
 		)
 		aotDirectFn9 = tmp1
 		var_ys_DOT_v0_DOT_pprint_write = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_pprint_write.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_pprint_write.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/pprint.cljc", kw_line, int(137), kw_column, int(7), kw_end_DASH_line, int(137), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_value, sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
-		})
+		}, false)
 	}
 }

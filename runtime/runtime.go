@@ -5,6 +5,7 @@ import (
 
 	"github.com/glojurelang/glojure/pkg/glj"
 	"github.com/glojurelang/glojure/pkg/lang"
+	_ "github.com/glojurelang/glojure/pkg/stdlib/clojure/set"
 	_ "github.com/glojurelang/glojure/pkg/stdlib/clojure/string"
 	_ "github.com/glojurelang/glojure/pkg/stdlib/clojure/walk"
 

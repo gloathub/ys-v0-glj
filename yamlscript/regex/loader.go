@@ -7,7 +7,7 @@ import (
 	lang "github.com/glojurelang/glojure/pkg/lang"
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -16,20 +16,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -175,8 +178,8 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_yamlscript_DOT_regex_compile = ns.InternWithValue(tmp0, tmp1, true)
-		var_yamlscript_DOT_regex_compile.SetMetaLazy(func() lang.IPersistentMap {
+		var_yamlscript_DOT_regex_compile.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "yamlscript/regex.cljc", kw_line, int(7), kw_column, int(7), kw_end_DASH_line, int(7), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_pattern)), kw_ns, lang.FindOrCreateNamespace(sym_yamlscript_DOT_regex))
-		})
+		}, false)
 	}
 }

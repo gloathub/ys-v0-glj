@@ -10,7 +10,7 @@ import (
 	os6 "os"
 	reflect "reflect"
 	runtime4 "runtime"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc0
@@ -26,20 +26,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -52,20 +55,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -78,20 +84,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -267,6 +276,14 @@ func LoadNS() {
 		})
 	}
 	ns.AddAlias(sym_str, lang.FindOrCreateNamespace(sym_clojure_DOT_string))
+	var closed0 any
+	var closed1 any
+	{
+		closed0 = lang.NewVector()
+	}
+	{
+		closed1 = lang.NewMap()
+	}
 	// arch
 	{
 		tmp0 := sym_arch
@@ -276,9 +293,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_platform_arch = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_arch.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_arch.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(9), kw_column, int(7), kw_end_DASH_line, int(9), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// cwd
 	{
@@ -312,9 +329,9 @@ func LoadNS() {
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_platform_cwd = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_cwd.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_cwd.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(12), kw_column, int(7), kw_end_DASH_line, int(12), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// env
 	{
@@ -348,16 +365,15 @@ func LoadNS() {
 				} // end let
 				return tmp5
 			})
-			tmp3 := lang.NewMap()
-			tmp4 := os6.Environ()
-			tmp5 := aotExternalFn3(tmp2, tmp3, tmp4)
-			return tmp5
+			tmp3 := os6.Environ()
+			tmp4 := aotExternalFn3(tmp2, closed1, tmp3)
+			return tmp4
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_platform_env = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_env.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_env.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(16), kw_column, int(7), kw_end_DASH_line, int(16), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// executable
 	{
@@ -390,9 +406,9 @@ func LoadNS() {
 		})
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_platform_executable = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_executable.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_executable.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(28), kw_column, int(7), kw_end_DASH_line, int(28), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// hostname
 	{
@@ -425,9 +441,9 @@ func LoadNS() {
 		})
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_platform_hostname = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_hostname.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_hostname.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(32), kw_column, int(7), kw_end_DASH_line, int(32), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// os
 	{
@@ -438,9 +454,9 @@ func LoadNS() {
 		})
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_platform_os = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_os.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_os.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(36), kw_column, int(7), kw_end_DASH_line, int(36), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// pid
 	{
@@ -452,9 +468,9 @@ func LoadNS() {
 		})
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_platform_pid = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_pid.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_pid.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(39), kw_column, int(7), kw_end_DASH_line, int(39), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 	// args
 	{
@@ -462,7 +478,7 @@ func LoadNS() {
 		var tmp1 lang.FnFunc0
 		tmp1 = lang.FnFunc0(func() any {
 			var tmp2 any
-			tmp3, ok := pkgmap5.Get("System.getProperty")
+			tmp3, ok := pkgmap5.LookupHostMember("System", "getProperty")
 			if !ok {
 				panic(lang.NewIllegalArgumentError("unable to resolve host form: System.getProperty"))
 			}
@@ -478,8 +494,7 @@ func LoadNS() {
 					if lang.IsTruthy(v7) {
 						tmp8 = v7
 					} else {
-						tmp9 := lang.NewVector()
-						tmp8 = tmp9
+						tmp8 = closed0
 					}
 					tmp5 = tmp8
 				} // end let
@@ -494,8 +509,8 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_platform_args = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_platform_args.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_platform_args.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/platform.clj", kw_line, int(4), kw_column, int(7), kw_end_DASH_line, int(4), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_platform))
-		})
+		}, false)
 	}
 }

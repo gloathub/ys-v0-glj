@@ -8,7 +8,7 @@ import (
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
 	regexp4 "regexp"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -16,24 +16,46 @@ var aotDirectFn1 lang.FnFunc1
 var aotDirectFn2 lang.FnFunc1
 var aotDirectFn3 lang.FnFunc2
 
+var aotKeywordMapShape0 = lang.NewKeywordMapShape("in")
+
+type aotKeywordMapStorage0 struct {
+	lang.Map
+	values [1]any
+}
+
+func aotKeywordMapNew0(v0 any) lang.IPersistentMap {
+	storage := &aotKeywordMapStorage0{}
+	storage.values = [1]any{v0}
+	return lang.InitStaticKeywordMap(
+		&storage.Map,
+		aotKeywordMapShape0,
+		storage.values[:],
+	)
+}
+
+var aotKeywordSite0 lang.KeywordSite
+
 func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -46,20 +68,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -72,20 +97,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -119,7 +147,6 @@ func checkArityGTE(args []any, min int) {
 
 // LoadNS initializes the namespace "ys.v0.ext"
 func LoadNS() {
-	sym__EQ_ := lang.NewSymbolUnchecked("=")
 	sym_babashka_DOT_process_SLASH_sh := lang.NewSymbolUnchecked("babashka.process/sh")
 	sym_backend := lang.NewSymbolUnchecked("backend")
 	sym_blank_QMARK_ := lang.NewSymbolUnchecked("blank?")
@@ -136,7 +163,6 @@ func LoadNS() {
 	sym_join := lang.NewSymbolUnchecked("join")
 	sym_load_DASH_all := lang.NewSymbolUnchecked("load-all")
 	sym_nil_QMARK_ := lang.NewSymbolUnchecked("nil?")
-	sym_not := lang.NewSymbolUnchecked("not")
 	sym_not_EQ_ := lang.NewSymbolUnchecked("not=")
 	sym_re_DASH_find := lang.NewSymbolUnchecked("re-find")
 	sym_remove := lang.NewSymbolUnchecked("remove")
@@ -162,16 +188,11 @@ func LoadNS() {
 	kw_err := lang.NewKeyword("err")
 	kw_exit := lang.NewKeyword("exit")
 	kw_file := lang.NewKeyword("file")
-	kw_in := lang.NewKeyword("in")
 	kw_line := lang.NewKeyword("line")
 	kw_ns := lang.NewKeyword("ns")
 	kw_out := lang.NewKeyword("out")
-	// var clojure.core/=
-	var_clojure_DOT_core__EQ_ := lang.InternVarName(sym_clojure_DOT_core, sym__EQ_)
 	// var clojure.core/nil?
 	var_clojure_DOT_core_nil_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_nil_QMARK_)
-	// var clojure.core/not
-	var_clojure_DOT_core_not := lang.InternVarName(sym_clojure_DOT_core, sym_not)
 	// var clojure.core/not=
 	var_clojure_DOT_core_not_EQ_ := lang.InternVarName(sym_clojure_DOT_core, sym_not_EQ_)
 	// var clojure.core/re-find
@@ -228,8 +249,6 @@ func LoadNS() {
 	aotExternalFn21 := aotLinkFn2(var_ys_DOT_v0_DOT_util_die)
 	aotExternalFn22 := aotLinkFn1(var_clojure_DOT_string_blank_QMARK_)
 	aotExternalFn23 := aotLinkFn1(var_ys_DOT_v0_DOT_yaml_load_DASH_all)
-	aotExternalFn24 := aotLinkFn2(var_clojure_DOT_core__EQ_)
-	aotExternalFn3 := aotLinkFn1(var_clojure_DOT_core_not)
 	aotExternalFn4 := aotLinkFn2(var_clojure_DOT_string_includes_QMARK_)
 	aotExternalFn5 := aotLinkFn2(var_clojure_DOT_core_str)
 	aotExternalFn6 := aotLinkFn1(var_ys_DOT_v0_DOT_util_die)
@@ -382,8 +401,8 @@ func LoadNS() {
 							} else {
 								var tmp17 any
 								tmp18 := aotExternalFn4(v2, ":")
-								tmp19 := aotExternalFn3(tmp18)
-								if lang.IsTruthy(tmp19) {
+								tmp19 := !lang.IsTruthy(tmp18)
+								if tmp19 {
 									tmp20 := aotExternalFn5("https://", v2)
 									tmp17 = tmp20
 								} else {
@@ -405,9 +424,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_ext_convert_DASH_url = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_ext_convert_DASH_url.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_ext_convert_DASH_url.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/ext.clj", kw_line, int(49), kw_column, int(7), kw_end_DASH_line, int(49), kw_end_DASH_column, int(17), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_doc, "Convert url into its canonical form.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_ext))
-		})
+		}, false)
 	}
 	// github-raw-url
 	{
@@ -506,9 +525,9 @@ func LoadNS() {
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_ext_github_DASH_raw_DASH_url = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_ext_github_DASH_raw_DASH_url.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_ext_github_DASH_raw_DASH_url.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/ext.clj", kw_line, int(27), kw_column, int(7), kw_end_DASH_line, int(27), kw_end_DASH_column, int(20), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_doc, "Convert a raw url shorthand into a raw URL.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_ext))
-		})
+		}, false)
 	}
 	// yq
 	{
@@ -527,7 +546,7 @@ func LoadNS() {
 				_ = v6
 				// let binding "res"
 				tmp7 := aotExternalFn14(sym_babashka_DOT_process_SLASH_sh)
-				tmp8 := lang.NewMap(kw_in, v6)
+				tmp8 := aotKeywordMapNew0(v6)
 				tmp9 := lang.Apply4(tmp7, tmp8, "yq", "-e", v3)
 				var v10 any = tmp9
 				_ = v10
@@ -591,7 +610,7 @@ func LoadNS() {
 					tmp30 = tmp33
 				} // end let
 				if lang.IsTruthy(tmp30) {
-					tmp31 := kw_err.Invoke1(v10)
+					tmp31 := aotKeywordSite0.Get(kw_err, v10, nil)
 					tmp32 := aotExternalFn21("yq error: ", tmp31)
 					tmp29 = tmp32
 				} else {
@@ -611,8 +630,8 @@ func LoadNS() {
 					_ = v37
 					var tmp38 any
 					tmp39 := lang.Count(v37)
-					tmp40 := aotExternalFn24(int64(1), tmp39)
-					if lang.IsTruthy(tmp40) {
+					tmp40 := lang.Equals(int64(1), tmp39)
+					if tmp40 {
 						tmp41 := lang.First(v37)
 						tmp38 = tmp41
 					} else {
@@ -626,9 +645,9 @@ func LoadNS() {
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_ext_yq = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_ext_yq.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_ext_yq.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/ext.clj", kw_line, int(10), kw_column, int(7), kw_end_DASH_line, int(10), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_data, sym_cmd)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_ext))
-		})
+		}, false)
 	}
 	// github-gist-url
 	{
@@ -704,8 +723,8 @@ func LoadNS() {
 		})
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_ext_github_DASH_gist_DASH_url = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_ext_github_DASH_gist_DASH_url.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_ext_github_DASH_gist_DASH_url.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/ext.clj", kw_line, int(38), kw_column, int(7), kw_end_DASH_line, int(38), kw_end_DASH_column, int(21), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_doc, "Convert a gist url shorthand into a raw URL.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_ext))
-		})
+		}, false)
 	}
 }

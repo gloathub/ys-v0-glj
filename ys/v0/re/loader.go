@@ -8,7 +8,7 @@ import (
 	runtime "github.com/glojurelang/glojure/pkg/runtime"
 	reflect "reflect"
 	regexp4 "regexp"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc1
@@ -17,20 +17,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -43,20 +46,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -69,20 +75,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -301,81 +310,81 @@ func LoadNS() {
 	{
 		tmp0 := sym_alph
 		var_ys_DOT_v0_DOT_re_alph = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[a-zA-Z])"), true)
-		var_ys_DOT_v0_DOT_re_alph.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_alph.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(52), kw_column, int(6), kw_end_DASH_line, int(52), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// anum
 	{
 		tmp0 := sym_anum
 		var_ys_DOT_v0_DOT_re_anum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[a-zA-Z0-9])"), true)
-		var_ys_DOT_v0_DOT_re_anum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_anum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(53), kw_column, int(6), kw_end_DASH_line, int(53), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// bnum
 	{
 		tmp0 := sym_bnum
 		var_ys_DOT_v0_DOT_re_bnum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[-+]?(?:[2-9]|[12][0-9]|3[0-6])r[0-9a-zA-Z]+)"), true)
-		var_ys_DOT_v0_DOT_re_bnum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_bnum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(40), kw_column, int(6), kw_end_DASH_line, int(40), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// fbig
 	{
 		tmp0 := sym_fbig
 		var_ys_DOT_v0_DOT_re_fbig = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:(?:(?:(?:[-+]?(?:0|[1-9][0-9]*))\\.[0-9]+(?:[eE](?:[-+]?(?:0|[1-9][0-9]*)))?)|(?:[-+]?(?:0|[1-9][0-9]*))\\.?)M)"), true)
-		var_ys_DOT_v0_DOT_re_fbig.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_fbig.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(44), kw_column, int(6), kw_end_DASH_line, int(44), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// fnum
 	{
 		tmp0 := sym_fnum
 		var_ys_DOT_v0_DOT_re_fnum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:(?:[-+]?(?:0|[1-9][0-9]*))\\.[0-9]+(?:[eE](?:[-+]?(?:0|[1-9][0-9]*)))?)"), true)
-		var_ys_DOT_v0_DOT_re_fnum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_fnum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(42), kw_column, int(6), kw_end_DASH_line, int(42), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// hnum
 	{
 		tmp0 := sym_hnum
 		var_ys_DOT_v0_DOT_re_hnum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[-+]?0x[0-9a-fA-F]+)"), true)
-		var_ys_DOT_v0_DOT_re_hnum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_hnum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(34), kw_column, int(6), kw_end_DASH_line, int(34), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// ibig
 	{
 		tmp0 := sym_ibig
 		var_ys_DOT_v0_DOT_re_ibig = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:(?:(?:[-+]?(?:0|[1-9][0-9]*)))N)"), true)
-		var_ys_DOT_v0_DOT_re_ibig.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_ibig.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(32), kw_column, int(6), kw_end_DASH_line, int(32), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// inum
 	{
 		tmp0 := sym_inum
 		var_ys_DOT_v0_DOT_re_inum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[-+]?(?:0|[1-9][0-9]*))"), true)
-		var_ys_DOT_v0_DOT_re_inum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_inum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(30), kw_column, int(6), kw_end_DASH_line, int(30), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// keyw
 	{
 		tmp0 := sym_keyw
 		var_ys_DOT_v0_DOT_re_keyw = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:\\:(?:(?:[a-zA-Z])(?:[a-zA-Z0-9])*(?:-(?:[a-zA-Z0-9])+)*))"), true)
-		var_ys_DOT_v0_DOT_re_keyw.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_keyw.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(55), kw_column, int(6), kw_end_DASH_line, int(55), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// onum
 	{
 		tmp0 := sym_onum
 		var_ys_DOT_v0_DOT_re_onum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[-+]?0o[0-7]+)"), true)
-		var_ys_DOT_v0_DOT_re_onum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_onum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(36), kw_column, int(6), kw_end_DASH_line, int(36), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// re
 	{
@@ -422,40 +431,40 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_re_re = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_re_re.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_re.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/re.clj", kw_line, int(12), kw_column, int(7), kw_end_DASH_line, int(12), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_rgx)), kw_doc, "Expand regex template variables. A greedy scan makes each match the\n  full variable name, so no lookahead is needed (Go RE2 engines have\n  none).", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// rnum
 	{
 		tmp0 := sym_rnum
 		var_ys_DOT_v0_DOT_re_rnum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:[-+]?[0-9]+/[0-9]+)"), true)
-		var_ys_DOT_v0_DOT_re_rnum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_rnum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(38), kw_column, int(6), kw_end_DASH_line, int(38), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// snum
 	{
 		tmp0 := sym_snum
 		var_ys_DOT_v0_DOT_re_snum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:\\\\\\\\(?:Inf|-Inf|NaN))"), true)
-		var_ys_DOT_v0_DOT_re_snum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_snum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(46), kw_column, int(6), kw_end_DASH_line, int(46), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// symw
 	{
 		tmp0 := sym_symw
 		var_ys_DOT_v0_DOT_re_symw = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:(?:[a-zA-Z])(?:[a-zA-Z0-9])*(?:-(?:[a-zA-Z0-9])+)*)"), true)
-		var_ys_DOT_v0_DOT_re_symw.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_symw.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(54), kw_column, int(6), kw_end_DASH_line, int(54), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 	// xnum
 	{
 		tmp0 := sym_xnum
 		var_ys_DOT_v0_DOT_re_xnum = ns.InternWithValue(tmp0, regexp4.MustCompile("(?:(?:(?:(?:(?:[-+]?(?:0|[1-9][0-9]*))\\.[0-9]+(?:[eE](?:[-+]?(?:0|[1-9][0-9]*)))?)|(?:[-+]?(?:0|[1-9][0-9]*))\\.?)M)|(?:(?:[-+]?(?:0|[1-9][0-9]*))\\.[0-9]+(?:[eE](?:[-+]?(?:0|[1-9][0-9]*)))?)|(?:[-+]?0x[0-9a-fA-F]+)|(?:[-+]?0o[0-7]+)|(?:[-+]?[0-9]+/[0-9]+)|(?:[-+]?(?:[2-9]|[12][0-9]|3[0-6])r[0-9a-zA-Z]+)|(?:(?:(?:[-+]?(?:0|[1-9][0-9]*)))N)|(?:[-+]?(?:0|[1-9][0-9]*))|(?:\\\\\\\\(?:Inf|-Inf|NaN)))"), true)
-		var_ys_DOT_v0_DOT_re_xnum.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_re_xnum.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/re.clj", kw_line, int(48), kw_column, int(6), kw_end_DASH_line, int(48), kw_end_DASH_column, int(9), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_re))
-		})
+		}, false)
 	}
 }

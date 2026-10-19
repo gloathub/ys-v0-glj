@@ -1068,9 +1068,8 @@
     pr prn printf println read-line slurp spit])
 
 ;; clojure.core functions overridden by the ys runtime with YS behavior.
-;; require is retained only to report its migration error.
 (def runtime-overrides
-  '[load require use])
+  '[load use])
 
 ;; Namespaces that some Clojure runtimes lack (glojure bundles neither
 ;; the clojure.* ones nor the babashka.fs backend that ys.v0.fs and
@@ -1208,7 +1207,6 @@
    :exclude [compile
              eval
              load-file
-             require
              use]))
 
 (def hooks
@@ -1443,9 +1441,6 @@
         (util/die
           (str "Portable 'use :from' cannot acquire dependencies in this "
             "runtime; put namespace '" module "' on the classpath"))))))
-
-(defn require [& _]
-  (util/die "The 'require' function is retired. Use 'use' instead."))
 
 (defn- load-portable-module [target module options]
   (check-module-access! module)
@@ -1972,6 +1967,7 @@
        :default [[clojure.data :as data]
                  [clojure.math :as math]
                  [ys.v0.fs :as fs]])
+   [clojure.set :as cset]
    [clojure.string :as str]
    [ys.v0.common :as common :refer
     [atom? re-find+ regex?]]
@@ -2361,16 +2357,26 @@
         number? (dec n)
         (op-error "dec+" x)))))
 
+(defn- set-pair? [x y]
+  (and (or (set? x) (set? y))
+    (or (set? x) (sequential? x))
+    (or (set? y) (sequential? y))))
+
+(defn- filter-members [x y keep?]
+  (let [members (to-set y)
+        values (filter #(= keep? (contains? members %1)) x)]
+    (if (vector? x) (vec values) values)))
+
 (defn add+
   ([x y]
    (condf x
      number? (+ (to-num x 0) (to-num y 0))
      string? (str x y)
      map? (merge (to-map x) (to-map y))
-     set? (into (to-set x) (to-set y))
+     set? (cset/union x (to-set y))
      vector? (vec (concat (to-vec x)
-                    (if (sequential? y)
-                      (to-list y)
+                    (if (or (sequential? y) (set? y))
+                      (seq y)
                       (list y))))
      char? (if (number? y)
              (char (+ (int x) y))
@@ -2378,8 +2384,8 @@
      fn? (partial x y)
      nil? (util/die "Can't add+ to a nil value")
      seqable? (concat (to-list x)
-                (if (sequential? y)
-                  (to-list y)
+                (if (or (sequential? y) (set? y))
+                  (seq y)
                   (list y)))
      (+ (to-num x 0) (to-num y 0))))
 
@@ -2391,6 +2397,9 @@
 (defn mul+
   ([x y]
    (cond
+     (set-pair? x y) (if (set? x)
+                       (cset/intersection x (to-set y))
+                       (filter-members x y true))
      (and (string? x) (number? y)) (apply str (repeat y x))
      (and (number? x) (string? y)) (apply str (repeat x y))
      (and (vector? x) (number? y)) (vec (apply concat (repeat y x)))
@@ -2406,19 +2415,23 @@
 
 (defn sub+
   ([x y]
-   (condf x
-     string? (str/replace x (str y) "")
-     map? (dissoc x y)
-     set? (disj x y)
-     vector? (vec (remove #(= y %1) x))
-     number? (- x (to-num y 0))
-     char? (condf y
-             number? (char (- (long x) y))
-             char? (- (long x) (long y))
-             (op-error "sub" x y))
-     nil? (util/die "Can't sub+ to a nil value")
-     seqable? (remove #(= y %1) x)
-     (+ (to-num x 0) (to-num y 0))))
+   (if (set-pair? x y)
+     (if (set? x)
+       (cset/difference x (to-set y))
+       (filter-members x y false))
+     (condf x
+       string? (str/replace x (str y) "")
+       map? (dissoc x y)
+       set? (disj x y)
+       vector? (vec (remove #(= y %1) x))
+       number? (- x (to-num y 0))
+       char? (condf y
+               number? (char (- (long x) y))
+               char? (- (long x) (long y))
+               (op-error "sub" x y))
+       nil? (util/die "Can't sub+ to a nil value")
+       seqable? (remove #(= y %1) x)
+       (+ (to-num x 0) (to-num y 0)))))
 
   ([x y & xs]
    (reduce sub+ (sub+ x y) xs)))
@@ -2605,25 +2618,41 @@
   ([x y] (not= x y))
   ([x y & xs] (apply not= x y xs)))
 
+(defn- compare-chain [compare x y xs]
+  (loop [x x y y xs xs]
+    (if (compare x y)
+      (if (seq xs)
+        (recur y (first xs) (next xs))
+        true)
+      false)))
+
 (defn gt
-  ([x] #(> %1 x))
-  ([x y] (> x y))
-  ([x y & xs] (apply > x y xs)))
+  ([x] #(gt %1 x))
+  ([x y] (if (and (set? x) (set? y))
+           (and (not= x y) (cset/superset? x y))
+           (> x y)))
+  ([x y & xs] (compare-chain gt x y xs)))
 
 (defn ge
-  ([x] #(>= %1 x))
-  ([x y] (>= x y))
-  ([x y & xs] (apply >= x y xs)))
+  ([x] #(ge %1 x))
+  ([x y] (if (and (set? x) (set? y))
+           (cset/superset? x y)
+           (>= x y)))
+  ([x y & xs] (compare-chain ge x y xs)))
 
 (defn lt
-  ([x] #(< %1 x))
-  ([x y] (< x y))
-  ([x y & xs] (apply < x y xs)))
+  ([x] #(lt %1 x))
+  ([x y] (if (and (set? x) (set? y))
+           (and (not= x y) (cset/subset? x y))
+           (< x y)))
+  ([x y & xs] (compare-chain lt x y xs)))
 
 (defn le
-  ([x] #(<= %1 x))
-  ([x y] (<= x y))
-  ([x y & xs] (apply <= x y xs)))
+  ([x] #(le %1 x))
+  ([x y] (if (and (set? x) (set? y))
+           (cset/subset? x y)
+           (<= x y)))
+  ([x y & xs] (compare-chain le x y xs)))
 
 
 ;;------------------------------------------------------------------------------
@@ -3277,8 +3306,9 @@
 ;; (silently replacing any clojure.core mappings, so no replace warnings),
 ;; installs the YS runtime functions and binds the YS runtime variables.
 ;;
-;; Under the ys runtime this namespace is shadowed by a no-op SCI stub, so
-;; the same compiled code runs identically there.
+;; Under the SCI ys runtime this namespace is shadowed by a no-op stub.
+;; Under the Glojure ys runtime init detects the native runtime and is a no-op,
+;; so the same compiled code runs identically in both.
 ;;
 ;; Namespaces some runtimes lack (see manifest/optional-nses) load via
 ;; guarded requires.
@@ -3307,7 +3337,7 @@
    [ys.v0.yaml]
    [ys.v0.ys]))
 
-(def VERSION "0.3.0")
+(def VERSION "0.3.5")
 
 ;; Load what this runtime can provide of the optional namespaces:
 (doseq [ns-sym manifest/optional-nses]
@@ -3328,12 +3358,9 @@
         (refer ns-sym)
         (refer ns-sym :only (vec syms)))))
   ;; The YS runtime overrides clojure.core load and use with YS versions.
-  ;; require is replaced by a migration error.
   (doseq [sym manifest/runtime-overrides]
     (ns-unmap target sym))
-  (refer 'ys.v0.ys
-    :only '[load-file require use]
-    :rename '{load-file load}))
+  (refer 'ys.v0.ys :only '[load-file use] :rename '{load-file load}))
 
 (defn- refer-runtime-vars [target]
   (doseq [sym manifest/runtime-vars]
@@ -3414,16 +3441,17 @@
   "Set up the calling namespace to run YS compiled code."
   ([] (init nil))
   ([opts]
-   (let [target *ns*]
-     (refer-exports target)
-     (refer-runtime-vars target)
-     (bind-runtime-vars)
-     (when-let [v (:v opts)]
-       (when (not= v VERSION)
-         (binding [*out* *err*]
-           (println (str "WARNING: code compiled by ys " v
-                      " running with ys.v0 " VERSION)))))
-     nil)))
+   (when-not (find-ns 'yamlscript.glojure-runtime)
+     (let [target *ns*]
+       (refer-exports target)
+       (refer-runtime-vars target)
+       (bind-runtime-vars)
+       (when-let [v (:v opts)]
+         (when (not= v VERSION)
+           (binding [*out* *err*]
+             (println (str "WARNING: code compiled by ys " v
+                        " running with ys.v0 " VERSION)))))))
+   nil))
 
 (comment
   )

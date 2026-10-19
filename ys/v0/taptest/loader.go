@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 	regexp5 "regexp"
 	strings4 "strings"
-	sync "sync"
+	atomic "sync/atomic"
 )
 
 var aotDirectFn0 lang.FnFunc3
@@ -30,18 +30,28 @@ var aotDirectFn12 lang.FnFunc1
 var aotDirectFn13 lang.FnFunc1
 var aotDirectFn14 lang.FnFunc1
 
+var aotKeywordSite0 lang.KeywordSite
+var aotKeywordSite1 lang.KeywordSite
+var aotKeywordSite2 lang.KeywordSite
+var aotKeywordSite3 lang.KeywordSite
+var aotKeywordSite4 lang.KeywordSite
+var aotKeywordSite5 lang.KeywordSite
+
 func aotLinkFn0(vr *lang.Var) lang.FnFunc0 {
 	if vr.IsBound() {
 		return aotLinkBoundFn0(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc0
+	var linked atomic.Pointer[lang.FnFunc0]
 	return func() any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)()
+		}
 		if !vr.IsBound() {
 			return lang.Apply0(checkDerefVar(vr))
 		}
-		once.Do(func() { linked = aotLinkBoundFn0(vr) })
-		return linked()
+		fn := aotLinkBoundFn0(vr)
+		linked.Store(&fn)
+		return fn()
 	}
 }
 
@@ -60,20 +70,23 @@ func aotLinkFn1(vr *lang.Var) lang.FnFunc1 {
 	if vr.IsBound() {
 		return aotLinkBoundFn1(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc1
+	var linked atomic.Pointer[lang.FnFunc1]
 	return func(p0 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0)
+		}
 		if !vr.IsBound() {
 			return lang.Apply1(checkDerefVar(vr), p0)
 		}
-		once.Do(func() { linked = aotLinkBoundFn1(vr) })
-		return linked(p0)
+		fn := aotLinkBoundFn1(vr)
+		linked.Store(&fn)
+		return fn(p0)
 	}
 }
 
 func aotLinkBoundFn1(vr *lang.Var) lang.FnFunc1 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc1); ok {
+	if direct, ok := lang.DirectFn1(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn1); ok {
@@ -86,20 +99,23 @@ func aotLinkFn2(vr *lang.Var) lang.FnFunc2 {
 	if vr.IsBound() {
 		return aotLinkBoundFn2(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc2
+	var linked atomic.Pointer[lang.FnFunc2]
 	return func(p0 any, p1 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1)
+		}
 		if !vr.IsBound() {
 			return lang.Apply2(checkDerefVar(vr), p0, p1)
 		}
-		once.Do(func() { linked = aotLinkBoundFn2(vr) })
-		return linked(p0, p1)
+		fn := aotLinkBoundFn2(vr)
+		linked.Store(&fn)
+		return fn(p0, p1)
 	}
 }
 
 func aotLinkBoundFn2(vr *lang.Var) lang.FnFunc2 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc2); ok {
+	if direct, ok := lang.DirectFn2(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn2); ok {
@@ -112,20 +128,23 @@ func aotLinkFn3(vr *lang.Var) lang.FnFunc3 {
 	if vr.IsBound() {
 		return aotLinkBoundFn3(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc3
+	var linked atomic.Pointer[lang.FnFunc3]
 	return func(p0 any, p1 any, p2 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2)
+		}
 		if !vr.IsBound() {
 			return lang.Apply3(checkDerefVar(vr), p0, p1, p2)
 		}
-		once.Do(func() { linked = aotLinkBoundFn3(vr) })
-		return linked(p0, p1, p2)
+		fn := aotLinkBoundFn3(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2)
 	}
 }
 
 func aotLinkBoundFn3(vr *lang.Var) lang.FnFunc3 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc3); ok {
+	if direct, ok := lang.DirectFn3(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn3); ok {
@@ -138,20 +157,23 @@ func aotLinkFn4(vr *lang.Var) lang.FnFunc4 {
 	if vr.IsBound() {
 		return aotLinkBoundFn4(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc4
+	var linked atomic.Pointer[lang.FnFunc4]
 	return func(p0 any, p1 any, p2 any, p3 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2, p3)
+		}
 		if !vr.IsBound() {
 			return lang.Apply4(checkDerefVar(vr), p0, p1, p2, p3)
 		}
-		once.Do(func() { linked = aotLinkBoundFn4(vr) })
-		return linked(p0, p1, p2, p3)
+		fn := aotLinkBoundFn4(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2, p3)
 	}
 }
 
 func aotLinkBoundFn4(vr *lang.Var) lang.FnFunc4 {
 	fn := checkDerefVar(vr)
-	if direct, ok := fn.(lang.FnFunc4); ok {
+	if direct, ok := lang.DirectFn4(fn); ok {
 		return direct
 	}
 	if fixed, ok := fn.(lang.FixedArityFn4); ok {
@@ -164,14 +186,17 @@ func aotLinkFn5(vr *lang.Var) lang.FnFunc5 {
 	if vr.IsBound() {
 		return aotLinkBoundFn5(vr)
 	}
-	var once sync.Once
-	var linked lang.FnFunc5
+	var linked atomic.Pointer[lang.FnFunc5]
 	return func(p0 any, p1 any, p2 any, p3 any, p4 any) any {
+		if fn := linked.Load(); fn != nil {
+			return (*fn)(p0, p1, p2, p3, p4)
+		}
 		if !vr.IsBound() {
 			return lang.Apply5(checkDerefVar(vr), p0, p1, p2, p3, p4)
 		}
-		once.Do(func() { linked = aotLinkBoundFn5(vr) })
-		return linked(p0, p1, p2, p3, p4)
+		fn := aotLinkBoundFn5(vr)
+		linked.Store(&fn)
+		return fn(p0, p1, p2, p3, p4)
 	}
 }
 
@@ -213,7 +238,6 @@ func checkArityGTE(args []any, min int) {
 func LoadNS() {
 	sym__STAR_err_STAR_ := lang.NewSymbolUnchecked("*err*")
 	sym__STAR_out_STAR_ := lang.NewSymbolUnchecked("*out*")
-	sym__EQ_ := lang.NewSymbolUnchecked("=")
 	sym_Throwable_DASH__GT_map := lang.NewSymbolUnchecked("Throwable->map")
 	sym_assoc := lang.NewSymbolUnchecked("assoc")
 	sym_babashka_DOT_process_SLASH_sh := lang.NewSymbolUnchecked("babashka.process/sh")
@@ -233,7 +257,6 @@ func LoadNS() {
 	sym_contains_QMARK_ := lang.NewSymbolUnchecked("contains?")
 	sym_count := lang.NewSymbolUnchecked("count")
 	sym_counter := lang.NewSymbolUnchecked("counter")
-	sym_deref := lang.NewSymbolUnchecked("deref")
 	sym_die := lang.NewSymbolUnchecked("die")
 	sym_doall := lang.NewSymbolUnchecked("doall")
 	sym_done := lang.NewSymbolUnchecked("done")
@@ -244,7 +267,6 @@ func LoadNS() {
 	sym_eval := lang.NewSymbolUnchecked("eval")
 	sym_failed := lang.NewSymbolUnchecked("failed")
 	sym_filter := lang.NewSymbolUnchecked("filter")
-	sym_fn_QMARK_ := lang.NewSymbolUnchecked("fn?")
 	sym_format_DASH_value := lang.NewSymbolUnchecked("format-value")
 	sym_get_DASH_test_DASH_name := lang.NewSymbolUnchecked("get-test-name")
 	sym_get_DASH_tests := lang.NewSymbolUnchecked("get-tests")
@@ -259,7 +281,6 @@ func LoadNS() {
 	sym_load_DASH_data := lang.NewSymbolUnchecked("load-data")
 	sym_n := lang.NewSymbolUnchecked("n")
 	sym_normalize := lang.NewSymbolUnchecked("normalize")
-	sym_not := lang.NewSymbolUnchecked("not")
 	sym_not_EQ_ := lang.NewSymbolUnchecked("not=")
 	sym_opts := lang.NewSymbolUnchecked("opts")
 	sym_passed := lang.NewSymbolUnchecked("passed")
@@ -279,7 +300,6 @@ func LoadNS() {
 	sym_set := lang.NewSymbolUnchecked("set")
 	sym_some := lang.NewSymbolUnchecked("some")
 	sym_str := lang.NewSymbolUnchecked("str")
-	sym_string_QMARK_ := lang.NewSymbolUnchecked("string?")
 	sym_swap_BANG_ := lang.NewSymbolUnchecked("swap!")
 	sym_test := lang.NewSymbolUnchecked("test")
 	sym_tests := lang.NewSymbolUnchecked("tests")
@@ -311,8 +331,6 @@ func LoadNS() {
 	kw_unordered := lang.NewKeyword("unordered")
 	// var clojure.core/Throwable->map
 	var_clojure_DOT_core_Throwable_DASH__GT_map := lang.InternVarName(sym_clojure_DOT_core, sym_Throwable_DASH__GT_map)
-	// var clojure.core/=
-	var_clojure_DOT_core__EQ_ := lang.InternVarName(sym_clojure_DOT_core, sym__EQ_)
 	// var clojure.core/*err*
 	var_clojure_DOT_core__STAR_err_STAR_ := lang.InternVarName(sym_clojure_DOT_core, sym__STAR_err_STAR_)
 	// var clojure.core/assoc
@@ -333,24 +351,18 @@ func LoadNS() {
 	var_clojure_DOT_core_chunked_DASH_seq_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_chunked_DASH_seq_QMARK_)
 	// var clojure.core/contains?
 	var_clojure_DOT_core_contains_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_contains_QMARK_)
-	// var clojure.core/deref
-	var_clojure_DOT_core_deref := lang.InternVarName(sym_clojure_DOT_core, sym_deref)
 	// var clojure.core/die
 	var_clojure_DOT_core_die := lang.InternVarName(sym_clojure_DOT_core, sym_die)
 	// var clojure.core/doall
 	var_clojure_DOT_core_doall := lang.InternVarName(sym_clojure_DOT_core, sym_doall)
 	// var clojure.core/filter
 	var_clojure_DOT_core_filter := lang.InternVarName(sym_clojure_DOT_core, sym_filter)
-	// var clojure.core/fn?
-	var_clojure_DOT_core_fn_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_fn_QMARK_)
 	// var clojure.core/hash-map
 	var_clojure_DOT_core_hash_DASH_map := lang.InternVarName(sym_clojure_DOT_core, sym_hash_DASH_map)
 	// var clojure.core/inc
 	var_clojure_DOT_core_inc := lang.InternVarName(sym_clojure_DOT_core, sym_inc)
 	// var clojure.core/keys
 	var_clojure_DOT_core_keys := lang.InternVarName(sym_clojure_DOT_core, sym_keys)
-	// var clojure.core/not
-	var_clojure_DOT_core_not := lang.InternVarName(sym_clojure_DOT_core, sym_not)
 	// var clojure.core/not=
 	var_clojure_DOT_core_not_EQ_ := lang.InternVarName(sym_clojure_DOT_core, sym_not_EQ_)
 	// var clojure.core/pop-thread-bindings
@@ -373,8 +385,6 @@ func LoadNS() {
 	var_clojure_DOT_core_some := lang.InternVarName(sym_clojure_DOT_core, sym_some)
 	// var clojure.core/str
 	var_clojure_DOT_core_str := lang.InternVarName(sym_clojure_DOT_core, sym_str)
-	// var clojure.core/string?
-	var_clojure_DOT_core_string_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_string_QMARK_)
 	// var clojure.core/swap!
 	var_clojure_DOT_core_swap_BANG_ := lang.InternVarName(sym_clojure_DOT_core, sym_swap_BANG_)
 	// var clojure.string/includes?
@@ -435,7 +445,6 @@ func LoadNS() {
 	var_ys_DOT_v0_DOT_yaml_dump := lang.InternVarName(sym_ys_DOT_v0_DOT_yaml, sym_dump)
 	// var ys.v0.ys/eval
 	var_ys_DOT_v0_DOT_ys_eval := lang.InternVarName(sym_ys_DOT_v0_DOT_ys, sym_eval)
-	aotExternalFn0 := aotLinkFn1(var_clojure_DOT_core_string_QMARK_)
 	aotExternalFn1 := aotLinkFn1(var_clojure_DOT_core_die)
 	aotExternalFn10 := aotLinkFn2(var_clojure_DOT_core_contains_QMARK_)
 	aotExternalFn11 := aotLinkFn3(var_clojure_DOT_string_replace)
@@ -446,12 +455,10 @@ func LoadNS() {
 	aotExternalFn16 := aotLinkFn1(var_clojure_DOT_core_str)
 	aotExternalFn17 := aotLinkFn2(var_clojure_DOT_core_re_DASH_find)
 	aotExternalFn18 := aotLinkFn3(var_clojure_DOT_core_str)
-	aotExternalFn19 := aotLinkFn2(var_clojure_DOT_core__EQ_)
 	aotExternalFn2 := aotLinkFn5(var_clojure_DOT_core_str)
 	aotExternalFn20 := aotLinkFn1(var_clojure_DOT_string_trim)
 	aotExternalFn21 := aotLinkFn1(var_clojure_DOT_string_re_DASH_quote_DASH_replacement)
 	aotExternalFn22 := aotLinkFn2(var_clojure_DOT_core_filter)
-	aotExternalFn24 := aotLinkFn1(var_clojure_DOT_core_not)
 	aotExternalFn25 := aotLinkFn4(var_clojure_DOT_core_swap_BANG_)
 	aotExternalFn26 := aotLinkFn2(var_clojure_DOT_core_not_EQ_)
 	aotExternalFn27 := aotLinkFn2(var_clojure_DOT_core_some)
@@ -461,12 +468,10 @@ func LoadNS() {
 	aotExternalFn30 := aotLinkFn1(var_ys_DOT_v0_DOT_ys_eval)
 	aotExternalFn31 := aotLinkFn1(var_ys_DOT_v0_DOT_yaml_dump)
 	aotExternalFn32 := aotLinkFn1(var_clojure_DOT_core_pr_DASH_str)
-	aotExternalFn33 := aotLinkFn1(var_clojure_DOT_core_fn_QMARK_)
 	aotExternalFn34 := aotLinkFn1(var_clojure_DOT_string_trimr)
 	aotExternalFn35 := aotLinkFn1(var_clojure_DOT_core_doall)
 	aotExternalFn37 := aotLinkFn1(var_clojure_DOT_core_chunked_DASH_seq_QMARK_)
 	aotExternalFn38 := aotLinkFn1(var_clojure_DOT_core_chunk_DASH_first)
-	aotExternalFn4 := aotLinkFn1(var_clojure_DOT_core_deref)
 	aotExternalFn40 := aotLinkFn1(var_clojure_DOT_core_chunk_DASH_buffer)
 	aotExternalFn41 := aotLinkFn2(var_clojure_DOT_core_chunk_DASH_append)
 	aotExternalFn43 := aotLinkFn1(var_yamlscript_DOT_regex_compile)
@@ -572,6 +577,8 @@ func LoadNS() {
 	var closed0 any
 	var closed1 any
 	var closed2 any
+	var closed3 any
+	var closed4 any
 	{
 		closed0 = regexp5.MustCompile("(?m)^")
 	}
@@ -580,6 +587,12 @@ func LoadNS() {
 	}
 	{
 		closed2 = regexp5.MustCompile("\\n")
+	}
+	{
+		closed3 = lang.NewSet("note", "diag")
+	}
+	{
+		closed4 = lang.NewMap()
 	}
 	// check-string
 	{
@@ -593,8 +606,8 @@ func LoadNS() {
 			v4 := p2
 			_ = v4
 			var tmp5 any
-			tmp6 := aotExternalFn0(v2)
-			if lang.IsTruthy(tmp6) {
+			tmp6 := lang.IsString(v2)
+			if tmp6 {
 			} else {
 				tmp7 := aotExternalFn2("taptest: Test ", v4, " '", v3, "' key must be a string")
 				tmp8 := aotExternalFn1(tmp7)
@@ -604,9 +617,9 @@ func LoadNS() {
 		})
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_taptest_check_DASH_string = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_check_DASH_string.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_check_DASH_string.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(78), kw_column, int(8), kw_end_DASH_line, int(78), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value, sym_key, sym_count)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// command-hook
 	{
@@ -623,18 +636,18 @@ func LoadNS() {
 		})
 		tmp1 := lang.NewAtom(tmp2)
 		var_ys_DOT_v0_DOT_taptest_command_DASH_hook = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_command_DASH_hook.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_command_DASH_hook.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(18), kw_column, int(6), kw_end_DASH_line, int(18), kw_end_DASH_column, int(17), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// counter
 	{
 		tmp0 := sym_counter
 		tmp1 := lang.NewAtom(int64(0))
 		var_ys_DOT_v0_DOT_taptest_counter = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_counter.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_counter.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(13), kw_column, int(6), kw_end_DASH_line, int(13), kw_end_DASH_column, int(12), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// done
 	{
@@ -656,7 +669,7 @@ func LoadNS() {
 						tmp6 = v5
 					} else {
 						tmp7 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-						tmp8 := aotExternalFn4(tmp7)
+						tmp8 := lang.DerefValue(tmp7)
 						tmp6 = tmp8
 					}
 					tmp4 = tmp6
@@ -684,9 +697,9 @@ func LoadNS() {
 		)
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_taptest_done = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_done.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_done.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(244), kw_column, int(7), kw_end_DASH_line, int(244), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_n), lang.NewVector()), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// error-map-hook
 	{
@@ -700,9 +713,9 @@ func LoadNS() {
 		})
 		tmp1 := lang.NewAtom(tmp2)
 		var_ys_DOT_v0_DOT_taptest_error_DASH_map_DASH_hook = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_error_DASH_map_DASH_hook.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_error_DASH_map_DASH_hook.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(15), kw_column, int(6), kw_end_DASH_line, int(15), kw_end_DASH_column, int(19), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// get-test-name
 	{
@@ -764,7 +777,7 @@ func LoadNS() {
 				{ // let
 					// let binding "and__0__auto__"
 					tmp8 := runtime.RT.Get(v2, "what")
-					tmp9 := aotExternalFn19("error", tmp8)
+					tmp9 := lang.Equals("error", tmp8)
 					var v10 any = tmp9
 					_ = v10
 					var tmp11 any
@@ -796,9 +809,9 @@ func LoadNS() {
 		})
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_taptest_get_DASH_test_DASH_name = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_get_DASH_test_DASH_name.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_get_DASH_test_DASH_name.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(26), kw_column, int(8), kw_end_DASH_line, int(26), kw_end_DASH_column, int(20), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// get-tests
 	{
@@ -822,13 +835,13 @@ func LoadNS() {
 				_ = v6
 				var tmp7 any
 				tmp8 := lang.IsEmpty(v6)
-				if lang.IsTruthy(tmp8) {
+				if tmp8 {
 					var tmp9 lang.FnFunc1
 					tmp9 = lang.FnFunc1(func(p0 any) any {
 						v10 := p0
 						_ = v10
 						tmp11 := runtime.RT.Get(v10, "SKIP")
-						tmp12 := aotExternalFn24(tmp11)
+						tmp12 := !lang.IsTruthy(tmp11)
 						return tmp12
 					})
 					tmp10 := aotExternalFn22(tmp9, v2)
@@ -842,9 +855,9 @@ func LoadNS() {
 		})
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_taptest_get_DASH_tests = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_get_DASH_tests.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_get_DASH_tests.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(141), kw_column, int(8), kw_end_DASH_line, int(141), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_tests)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// normalize
 	{
@@ -870,22 +883,22 @@ func LoadNS() {
 				var v10 any = tmp9
 				_ = v10
 				var tmp11 any
-				tmp12 := aotExternalFn19("data", v10)
-				if lang.IsTruthy(tmp12) {
+				tmp12 := lang.Equals("data", v10)
+				if tmp12 {
 					tmp13 := aotExternalFn32(v2)
 					tmp11 = tmp13
 				} else {
 					var tmp14 any
-					tmp15 := aotExternalFn19("bare", v10)
-					if lang.IsTruthy(tmp15) {
+					tmp15 := lang.Equals("bare", v10)
+					if tmp15 {
 						tmp16 := aotExternalFn32(v2)
 						tmp14 = tmp16
 					} else {
 						var tmp17 any
 						if lang.IsTruthy(v8) {
 							var tmp18 any
-							tmp19 := aotExternalFn33(v8)
-							if lang.IsTruthy(tmp19) {
+							tmp19 := lang.IsFn(v8)
+							if tmp19 {
 								tmp20 := lang.Apply2(v8, v2, v3)
 								tmp18 = tmp20
 							} else {
@@ -898,14 +911,14 @@ func LoadNS() {
 							var tmp23 any
 							{ // let
 								// let binding "or__0__auto__"
-								tmp24 := aotExternalFn19(v6, "out")
+								tmp24 := lang.Equals(v6, "out")
 								var v25 any = tmp24
 								_ = v25
 								var tmp26 any
 								if lang.IsTruthy(v25) {
 									tmp26 = v25
 								} else {
-									tmp27 := aotExternalFn19(v6, "err")
+									tmp27 := lang.Equals(v6, "err")
 									tmp26 = tmp27
 								}
 								tmp23 = tmp26
@@ -919,7 +932,7 @@ func LoadNS() {
 									_ = v26
 									var tmp27 any
 									tmp28 := lang.IsEmpty(v26)
-									if lang.IsTruthy(tmp28) {
+									if tmp28 {
 										tmp27 = ""
 									} else {
 										tmp29 := aotExternalFn6(v26, "\n")
@@ -943,9 +956,9 @@ func LoadNS() {
 		})
 		aotDirectFn9 = tmp1
 		var_ys_DOT_v0_DOT_taptest_normalize = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_normalize.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_normalize.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(170), kw_column, int(8), kw_end_DASH_line, int(170), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_got, sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// passed
 	{
@@ -962,7 +975,7 @@ func LoadNS() {
 				_ = v5
 				// let binding "count"
 				tmp6 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-				tmp7 := aotExternalFn4(tmp6)
+				tmp7 := lang.DerefValue(tmp6)
 				var v8 any = tmp7
 				_ = v8
 				var tmp9 any
@@ -981,9 +994,9 @@ func LoadNS() {
 		})
 		aotDirectFn10 = tmp1
 		var_ys_DOT_v0_DOT_taptest_passed = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_passed.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_passed.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(43), kw_column, int(8), kw_end_DASH_line, int(43), kw_end_DASH_column, int(13), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// plan
 	{
@@ -998,9 +1011,9 @@ func LoadNS() {
 		})
 		aotDirectFn11 = tmp1
 		var_ys_DOT_v0_DOT_taptest_plan = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_plan.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_plan.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(241), kw_column, int(7), kw_end_DASH_line, int(241), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_n)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// error-map
 	{
@@ -1010,15 +1023,15 @@ func LoadNS() {
 			v2 := p0
 			_ = v2
 			tmp3 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_error_DASH_map_DASH_hook)
-			tmp4 := aotExternalFn4(tmp3)
+			tmp4 := lang.DerefValue(tmp3)
 			tmp5 := lang.Apply1(tmp4, v2)
 			return tmp5
 		})
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_taptest_error_DASH_map = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_error_DASH_map.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_error_DASH_map.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(23), kw_column, int(8), kw_end_DASH_line, int(23), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_error)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// failed
 	{
@@ -1037,7 +1050,7 @@ func LoadNS() {
 				_ = v6
 				// let binding "count"
 				tmp7 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-				tmp8 := aotExternalFn4(tmp7)
+				tmp8 := lang.DerefValue(tmp7)
 				var v9 any = tmp8
 				_ = v9
 				// let binding "keys"
@@ -1106,9 +1119,9 @@ func LoadNS() {
 		})
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_taptest_failed = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_failed.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_failed.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(58), kw_column, int(8), kw_end_DASH_line, int(58), kw_end_DASH_column, int(13), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test, sym_got)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// format-value
 	{
@@ -1165,9 +1178,9 @@ func LoadNS() {
 		})
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_taptest_format_DASH_value = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_format_DASH_value.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_format_DASH_value.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(52), kw_column, int(8), kw_end_DASH_line, int(52), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_value)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// init-test
 	{
@@ -1290,13 +1303,12 @@ func LoadNS() {
 							tmp25 = tmp28
 						} else {
 							var tmp29 any
-							tmp30 := lang.NewSet("note", "diag")
-							tmp31 := aotExternalFn27(tmp30, v9)
-							if lang.IsTruthy(tmp31) {
+							tmp30 := aotExternalFn27(closed3, v9)
+							if lang.IsTruthy(tmp30) {
 								tmp29 = v2
 							} else {
-								tmp32 := aotExternalFn1("taptest: Test requires one of: 'code', 'data', 'cmnd'")
-								tmp29 = tmp32
+								tmp31 := aotExternalFn1("taptest: Test requires one of: 'code', 'data', 'cmnd'")
+								tmp29 = tmp31
 							}
 							tmp25 = tmp29
 						}
@@ -1310,9 +1322,9 @@ func LoadNS() {
 		})
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_taptest_init_DASH_test = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_init_DASH_test.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_init_DASH_test.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(147), kw_column, int(8), kw_end_DASH_line, int(147), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// load-data
 	{
@@ -1329,7 +1341,7 @@ func LoadNS() {
 			{ // let
 				// let binding "count"
 				tmp7 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-				tmp8 := aotExternalFn4(tmp7)
+				tmp8 := lang.DerefValue(tmp7)
 				var v9 any = tmp8
 				_ = v9
 				// let binding "data"
@@ -1358,8 +1370,8 @@ func LoadNS() {
 								v21 := r
 								_ = v21
 								var tmp22 any
-								tmp23 := aotExternalFn19("error", v13)
-								if lang.IsTruthy(tmp23) {
+								tmp23 := lang.Equals("error", v13)
+								if tmp23 {
 									tmp24, ok := lang.FieldOrMethod(v21, "getMessage")
 									if !ok {
 										panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v21, "getMessage")))
@@ -1391,8 +1403,8 @@ func LoadNS() {
 						}
 					}()
 					var tmp21 any
-					tmp22 := aotExternalFn19("out", v13)
-					if lang.IsTruthy(tmp22) {
+					tmp22 := lang.Equals("out", v13)
+					if tmp22 {
 						var tmp23 any
 						{ // let
 							// let binding "s__0__auto__"
@@ -1435,9 +1447,9 @@ func LoadNS() {
 		})
 		aotDirectFn8 = tmp1
 		var_ys_DOT_v0_DOT_taptest_load_DASH_data = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_load_DASH_data.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_load_DASH_data.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(102), kw_column, int(8), kw_end_DASH_line, int(102), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// run-cmnd
 	{
@@ -1454,7 +1466,7 @@ func LoadNS() {
 			{ // let
 				// let binding "count"
 				tmp7 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-				tmp8 := aotExternalFn4(tmp7)
+				tmp8 := lang.DerefValue(tmp7)
 				var v9 any = tmp8
 				_ = v9
 				// let binding "cmnd"
@@ -1470,95 +1482,94 @@ func LoadNS() {
 				var v15 any = tmp14
 				_ = v15
 				// let binding "opts"
-				tmp16 := lang.NewMap()
-				var v17 any = tmp16
-				_ = v17
+				var v16 any = closed4
+				_ = v16
 				// let binding "stdi"
-				tmp18 := runtime.RT.Get(v2, "stdi")
-				var v19 any = tmp18
-				_ = v19
+				tmp17 := runtime.RT.Get(v2, "stdi")
+				var v18 any = tmp17
+				_ = v18
 				// let binding "opts"
-				var tmp20 any
-				if lang.IsTruthy(v19) {
-					var tmp21 any = v17
-					tmp21 = lang.Assoc(tmp21, kw_in, v19)
-					tmp20 = tmp21
+				var tmp19 any
+				if lang.IsTruthy(v18) {
+					var tmp20 any = v16
+					tmp20 = lang.Assoc(tmp20, kw_in, v18)
+					tmp19 = tmp20
 				} else {
-					tmp20 = v17
+					tmp19 = v16
 				}
-				var v22 any = tmp20
-				_ = v22
+				var v21 any = tmp19
+				_ = v21
 				// let binding "ret"
-				tmp23 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_command_DASH_hook)
-				tmp24 := aotExternalFn4(tmp23)
-				tmp25 := lang.Apply2(tmp24, v22, v11)
-				var v26 any = tmp25
-				_ = v26
-				var tmp27 any
-				tmp28 := runtime.RT.Get(v2, "form")
-				if lang.IsTruthy(tmp28) {
-					tmp27 = v26
+				tmp22 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_command_DASH_hook)
+				tmp23 := lang.DerefValue(tmp22)
+				tmp24 := lang.Apply2(tmp23, v21, v11)
+				var v25 any = tmp24
+				_ = v25
+				var tmp26 any
+				tmp27 := runtime.RT.Get(v2, "form")
+				if lang.IsTruthy(tmp27) {
+					tmp26 = v25
 				} else {
-					var tmp29 any
+					var tmp28 any
 					{ // let
 						// let binding "G__300"
-						var v30 any = v13
-						_ = v30
+						var v29 any = v13
+						_ = v29
 						// case
-						var tmp31 any
-						var tmp32 int64
-						tmp32 = int64(uint32(lang.Hash(v30)>>6) & uint32(3))
+						var tmp30 any
+						var tmp31 int64
+						tmp31 = int64(uint32(lang.Hash(v29)>>6) & uint32(3))
 						// case entry 0 (key=0, collision=false)
-						if tmp32 == 0 {
-							if lang.Equals(v30, "err") {
-								tmp33 := kw_err.Invoke1(v26)
-								tmp31 = tmp33
+						if tmp31 == 0 {
+							if lang.Equals(v29, "err") {
+								tmp32 := aotKeywordSite0.Get(kw_err, v25, nil)
+								tmp30 = tmp32
 							} else {
-								tmp31 = ""
+								tmp30 = ""
 							}
 							// case entry 1 (key=1, collision=false)
-						} else if tmp32 == 1 {
-							if lang.Equals(v30, "out") {
-								tmp34 := kw_out.Invoke1(v26)
-								tmp31 = tmp34
+						} else if tmp31 == 1 {
+							if lang.Equals(v29, "out") {
+								tmp33 := aotKeywordSite1.Get(kw_out, v25, nil)
+								tmp30 = tmp33
 							} else {
-								tmp31 = ""
+								tmp30 = ""
 							}
 							// case entry 2 (key=2, collision=false)
-						} else if tmp32 == 2 {
-							if lang.Equals(v30, "exit") {
-								tmp35 := kw_exit.Invoke1(v26)
-								tmp31 = tmp35
+						} else if tmp31 == 2 {
+							if lang.Equals(v29, "exit") {
+								tmp34 := aotKeywordSite2.Get(kw_exit, v25, nil)
+								tmp30 = tmp34
 							} else {
-								tmp31 = ""
+								tmp30 = ""
 							}
 							// case entry 3 (key=3, collision=false)
-						} else if tmp32 == 3 {
-							if lang.Equals(v30, "all") {
-								tmp36 := kw_exit.Invoke1(v26)
-								tmp37 := kw_out.Invoke1(v26)
-								tmp38 := kw_err.Invoke1(v26)
-								tmp39 := lang.NewMap("exit", tmp36, "out", tmp37, "err", tmp38)
-								tmp31 = tmp39
+						} else if tmp31 == 3 {
+							if lang.Equals(v29, "all") {
+								tmp35 := aotKeywordSite3.Get(kw_exit, v25, nil)
+								tmp36 := aotKeywordSite4.Get(kw_out, v25, nil)
+								tmp37 := aotKeywordSite5.Get(kw_err, v25, nil)
+								tmp38 := lang.NewMap("exit", tmp35, "out", tmp36, "err", tmp37)
+								tmp30 = tmp38
 							} else {
-								tmp31 = ""
+								tmp30 = ""
 							}
 						} else {
-							tmp31 = ""
+							tmp30 = ""
 						}
-						tmp29 = tmp31
+						tmp28 = tmp30
 					} // end let
-					tmp27 = tmp29
+					tmp26 = tmp28
 				}
-				tmp6 = tmp27
+				tmp6 = tmp26
 			} // end let
 			return tmp6
 		})
 		aotDirectFn12 = tmp1
 		var_ys_DOT_v0_DOT_taptest_run_DASH_cmnd = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_run_DASH_cmnd.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_run_DASH_cmnd.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(118), kw_column, int(8), kw_end_DASH_line, int(118), kw_end_DASH_column, int(15), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// run-code
 	{
@@ -1575,7 +1586,7 @@ func LoadNS() {
 			{ // let
 				// let binding "count"
 				tmp7 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-				tmp8 := aotExternalFn4(tmp7)
+				tmp8 := lang.DerefValue(tmp7)
 				var v9 any = tmp8
 				_ = v9
 				// let binding "code"
@@ -1596,14 +1607,14 @@ func LoadNS() {
 				_ = v17
 				// let binding "code"
 				var tmp18 any
-				tmp19 := aotExternalFn19("data", v17)
-				if lang.IsTruthy(tmp19) {
+				tmp19 := lang.Equals("data", v17)
+				if tmp19 {
 					tmp20 := aotExternalFn18("!ys-0:\n", v11, "\n")
 					tmp18 = tmp20
 				} else {
 					var tmp21 any
-					tmp22 := aotExternalFn19("bare", v17)
-					if lang.IsTruthy(tmp22) {
+					tmp22 := lang.Equals("bare", v17)
+					if tmp22 {
 						tmp21 = v11
 					} else {
 						tmp23 := aotExternalFn18("!ys-0\n", v11, "\n")
@@ -1623,8 +1634,8 @@ func LoadNS() {
 								v28 := r
 								_ = v28
 								var tmp29 any
-								tmp30 := aotExternalFn19("error", v13)
-								if lang.IsTruthy(tmp30) {
+								tmp30 := lang.Equals("error", v13)
+								if tmp30 {
 									tmp31, ok := lang.FieldOrMethod(v28, "getMessage")
 									if !ok {
 										panic(lang.NewIllegalArgumentError(fmt.Sprintf("no such field or method on %T: %s", v28, "getMessage")))
@@ -1656,8 +1667,8 @@ func LoadNS() {
 						}
 					}()
 					var tmp28 any
-					tmp29 := aotExternalFn19("out", v13)
-					if lang.IsTruthy(tmp29) {
+					tmp29 := lang.Equals("out", v13)
+					if tmp29 {
 						var tmp30 any
 						{ // let
 							// let binding "s__0__auto__"
@@ -1699,9 +1710,9 @@ func LoadNS() {
 		})
 		aotDirectFn13 = tmp1
 		var_ys_DOT_v0_DOT_taptest_run_DASH_code = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_run_DASH_code.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_run_DASH_code.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMapUniqueKeys(kw_file, "ys/v0/taptest.clj", kw_line, int(82), kw_column, int(8), kw_end_DASH_line, int(82), kw_end_DASH_column, int(15), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_test)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 	// test
 	{
@@ -1951,8 +1962,8 @@ func LoadNS() {
 																									var v67 any = tmp66
 																									_ = v67
 																									var tmp68 any
-																									tmp69 := aotExternalFn19(v62, v67)
-																									if lang.IsTruthy(tmp69) {
+																									tmp69 := lang.Equals(v62, v67)
+																									if tmp69 {
 																										tmp70 := aotDirectFn10(v41)
 																										tmp68 = tmp70
 																									} else {
@@ -2012,8 +2023,8 @@ func LoadNS() {
 																												var v75 any = tmp74
 																												_ = v75
 																												var tmp76 any
-																												tmp77 := aotExternalFn19(v53, true)
-																												if lang.IsTruthy(tmp77) {
+																												tmp77 := lang.Equals(v53, true)
+																												if tmp77 {
 																													tmp78 := aotDirectFn10(v75)
 																													tmp76 = tmp78
 																												} else {
@@ -2033,7 +2044,7 @@ func LoadNS() {
 																												if lang.IsTruthy(tmp77) {
 																												} else {
 																													tmp78 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-																													tmp79 := aotExternalFn4(tmp78)
+																													tmp79 := lang.DerefValue(tmp78)
 																													tmp80 := aotExternalFn18("taptest: Test ", tmp79, " requires one of: 'want', 'like', 'have'")
 																													tmp81 := aotExternalFn1(tmp80)
 																													tmp76 = tmp81
@@ -2259,8 +2270,8 @@ func LoadNS() {
 																					var v53 any = tmp52
 																					_ = v53
 																					var tmp54 any
-																					tmp55 := aotExternalFn19(v48, v53)
-																					if lang.IsTruthy(tmp55) {
+																					tmp55 := lang.Equals(v48, v53)
+																					if tmp55 {
 																						tmp56 := aotDirectFn10(v27)
 																						tmp54 = tmp56
 																					} else {
@@ -2320,8 +2331,8 @@ func LoadNS() {
 																								var v61 any = tmp60
 																								_ = v61
 																								var tmp62 any
-																								tmp63 := aotExternalFn19(v39, true)
-																								if lang.IsTruthy(tmp63) {
+																								tmp63 := lang.Equals(v39, true)
+																								if tmp63 {
 																									tmp64 := aotDirectFn10(v61)
 																									tmp62 = tmp64
 																								} else {
@@ -2341,7 +2352,7 @@ func LoadNS() {
 																								if lang.IsTruthy(tmp63) {
 																								} else {
 																									tmp64 := checkDerefVar(var_ys_DOT_v0_DOT_taptest_counter)
-																									tmp65 := aotExternalFn4(tmp64)
+																									tmp65 := lang.DerefValue(tmp64)
 																									tmp66 := aotExternalFn18("taptest: Test ", tmp65, " requires one of: 'want', 'like', 'have'")
 																									tmp67 := aotExternalFn1(tmp66)
 																									tmp62 = tmp67
@@ -2403,8 +2414,8 @@ func LoadNS() {
 		})
 		aotDirectFn14 = tmp1
 		var_ys_DOT_v0_DOT_taptest_test = ns.InternWithValue(tmp0, tmp1, true)
-		var_ys_DOT_v0_DOT_taptest_test.SetMetaLazy(func() lang.IPersistentMap {
+		var_ys_DOT_v0_DOT_taptest_test.SetMetaLazyMacro(func() lang.IPersistentMap {
 			return lang.NewMap(kw_file, "ys/v0/taptest.clj", kw_line, int(191), kw_column, int(7), kw_end_DASH_line, int(191), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_tests)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_taptest))
-		})
+		}, false)
 	}
 }

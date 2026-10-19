@@ -18,6 +18,59 @@ func mapValue(value any, key string) any {
 	return glj.Var("clojure.core", "get").Invoke(value, lang.NewKeyword(key))
 }
 
+func TestSetOperators(t *testing.T) {
+	Load()
+	cases := []struct {
+		expression string
+		want       string
+	}{
+		{`(ys.v0.std/add+ #{1 2} [2 3])`, `#{1 2 3}`},
+		{`(ys.v0.std/add+ [1 1] #{2})`, `[1 1 2]`},
+		{`(ys.v0.std/sub+ #{1 2 3} '(2 3))`, `#{1}`},
+		{`(ys.v0.std/sub+ [nil false 1] #{nil false})`, `[1]`},
+		{`(ys.v0.std/mul+ #{nil false 1} [nil false])`, `#{nil false}`},
+		{`(ys.v0.std/mul+ [3 1 3 2] #{3})`, `[3 3]`},
+		{`(ys.v0.std/mul+ '(3 1 3 2) #{3})`, `(3 3)`},
+		{`(vector? (ys.v0.std/mul+ [1] #{}))`, `true`},
+		{`(seq? (ys.v0.std/sub+ '(1) #{1}))`, `true`},
+		{`(ys.v0.std/sub+ #{nil false 1} nil false)`, `#{1}`},
+		{`(ys.v0.std/mul+ [3 1 3 2] #{1 3} #{3})`, `[3 3]`},
+		{`(ys.v0.std/lt #{} #{1} #{1 2})`, `true`},
+		{`(ys.v0.std/le #{1} #{1})`, `true`},
+		{`(ys.v0.std/gt #{1 2} #{1} #{})`, `true`},
+		{`(ys.v0.std/ge #{1} #{1})`, `true`},
+		{`(ys.v0.std/lt #{1} #{2 3})`, `false`},
+		{`(ys.v0.std/lt #{1} #{1})`, `false`},
+		{`(ys.v0.std/gt #{1} #{1})`, `false`},
+		{`((ys.v0.std/lt #{1 2}) #{1})`, `true`},
+		{`((ys.v0.std/ge #{1}) #{1})`, `true`},
+		{`(apply ys.v0.std/lt (range 10000))`, `true`},
+		{`(ys.v0.std/lt 2 1 #{})`, `false`},
+	}
+	eval := glj.Var("clojure.core", "eval")
+	for _, tc := range cases {
+		t.Run(tc.expression, func(t *testing.T) {
+			got := eval.Invoke(glj.Read(tc.expression))
+			if !lang.Equals(got, glj.Read(tc.want)) {
+				t.Fatalf("got %v, want %s", got, tc.want)
+			}
+		})
+	}
+	for _, op := range []string{"lt", "le", "gt", "ge"} {
+		for _, args := range []string{`#{1} [1]`, `[1] #{1}`} {
+			expression := fmt.Sprintf(
+				`(try (ys.v0.std/%s %s) false (catch go/any _ true))`,
+				op, args,
+			)
+			t.Run(expression, func(t *testing.T) {
+				if got := eval.Invoke(glj.Read(expression)); got != true {
+					t.Fatal("mixed set/sequence comparison did not throw")
+				}
+			})
+		}
+	}
+}
+
 func TestPlatformArgsPreferHostedCommandLineArgs(t *testing.T) {
 	Load()
 	argsVar := lang.NSCore.FindInternedVar(

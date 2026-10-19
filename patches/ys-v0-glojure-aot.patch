@@ -161,7 +161,7 @@ diff -ruN a/ys/v0/common.cljc b/ys/v0/common.cljc
 diff -ruN a/ys/v0.cljc b/ys/v0.cljc
 --- a/ys/v0.cljc
 +++ b/ys/v0.cljc
-@@ -22,6 +22,7 @@
+@@ -23,6 +23,7 @@
    (:require
     [clojure.string :as str]
     [clojure.walk]
@@ -169,7 +169,7 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
     [ys.v0.clj]
     [ys.v0.common :as common]
     [ys.v0.csv]
-@@ -106,7 +107,7 @@
+@@ -104,7 +105,7 @@
  
  (defn- get-hostname []
    (or
@@ -178,7 +178,7 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
         :default
         (util/catching
           (not-empty (.getHostName (java.net.InetAddress/getLocalHost)))
-@@ -116,10 +117,12 @@
+@@ -114,10 +115,12 @@
  
  (defn- get-runtime-info []
    {:args (util/catching (common/get-cmd-args) [])
@@ -193,7 +193,7 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
     :pid (util/catching (common/get-cmd-pid) nil)
     :versions {:clojure #?(:glj (str "glojure " *glojure-version*)
                            :default (clojure-version))
-@@ -133,26 +136,29 @@
+@@ -131,17 +134,19 @@
    (let [file (if (and *file* (not= *file* "NO_SOURCE_PATH"))
                 (common/abspath *file*)
                 (common/abspath "NO-NAME"))
@@ -216,14 +216,13 @@ diff -ruN a/ys/v0.cljc b/ys/v0.cljc
  
  (defn init
    "Set up the calling namespace to run YS compiled code."
-   ([] (init nil))
-   ([opts]
-    (let [target *ns*]
-      (refer-exports target)
-      (refer-runtime-vars target)
--     (bind-runtime-vars)
-+     (when-not *compile-files*
-+       (bind-runtime-vars))
-      (when-let [v (:v opts)]
-        (when (not= v VERSION)
-          (binding [*out* *err*]
+@@ -151,7 +156,8 @@
+      (let [target *ns*]
+        (refer-exports target)
+        (refer-runtime-vars target)
+-       (bind-runtime-vars)
++       (when-not *compile-files*
++         (bind-runtime-vars))
+        (when-let [v (:v opts)]
+          (when (not= v VERSION)
+            (binding [*out* *err*]

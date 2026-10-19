@@ -131,13 +131,16 @@ func LoadNS() {
 		srcNS := lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std)
 		ns.ReferAllSnapshot(srcNS, []string{
 			"+def-defn",
+			"compare-chain",
 			"destructure-idx",
 			"destructure-map",
 			"destructure-vector",
+			"filter-members",
 			"invoke-constructor",
 			"op-error",
 			"ordered-map-fn",
 			"pow*",
+			"set-pair?",
 		})
 	}
 }
