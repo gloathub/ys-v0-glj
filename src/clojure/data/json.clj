@@ -169,7 +169,8 @@
 
 (defn read-str [s & _opts]
   "Parse JSON string to Clojure data"
-  (let [[value _] (parse-value s 0)]
+  ;; Glojure strings scan UTF-8 for count and nth. Index characters once.
+  (let [[value _] (parse-value (vec s) 0)]
     value))
 
 (comment

@@ -195,6 +195,7 @@ func LoadNS() {
 	sym_subs := lang.NewSymbolUnchecked("subs")
 	sym_true_QMARK_ := lang.NewSymbolUnchecked("true?")
 	sym_type := lang.NewSymbolUnchecked("type")
+	sym_vec := lang.NewSymbolUnchecked("vec")
 	sym_write_DASH_str := lang.NewSymbolUnchecked("write-str")
 	sym_x := lang.NewSymbolUnchecked("x")
 	kw_arglists := lang.NewKeyword("arglists")
@@ -227,6 +228,8 @@ func LoadNS() {
 	var_clojure_DOT_core_true_QMARK_ := lang.InternVarName(sym_clojure_DOT_core, sym_true_QMARK_)
 	// var clojure.core/type
 	var_clojure_DOT_core_type := lang.InternVarName(sym_clojure_DOT_core, sym_type)
+	// var clojure.core/vec
+	var_clojure_DOT_core_vec := lang.InternVarName(sym_clojure_DOT_core, sym_vec)
 	// var clojure.data.json/escape-string
 	var_clojure_DOT_data_DOT_json_escape_DASH_string := lang.InternVarName(sym_clojure_DOT_data_DOT_json, sym_escape_DASH_string)
 	// var clojure.data.json/is-digit?
@@ -256,16 +259,17 @@ func LoadNS() {
 	aotExternalFn0 := aotLinkFn3(var_clojure_DOT_string_replace)
 	aotExternalFn10 := aotLinkFn1(var_clojure_DOT_core_println)
 	aotExternalFn11 := aotLinkFn3(var_clojure_DOT_core_apply)
-	aotExternalFn12 := aotLinkFn1(var_clojure_DOT_core_true_QMARK_)
-	aotExternalFn13 := aotLinkFn1(var_clojure_DOT_core_false_QMARK_)
-	aotExternalFn15 := aotLinkFn1(var_clojure_DOT_core_str)
-	aotExternalFn16 := aotLinkFn3(var_clojure_DOT_core_str)
-	aotExternalFn18 := aotLinkFn2(var_clojure_DOT_core_subs)
-	aotExternalFn22 := aotLinkFn2(var_clojure_DOT_core_map)
-	aotExternalFn23 := aotLinkFn4(var_clojure_DOT_core_str)
-	aotExternalFn24 := aotLinkFn2(var_clojure_DOT_string_join)
-	aotExternalFn25 := aotLinkFn1(var_clojure_DOT_core_sequential_QMARK_)
-	aotExternalFn26 := aotLinkFn1(var_clojure_DOT_core_type)
+	aotExternalFn12 := aotLinkFn1(var_clojure_DOT_core_vec)
+	aotExternalFn13 := aotLinkFn1(var_clojure_DOT_core_true_QMARK_)
+	aotExternalFn14 := aotLinkFn1(var_clojure_DOT_core_false_QMARK_)
+	aotExternalFn16 := aotLinkFn1(var_clojure_DOT_core_str)
+	aotExternalFn17 := aotLinkFn3(var_clojure_DOT_core_str)
+	aotExternalFn19 := aotLinkFn2(var_clojure_DOT_core_subs)
+	aotExternalFn23 := aotLinkFn2(var_clojure_DOT_core_map)
+	aotExternalFn24 := aotLinkFn4(var_clojure_DOT_core_str)
+	aotExternalFn25 := aotLinkFn2(var_clojure_DOT_string_join)
+	aotExternalFn26 := aotLinkFn1(var_clojure_DOT_core_sequential_QMARK_)
+	aotExternalFn27 := aotLinkFn1(var_clojure_DOT_core_type)
 	aotExternalFn4 := aotLinkFn2(var_clojure_DOT_core_not_EQ_)
 	aotExternalFn7 := aotLinkFn2(var_clojure_DOT_core_str)
 	aotExternalFn8 := aotLinkFn1(var_clojure_DOT_core_read_DASH_string)
@@ -1075,18 +1079,19 @@ func LoadNS() {
 				var tmp4 any
 				{ // let
 					// let binding "vec__18"
-					tmp5 := aotDirectFn6(v2, int64(0))
-					var v6 any = tmp5
-					_ = v6
+					tmp5 := aotExternalFn12(v2)
+					tmp6 := aotDirectFn6(tmp5, int64(0))
+					var v7 any = tmp6
+					_ = v7
 					// let binding "value"
-					tmp7 := runtime.RT.NthDefault(v6, lang.IntCast(int64(0)), nil)
-					var v8 any = tmp7
-					_ = v8
+					tmp8 := runtime.RT.NthDefault(v7, lang.IntCast(int64(0)), nil)
+					var v9 any = tmp8
+					_ = v9
 					// let binding "_"
-					tmp9 := runtime.RT.NthDefault(v6, lang.IntCast(int64(1)), nil)
-					var v10 any = tmp9
-					_ = v10
-					tmp4 = v8
+					tmp10 := runtime.RT.NthDefault(v7, lang.IntCast(int64(1)), nil)
+					var v11 any = tmp10
+					_ = v11
+					tmp4 = v9
 				} // end let
 				return tmp4
 			}),
@@ -1220,12 +1225,12 @@ func LoadNS() {
 					tmp4 = "null"
 				} else {
 					var tmp6 any
-					tmp7 := aotExternalFn12(v2)
+					tmp7 := aotExternalFn13(v2)
 					if lang.IsTruthy(tmp7) {
 						tmp6 = "true"
 					} else {
 						var tmp8 any
-						tmp9 := aotExternalFn13(v2)
+						tmp9 := aotExternalFn14(v2)
 						if lang.IsTruthy(tmp9) {
 							tmp8 = "false"
 						} else {
@@ -1235,19 +1240,19 @@ func LoadNS() {
 								var tmp12 any
 								{ // let
 									// let binding "s"
-									tmp13 := aotExternalFn15(v2)
+									tmp13 := aotExternalFn16(v2)
 									var v14 any = tmp13
 									_ = v14
 									var tmp15 any
 									tmp16 := lang.First(v14)
 									tmp17 := lang.Equals(tmp16, lang.NewChar(58))
 									if tmp17 {
-										tmp18 := aotExternalFn18(v14, int64(1))
+										tmp18 := aotExternalFn19(v14, int64(1))
 										tmp15 = tmp18
 									} else {
 										tmp15 = v14
 									}
-									tmp19 := aotExternalFn16("\"", tmp15, "\"")
+									tmp19 := aotExternalFn17("\"", tmp15, "\"")
 									tmp12 = tmp19
 								} // end let
 								tmp10 = tmp12
@@ -1256,13 +1261,13 @@ func LoadNS() {
 								tmp14 := lang.IsString(v2)
 								if tmp14 {
 									tmp15 := aotDirectFn0(v2)
-									tmp16 := aotExternalFn16("\"", tmp15, "\"")
+									tmp16 := aotExternalFn17("\"", tmp15, "\"")
 									tmp13 = tmp16
 								} else {
 									var tmp17 any
 									tmp18 := lang.IsNumber(v2)
 									if tmp18 {
-										tmp19 := aotExternalFn15(v2)
+										tmp19 := aotExternalFn16(v2)
 										tmp17 = tmp19
 									} else {
 										var tmp20 any
@@ -1291,14 +1296,14 @@ func LoadNS() {
 														var tmp31 any
 														{ // let
 															// let binding "ks"
-															tmp32 := aotExternalFn15(v28)
+															tmp32 := aotExternalFn16(v28)
 															var v33 any = tmp32
 															_ = v33
 															// let binding "key-str"
 															var tmp34 any
 															tmp35 := lang.IsKeyword(v28)
 															if tmp35 {
-																tmp36 := aotExternalFn18(v33, int64(1))
+																tmp36 := aotExternalFn19(v33, int64(1))
 																tmp34 = tmp36
 															} else {
 																tmp34 = v33
@@ -1307,35 +1312,35 @@ func LoadNS() {
 															_ = v37
 															tmp38 := aotDirectFn0(v37)
 															tmp39 := aotDirectFn10.Invoke1(v30)
-															tmp40 := aotExternalFn23("\"", tmp38, "\":", tmp39)
+															tmp40 := aotExternalFn24("\"", tmp38, "\":", tmp39)
 															tmp31 = tmp40
 														} // end let
 														tmp25 = tmp31
 													} // end let
 													return tmp25
 												})
-												tmp24 := aotExternalFn22(tmp23, v2)
+												tmp24 := aotExternalFn23(tmp23, v2)
 												var v25 any = tmp24
 												_ = v25
-												tmp26 := aotExternalFn24(",", v25)
-												tmp27 := aotExternalFn16("{", tmp26, "}")
+												tmp26 := aotExternalFn25(",", v25)
+												tmp27 := aotExternalFn17("{", tmp26, "}")
 												tmp22 = tmp27
 											} // end let
 											tmp20 = tmp22
 										} else {
 											var tmp23 any
-											tmp24 := aotExternalFn25(v2)
+											tmp24 := aotExternalFn26(v2)
 											if lang.IsTruthy(tmp24) {
 												tmp25 := checkDerefVar(var_clojure_DOT_data_DOT_json_write_DASH_str)
-												tmp26 := aotExternalFn22(tmp25, v2)
-												tmp27 := aotExternalFn24(",", tmp26)
-												tmp28 := aotExternalFn16("[", tmp27, "]")
+												tmp26 := aotExternalFn23(tmp25, v2)
+												tmp27 := aotExternalFn25(",", tmp26)
+												tmp28 := aotExternalFn17("[", tmp27, "]")
 												tmp23 = tmp28
 											} else {
 												tmp29 := reflect.TypeOf((*error)(nil)).Elem()
 												tmp30 := lang.NewClass(tmp29, "java.lang.Exception")
-												tmp31 := aotExternalFn26(v2)
-												tmp32 := aotExternalFn16("Cannot encode ", tmp31, " to JSON")
+												tmp31 := aotExternalFn27(v2)
+												tmp32 := aotExternalFn17("Cannot encode ", tmp31, " to JSON")
 												tmp33 := lang.NewHostInstance(tmp30, tmp32)
 												panic(tmp33)
 											}
@@ -1388,7 +1393,7 @@ func LoadNS() {
 		aotDirectFn7 = tmp1
 		var_clojure_DOT_data_DOT_json_pprint = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_pprint.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(182), kw_column, int(7), kw_end_DASH_line, int(182), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(183), kw_column, int(7), kw_end_DASH_line, int(183), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-number

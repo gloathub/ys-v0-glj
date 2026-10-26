@@ -28,6 +28,11 @@ generate: $(GLJ) $(GO) $(PERL) $(GLOJURE-SRC)
 test: generate
 	$(GO) test ./...
 
+BENCH-ARGS ?= -benchtime=1x -count=10
+
+bench-json: $(GO)
+	$(GO) test ./runtime -run '^$$' -bench BenchmarkJSONRead $(BENCH-ARGS)
+
 check-generated: generate
 	git diff --exit-code -- \
 	  babashka bb clojure yamlscript ys source runtime/namespaces.edn
