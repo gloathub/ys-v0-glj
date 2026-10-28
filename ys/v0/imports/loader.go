@@ -575,18 +575,18 @@ func LoadNS() {
 					_ = v17
 					var tmp18 any
 					{ // let
-						// let binding "vec__89"
+						// let binding "vec__150"
 						var v19 any = v17
 						_ = v19
-						// let binding "seq__90"
+						// let binding "seq__151"
 						tmp20 := lang.Seq(v19)
 						var v21 any = tmp20
 						_ = v21
-						// let binding "first__91"
+						// let binding "first__152"
 						tmp22 := lang.First(v21)
 						var v23 any = tmp22
 						_ = v23
-						// let binding "seq__90"
+						// let binding "seq__151"
 						tmp24 := lang.Next(v21)
 						var v25 any = tmp24
 						_ = v25
@@ -685,7 +685,7 @@ func LoadNS() {
 			{ // let
 				// let binding "iter__0__auto__"
 				var tmp6 lang.FnFunc1
-				{ // function iter__85
+				{ // function iter__146
 					var v7 lang.FnFunc1
 					tmp6 = lang.FnFunc1(func(p0 any) any {
 						v8 := p0
@@ -694,7 +694,7 @@ func LoadNS() {
 						tmp9 = lang.FnFunc0(func() any {
 							var tmp10 any
 							{ // let
-								// let binding "s__86"
+								// let binding "s__147"
 								var v11 any = v8
 								_ = v11
 								for {
@@ -708,7 +708,7 @@ func LoadNS() {
 										if lang.IsTruthy(v14) {
 											var tmp16 any
 											{ // let
-												// let binding "s__86"
+												// let binding "s__147"
 												var v17 any = v14
 												_ = v17
 												var tmp18 any
@@ -725,14 +725,14 @@ func LoadNS() {
 														tmp24 := runtime.RT.IntCast(tmp23)
 														var v25 any = tmp24
 														_ = v25
-														// let binding "b__88"
+														// let binding "b__149"
 														tmp26 := aotExternalFn22(v25)
 														var v27 any = tmp26
 														_ = v27
 														var tmp28 any
 														var tmp29 any
 														{ // let
-															// let binding "i__87"
+															// let binding "i__148"
 															tmp30 := runtime.RT.IntCast(int64(0))
 															var v31 any = tmp30
 															_ = v31

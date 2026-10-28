@@ -934,17 +934,17 @@ func LoadNS() {
 				_ = v8
 				var tmp9 any
 				{ // let
-					// let binding "seq_105"
+					// let binding "seq_166"
 					tmp10 := lang.Seq(v2)
 					var v11 any = tmp10
 					_ = v11
-					// let binding "chunk_106"
+					// let binding "chunk_167"
 					var v12 any = nil
 					_ = v12
-					// let binding "count_107"
+					// let binding "count_168"
 					var v13 any = int64(0)
 					_ = v13
-					// let binding "i_108"
+					// let binding "i_169"
 					var v14 any = int64(0)
 					_ = v14
 					for {
@@ -1002,7 +1002,7 @@ func LoadNS() {
 								if lang.IsTruthy(v20) {
 									var tmp22 any
 									{ // let
-										// let binding "seq_105"
+										// let binding "seq_166"
 										var v23 any = v20
 										_ = v23
 										var tmp24 any
@@ -1146,18 +1146,18 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "seq_117"
+				// let binding "seq_178"
 				tmp4 := aotExternalFn15(v2)
 				tmp5 := lang.Seq(tmp4)
 				var v6 any = tmp5
 				_ = v6
-				// let binding "chunk_118"
+				// let binding "chunk_179"
 				var v7 any = nil
 				_ = v7
-				// let binding "count_119"
+				// let binding "count_180"
 				var v8 any = int64(0)
 				_ = v8
-				// let binding "i_120"
+				// let binding "i_181"
 				var v9 any = int64(0)
 				_ = v9
 				for {
@@ -1166,7 +1166,7 @@ func LoadNS() {
 					if lang.IsTruthy(tmp11) {
 						var tmp12 any
 						{ // let
-							// let binding "vec__121"
+							// let binding "vec__182"
 							tmp13 := v7.(interface{ Nth(int) any }).Nth(lang.IntCast(v9))
 							var v14 any = tmp13
 							_ = v14
@@ -1181,10 +1181,10 @@ func LoadNS() {
 							var tmp19 any
 							var tmp20 any
 							{ // let
-								// let binding "G__124"
+								// let binding "G__185"
 								var v21 any = v18
 								_ = v21
-								// let binding "G__124"
+								// let binding "G__185"
 								var tmp22 any
 								tmp23 := lang.Identical(v21, nil)
 								if lang.IsTruthy(tmp23) {
@@ -1194,7 +1194,7 @@ func LoadNS() {
 								}
 								var v25 any = tmp22
 								_ = v25
-								// let binding "G__124"
+								// let binding "G__185"
 								var tmp26 any
 								tmp27 := lang.Identical(v25, nil)
 								if lang.IsTruthy(tmp27) {
@@ -1253,7 +1253,7 @@ func LoadNS() {
 							if lang.IsTruthy(v15) {
 								var tmp17 any
 								{ // let
-									// let binding "seq_117"
+									// let binding "seq_178"
 									var v18 any = v15
 									_ = v18
 									var tmp19 any
@@ -1283,7 +1283,7 @@ func LoadNS() {
 									} else {
 										var tmp22 any
 										{ // let
-											// let binding "vec__125"
+											// let binding "vec__186"
 											tmp23 := lang.First(v18)
 											var v24 any = tmp23
 											_ = v24
@@ -1298,10 +1298,10 @@ func LoadNS() {
 											var tmp29 any
 											var tmp30 any
 											{ // let
-												// let binding "G__128"
+												// let binding "G__189"
 												var v31 any = v28
 												_ = v31
-												// let binding "G__128"
+												// let binding "G__189"
 												var tmp32 any
 												tmp33 := lang.Identical(v31, nil)
 												if lang.IsTruthy(tmp33) {
@@ -1311,7 +1311,7 @@ func LoadNS() {
 												}
 												var v35 any = tmp32
 												_ = v35
-												// let binding "G__128"
+												// let binding "G__189"
 												var tmp36 any
 												tmp37 := lang.Identical(v35, nil)
 												if lang.IsTruthy(tmp37) {
@@ -1417,7 +1417,7 @@ func LoadNS() {
 				if lang.IsTruthy(v6) {
 					var tmp8 any
 					{ // let
-						// let binding "vec__109"
+						// let binding "vec__170"
 						var v9 any = v6
 						_ = v9
 						// let binding "_"
@@ -2519,7 +2519,7 @@ func LoadNS() {
 				// let binding "ns"
 				var tmp6 any
 				{ // let
-					// let binding "pred__92"
+					// let binding "pred__153"
 					var tmp7 lang.FnFunc2
 					tmp7 = lang.FnFunc2(func(p0, p1 any) any {
 						v8 := p0
@@ -2531,7 +2531,7 @@ func LoadNS() {
 					})
 					var v8 any = tmp7
 					_ = v8
-					// let binding "expr__93"
+					// let binding "expr__154"
 					var v9 any = v2
 					_ = v9
 					var tmp10 any
@@ -2586,7 +2586,7 @@ func LoadNS() {
 						// let binding "key"
 						var tmp13 any
 						{ // let
-							// let binding "pred__94"
+							// let binding "pred__155"
 							var tmp14 lang.FnFunc2
 							tmp14 = lang.FnFunc2(func(p0, p1 any) any {
 								v15 := p0
@@ -2598,7 +2598,7 @@ func LoadNS() {
 							})
 							var v15 any = tmp14
 							_ = v15
-							// let binding "expr__95"
+							// let binding "expr__156"
 							var v16 any = v10
 							_ = v16
 							var tmp17 any
@@ -2708,7 +2708,7 @@ func LoadNS() {
 			_ = tmp5
 			var tmp6 any
 			{ // let
-				// let binding "vec__112"
+				// let binding "vec__173"
 				var tmp7 any
 				{ // let
 					// let binding "or__0__auto__"
@@ -2814,7 +2814,7 @@ func LoadNS() {
 							// let binding "loaded-module"
 							var tmp19 any
 							{ // let
-								// let binding "G__115"
+								// let binding "G__176"
 								var v20 any = v10
 								_ = v20
 								// case
@@ -2918,10 +2918,10 @@ func LoadNS() {
 											// let binding "dependency-options"
 											var tmp50 any
 											{ // let
-												// let binding "G__116"
+												// let binding "G__177"
 												var v51 any = closed5
 												_ = v51
-												// let binding "G__116"
+												// let binding "G__177"
 												var tmp52 any
 												tmp53 := checkDerefVar(var_ys_DOT_v0_DOT_global_ENV)
 												tmp54 := runtime.RT.Get(tmp53, "YS_MAVEN_REPOSITORY")
@@ -3143,7 +3143,7 @@ func LoadNS() {
 										if lang.IsTruthy(v30) {
 											var tmp32 any
 											{ // let
-												// let binding "vec__99"
+												// let binding "vec__160"
 												var v33 any = v30
 												_ = v33
 												// let binding "source"
@@ -3220,7 +3220,7 @@ func LoadNS() {
 									if lang.IsTruthy(tmp30) {
 										var tmp31 any
 										{ // let
-											// let binding "vec__102"
+											// let binding "vec__163"
 											tmp32 := aotDirectFn28(v12, v5)
 											var v33 any = tmp32
 											_ = v33
@@ -3315,17 +3315,17 @@ func LoadNS() {
 			_ = tmp4
 			var tmp7 any
 			{ // let
-				// let binding "seq_129"
+				// let binding "seq_190"
 				tmp8 := lang.Seq(v3)
 				var v9 any = tmp8
 				_ = v9
-				// let binding "chunk_130"
+				// let binding "chunk_191"
 				var v10 any = nil
 				_ = v10
-				// let binding "count_131"
+				// let binding "count_192"
 				var v11 any = int64(0)
 				_ = v11
-				// let binding "i_132"
+				// let binding "i_193"
 				var v12 any = int64(0)
 				_ = v12
 				for {
@@ -3468,7 +3468,7 @@ func LoadNS() {
 							if lang.IsTruthy(v18) {
 								var tmp20 any
 								{ // let
-									// let binding "seq_129"
+									// let binding "seq_190"
 									var v21 any = v18
 									_ = v21
 									var tmp22 any
@@ -3735,7 +3735,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "vec__96"
+				// let binding "vec__157"
 				tmp5 := checkDerefVar(var_clojure_DOT_core_keyword_QMARK_)
 				tmp6 := aotExternalFn80(tmp5)
 				tmp7 := aotExternalFn74(v3)

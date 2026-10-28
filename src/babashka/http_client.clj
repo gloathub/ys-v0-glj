@@ -20,6 +20,7 @@
 ;;------------------------------------------------------------------------------
 
 (defn- request [method url opts]
+  ;; TODO: Support request options beyond :body and :headers.
   (let [body-str (or (:body opts) "")
         reader (strings.NewReader body-str)
         [req req-err] (net:http.NewRequest method url reader)]
@@ -36,6 +37,7 @@
             {:status 500 :body (str "Request failed: " (.Error resp-err))}
             (let [[body-bytes body-err] (io.ReadAll (.Body resp))]
               (.Close (.Body resp))
+              ;; TODO: Include response headers and other response metadata.
               {:status (.StatusCode resp)
                :body (if (nil? body-err)
                        (bytes-to-str body-bytes)

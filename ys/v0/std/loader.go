@@ -157,7 +157,7 @@ var aotDirectFn94 lang.ArityFn
 var aotDirectFn95 lang.ArityFn
 var aotDirectFn95Arity3 lang.FnFunc3
 var aotDirectFn96 lang.FnFunc1
-var aotDirectFn97 lang.ArityFn
+var aotDirectFn97 lang.FnFunc1
 var aotDirectFn98 lang.ArityFn
 var aotDirectFn98Arity0 lang.FnFunc0
 var aotDirectFn98Arity1 lang.FnFunc1
@@ -225,7 +225,7 @@ var aotDirectFn143 lang.ArityFn
 var aotDirectFn144 lang.FnFunc2
 var aotDirectFn145 lang.ArityFn
 var aotDirectFn146 lang.FnFunc1
-var aotDirectFn147 lang.ArityFn
+var aotDirectFn147 lang.FnFunc2
 
 var aotKeywordSite0 lang.KeywordSite
 
@@ -522,6 +522,7 @@ func LoadNS() {
 	sym_cond := lang.NewSymbolUnchecked("cond")
 	sym_conj := lang.NewSymbolUnchecked("conj")
 	sym_contains_QMARK_ := lang.NewSymbolUnchecked("contains?")
+	sym_content := lang.NewSymbolUnchecked("content")
 	sym_convert_DASH_url := lang.NewSymbolUnchecked("convert-url")
 	sym_count := lang.NewSymbolUnchecked("count")
 	sym_cset := lang.NewSymbolUnchecked("cset")
@@ -576,6 +577,7 @@ func LoadNS() {
 	sym_fn_QMARK_ := lang.NewSymbolUnchecked("fn?")
 	sym_force := lang.NewSymbolUnchecked("force")
 	sym_format := lang.NewSymbolUnchecked("format")
+	sym_fs := lang.NewSymbolUnchecked("fs")
 	sym_ge := lang.NewSymbolUnchecked("ge")
 	sym_gensym := lang.NewSymbolUnchecked("gensym")
 	sym_get_PLUS_ := lang.NewSymbolUnchecked("get+")
@@ -657,6 +659,7 @@ func LoadNS() {
 	sym_p1__21__1__auto__ := lang.NewSymbolUnchecked("p1__21__1__auto__")
 	sym_p2__22__2__auto__ := lang.NewSymbolUnchecked("p2__22__2__auto__")
 	sym_partial := lang.NewSymbolUnchecked("partial")
+	sym_path := lang.NewSymbolUnchecked("path")
 	sym_pod_DASH_name := lang.NewSymbolUnchecked("pod-name")
 	sym_pow := lang.NewSymbolUnchecked("pow")
 	sym_pp := lang.NewSymbolUnchecked("pp")
@@ -793,10 +796,12 @@ func LoadNS() {
 	sym_xs := lang.NewSymbolUnchecked("xs")
 	sym_y := lang.NewSymbolUnchecked("y")
 	sym_ys := lang.NewSymbolUnchecked("ys")
+	sym_ys_DOT_fs := lang.NewSymbolUnchecked("ys.fs")
 	sym_ys_DOT_io := lang.NewSymbolUnchecked("ys.io")
 	sym_ys_DOT_pprint := lang.NewSymbolUnchecked("ys.pprint")
 	sym_ys_DOT_v0_DOT_common := lang.NewSymbolUnchecked("ys.v0.common")
 	sym_ys_DOT_v0_DOT_ext := lang.NewSymbolUnchecked("ys.v0.ext")
+	sym_ys_DOT_v0_DOT_fs := lang.NewSymbolUnchecked("ys.v0.fs")
 	sym_ys_DOT_v0_DOT_global := lang.NewSymbolUnchecked("ys.v0.global")
 	sym_ys_DOT_v0_DOT_io := lang.NewSymbolUnchecked("ys.v0.io")
 	sym_ys_DOT_v0_DOT_pprint := lang.NewSymbolUnchecked("ys.v0.pprint")
@@ -1093,6 +1098,10 @@ func LoadNS() {
 	var_ys_DOT_v0_DOT_common_regex_QMARK_ := lang.InternVarName(sym_ys_DOT_v0_DOT_common, sym_regex_QMARK_)
 	// var ys.v0.ext/convert-url
 	var_ys_DOT_v0_DOT_ext_convert_DASH_url := lang.InternVarName(sym_ys_DOT_v0_DOT_ext, sym_convert_DASH_url)
+	// var ys.v0.fs/read
+	var_ys_DOT_v0_DOT_fs_read := lang.InternVarName(sym_ys_DOT_v0_DOT_fs, sym_read)
+	// var ys.v0.fs/write
+	var_ys_DOT_v0_DOT_fs_write := lang.InternVarName(sym_ys_DOT_v0_DOT_fs, sym_write)
 	// var ys.v0.global/current-input
 	var_ys_DOT_v0_DOT_global_current_DASH_input := lang.InternVarName(sym_ys_DOT_v0_DOT_global, sym_current_DASH_input)
 	// var ys.v0.global/doc-anchors_
@@ -1497,28 +1506,30 @@ func LoadNS() {
 	aotExternalFn109 := aotLinkFn1(var_clojure_DOT_core_re_DASH_pattern)
 	aotExternalFn11 := aotLinkFn1(var_clojure_DOT_core_vec)
 	aotExternalFn110 := aotLinkFn1(var_clojure_DOT_core_concat)
-	aotExternalFn111 := aotLinkFn1(var_ys_DOT_v0_DOT_io_readline)
-	aotExternalFn112 := aotLinkFn0(var_ys_DOT_v0_DOT_global_current_DASH_input)
-	aotExternalFn113 := aotLinkFn1(var_clojure_DOT_core_replace)
-	aotExternalFn114 := aotLinkFn1(var_ys_DOT_v0_DOT_common_regex_QMARK_)
-	aotExternalFn115 := aotLinkFn3(var_clojure_DOT_string_replace)
-	aotExternalFn116 := aotLinkFn2(var_clojure_DOT_core_replace)
-	aotExternalFn117 := aotLinkFn1(var_clojure_DOT_string_reverse)
-	aotExternalFn118 := aotLinkFn1(var_clojure_DOT_core_char_QMARK_)
-	aotExternalFn119 := aotLinkFn2(var_clojure_DOT_core_range)
+	aotExternalFn111 := aotLinkFn1(var_ys_DOT_v0_DOT_fs_read)
+	aotExternalFn112 := aotLinkFn1(var_ys_DOT_v0_DOT_io_readline)
+	aotExternalFn113 := aotLinkFn0(var_ys_DOT_v0_DOT_global_current_DASH_input)
+	aotExternalFn114 := aotLinkFn1(var_clojure_DOT_core_replace)
+	aotExternalFn115 := aotLinkFn1(var_ys_DOT_v0_DOT_common_regex_QMARK_)
+	aotExternalFn116 := aotLinkFn3(var_clojure_DOT_string_replace)
+	aotExternalFn117 := aotLinkFn2(var_clojure_DOT_core_replace)
+	aotExternalFn118 := aotLinkFn1(var_clojure_DOT_string_reverse)
+	aotExternalFn119 := aotLinkFn1(var_clojure_DOT_core_char_QMARK_)
 	aotExternalFn12 := aotLinkFn2(var_clojure_DOT_core_map)
-	aotExternalFn120 := aotLinkFn3(var_clojure_DOT_core_range)
-	aotExternalFn121 := aotLinkFn1(var_clojure_DOT_math_round)
-	aotExternalFn122 := aotLinkFn1(var_clojure_DOT_core_flatten)
-	aotExternalFn123 := aotLinkFn2(var_clojure_DOT_string_split)
-	aotExternalFn124 := aotLinkFn1(var_clojure_DOT_math_sqrt)
-	aotExternalFn125 := aotLinkFn2(var_clojure_DOT_set_difference)
-	aotExternalFn126 := aotLinkFn2(var_clojure_DOT_core_disj)
-	aotExternalFn127 := aotLinkFn2(var_clojure_DOT_core_remove)
-	aotExternalFn128 := aotLinkFn1(var_clojure_DOT_core_set)
-	aotExternalFn129 := aotLinkFn1(var_clojure_DOT_core_keys)
+	aotExternalFn120 := aotLinkFn2(var_clojure_DOT_core_range)
+	aotExternalFn121 := aotLinkFn3(var_clojure_DOT_core_range)
+	aotExternalFn122 := aotLinkFn1(var_clojure_DOT_math_round)
+	aotExternalFn123 := aotLinkFn1(var_clojure_DOT_core_flatten)
+	aotExternalFn124 := aotLinkFn2(var_clojure_DOT_string_split)
+	aotExternalFn125 := aotLinkFn1(var_clojure_DOT_math_sqrt)
+	aotExternalFn126 := aotLinkFn2(var_clojure_DOT_set_difference)
+	aotExternalFn127 := aotLinkFn2(var_clojure_DOT_core_disj)
+	aotExternalFn128 := aotLinkFn2(var_clojure_DOT_core_remove)
+	aotExternalFn129 := aotLinkFn1(var_clojure_DOT_core_set)
 	aotExternalFn13 := aotLinkFn1(var_clojure_DOT_core_sequential_QMARK_)
-	aotExternalFn130 := aotLinkFn2(var_ys_DOT_v0_DOT_ys_load_DASH_pod)
+	aotExternalFn130 := aotLinkFn1(var_clojure_DOT_core_keys)
+	aotExternalFn131 := aotLinkFn2(var_ys_DOT_v0_DOT_ys_load_DASH_pod)
+	aotExternalFn132 := aotLinkFn2(var_ys_DOT_v0_DOT_fs_write)
 	aotExternalFn16 := aotLinkFn1(var_clojure_DOT_core_boolean_QMARK_)
 	aotExternalFn18 := aotLinkFn1(var_clojure_DOT_core_set_QMARK_)
 	aotExternalFn19 := aotLinkFn1(var_clojure_DOT_core_symbol_QMARK_)
@@ -1705,6 +1716,7 @@ func LoadNS() {
 	ns.AddAlias(sym_util, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_util))
 	ns.AddAlias(sym_pprint, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_pprint))
 	ns.AddAlias(sym_io, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_io))
+	ns.AddAlias(sym_fs, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_fs))
 	ns.AddAlias(sym_ys, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_ys))
 	ns.AddAlias(sym_math, lang.FindOrCreateNamespace(sym_clojure_DOT_math))
 	var closed0 any
@@ -1772,7 +1784,7 @@ func LoadNS() {
 		aotDirectFn9 = tmp1
 		var_ys_DOT_v0_DOT_std_B = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_B.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(806), kw_column, int(21), kw_end_DASH_line, int(806), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(797), kw_column, int(21), kw_end_DASH_line, int(797), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// F
@@ -1789,7 +1801,7 @@ func LoadNS() {
 		aotDirectFn11 = tmp1
 		var_ys_DOT_v0_DOT_std_F = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_F.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(808), kw_column, int(21), kw_end_DASH_line, int(808), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(799), kw_column, int(21), kw_end_DASH_line, int(799), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// I
@@ -1806,7 +1818,7 @@ func LoadNS() {
 		aotDirectFn12 = tmp1
 		var_ys_DOT_v0_DOT_std_I = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_I.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(809), kw_column, int(21), kw_end_DASH_line, int(809), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(800), kw_column, int(21), kw_end_DASH_line, int(800), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// K
@@ -1822,7 +1834,7 @@ func LoadNS() {
 		aotDirectFn13 = tmp1
 		var_ys_DOT_v0_DOT_std_K = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_K.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(810), kw_column, int(21), kw_end_DASH_line, int(810), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(801), kw_column, int(21), kw_end_DASH_line, int(801), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// L+
@@ -1830,7 +1842,7 @@ func LoadNS() {
 		tmp0 := sym_L_PLUS_
 		var_ys_DOT_v0_DOT_std_L_PLUS_ = ns.InternWithValue(tmp0, lang.NewList, true)
 		var_ys_DOT_v0_DOT_std_L_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(819), kw_column, int(21), kw_end_DASH_line, int(819), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(810), kw_column, int(21), kw_end_DASH_line, int(810), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// !--
@@ -1849,7 +1861,7 @@ func LoadNS() {
 		aotDirectFn0 = tmp1
 		var_ys_DOT_v0_DOT_std__BANG__DASH__DASH_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__BANG__DASH__DASH_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(542), kw_column, int(7), kw_end_DASH_line, int(542), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(543), kw_column, int(7), kw_end_DASH_line, int(543), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// !---
@@ -1868,7 +1880,7 @@ func LoadNS() {
 		aotDirectFn1 = tmp1
 		var_ys_DOT_v0_DOT_std__BANG__DASH__DASH__DASH_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__BANG__DASH__DASH__DASH_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(548), kw_column, int(7), kw_end_DASH_line, int(548), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(549), kw_column, int(7), kw_end_DASH_line, int(549), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// =--
@@ -1886,7 +1898,7 @@ func LoadNS() {
 		aotDirectFn7 = tmp1
 		var_ys_DOT_v0_DOT_std__EQ__DASH__DASH_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__EQ__DASH__DASH_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(539), kw_column, int(7), kw_end_DASH_line, int(539), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(540), kw_column, int(7), kw_end_DASH_line, int(540), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// =---
@@ -1905,7 +1917,7 @@ func LoadNS() {
 		aotDirectFn8 = tmp1
 		var_ys_DOT_v0_DOT_std__EQ__DASH__DASH__DASH_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__EQ__DASH__DASH__DASH_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(545), kw_column, int(7), kw_end_DASH_line, int(545), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(546), kw_column, int(7), kw_end_DASH_line, int(546), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// +def
@@ -1926,7 +1938,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std__PLUS_def = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS_def.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1029), kw_column, int(11), kw_end_DASH_line, int(1029), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1021), kw_column, int(11), kw_end_DASH_line, int(1021), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// _max-alias-size
@@ -1963,7 +1975,7 @@ func LoadNS() {
 		aotDirectFn30 = tmp1
 		var_ys_DOT_v0_DOT_std_atom = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_atom.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(983), kw_column, int(7), kw_end_DASH_line, int(983), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(975), kw_column, int(7), kw_end_DASH_line, int(975), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// base64
@@ -1979,7 +1991,7 @@ func LoadNS() {
 		aotDirectFn31 = tmp1
 		var_ys_DOT_v0_DOT_std_base64 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_base64.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(52), kw_column, int(7), kw_end_DASH_line, int(52), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(53), kw_column, int(7), kw_end_DASH_line, int(53), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// base64-decode
@@ -2007,7 +2019,7 @@ func LoadNS() {
 		aotDirectFn32 = tmp1
 		var_ys_DOT_v0_DOT_std_base64_DASH_decode = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_base64_DASH_decode.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(46), kw_column, int(7), kw_end_DASH_line, int(46), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(47), kw_column, int(7), kw_end_DASH_line, int(47), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// base64-encode
@@ -2043,7 +2055,7 @@ func LoadNS() {
 		aotDirectFn33 = tmp1
 		var_ys_DOT_v0_DOT_std_base64_DASH_encode = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_base64_DASH_encode.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(48), kw_column, int(7), kw_end_DASH_line, int(48), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(49), kw_column, int(7), kw_end_DASH_line, int(49), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// base64-points
@@ -2079,7 +2091,7 @@ func LoadNS() {
 		aotDirectFn34 = tmp1
 		var_ys_DOT_v0_DOT_std_base64_DASH_points = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_base64_DASH_points.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(50), kw_column, int(7), kw_end_DASH_line, int(50), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(51), kw_column, int(7), kw_end_DASH_line, int(51), kw_end_DASH_column, int(19), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// chop
@@ -2127,7 +2139,7 @@ func LoadNS() {
 		aotDirectFn37 = tmp1
 		var_ys_DOT_v0_DOT_std_chop = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_chop.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(56), kw_column, int(21), kw_end_DASH_line, int(56), kw_end_DASH_column, int(24), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(57), kw_column, int(21), kw_end_DASH_line, int(57), kw_end_DASH_column, int(24), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// compare-chain
@@ -2186,7 +2198,7 @@ func LoadNS() {
 		aotDirectFn38 = tmp1
 		var_ys_DOT_v0_DOT_std_compare_DASH_chain = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_compare_DASH_chain.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(654), kw_column, int(8), kw_end_DASH_line, int(654), kw_end_DASH_column, int(20), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_compare, sym_x, sym_y, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(645), kw_column, int(8), kw_end_DASH_line, int(645), kw_end_DASH_column, int(20), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_compare, sym_x, sym_y, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// cube
@@ -2202,7 +2214,7 @@ func LoadNS() {
 		aotDirectFn39 = tmp1
 		var_ys_DOT_v0_DOT_std_cube = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_cube.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(366), kw_column, int(7), kw_end_DASH_line, int(366), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_N)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(367), kw_column, int(7), kw_end_DASH_line, int(367), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_N)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// diff
@@ -2221,7 +2233,7 @@ func LoadNS() {
 		aotDirectFn46 = tmp1
 		var_ys_DOT_v0_DOT_std_diff = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_diff.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(193), kw_column, int(7), kw_end_DASH_line, int(193), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(194), kw_column, int(7), kw_end_DASH_line, int(194), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_a, sym_b)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// digits
@@ -2245,7 +2257,7 @@ func LoadNS() {
 					{ // let
 						// let binding "iter__0__auto__"
 						var tmp9 lang.FnFunc1
-						{ // function iter__164
+						{ // function iter__225
 							var v10 lang.FnFunc1
 							tmp9 = lang.FnFunc1(func(p0 any) any {
 								v11 := p0
@@ -2254,7 +2266,7 @@ func LoadNS() {
 								tmp12 = lang.FnFunc0(func() any {
 									var tmp13 any
 									{ // let
-										// let binding "s__165"
+										// let binding "s__226"
 										var v14 any = v11
 										_ = v14
 										for {
@@ -2268,7 +2280,7 @@ func LoadNS() {
 												if lang.IsTruthy(v17) {
 													var tmp19 any
 													{ // let
-														// let binding "s__165"
+														// let binding "s__226"
 														var v20 any = v17
 														_ = v20
 														var tmp21 any
@@ -2285,14 +2297,14 @@ func LoadNS() {
 																tmp27 := runtime.RT.IntCast(tmp26)
 																var v28 any = tmp27
 																_ = v28
-																// let binding "b__167"
+																// let binding "b__228"
 																tmp29 := aotExternalFn66(v28)
 																var v30 any = tmp29
 																_ = v30
 																var tmp31 any
 																var tmp32 any
 																{ // let
-																	// let binding "i__166"
+																	// let binding "i__227"
 																	tmp33 := runtime.RT.IntCast(int64(0))
 																	var v34 any = tmp33
 																	_ = v34
@@ -2391,7 +2403,7 @@ func LoadNS() {
 		aotDirectFn47 = tmp1
 		var_ys_DOT_v0_DOT_std_digits = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_digits.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(336), kw_column, int(7), kw_end_DASH_line, int(336), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_n)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(337), kw_column, int(7), kw_end_DASH_line, int(337), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_n)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// div
@@ -2456,7 +2468,7 @@ func LoadNS() {
 		aotDirectFn48 = tmp1
 		var_ys_DOT_v0_DOT_std_div = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_div.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(326), kw_column, int(7), kw_end_DASH_line, int(326), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(327), kw_column, int(7), kw_end_DASH_line, int(327), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// eval
@@ -2473,7 +2485,7 @@ func LoadNS() {
 		aotDirectFn55 = tmp1
 		var_ys_DOT_v0_DOT_std_eval = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_eval.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(495), kw_column, int(7), kw_end_DASH_line, int(495), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(496), kw_column, int(7), kw_end_DASH_line, int(496), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// exit
@@ -2506,7 +2518,7 @@ func LoadNS() {
 		aotDirectFn56 = tmp1
 		var_ys_DOT_v0_DOT_std_exit = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_exit.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(498), kw_column, int(7), kw_end_DASH_line, int(498), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_I)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(499), kw_column, int(7), kw_end_DASH_line, int(499), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_I)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// filter-members
@@ -2553,7 +2565,7 @@ func LoadNS() {
 		aotDirectFn58 = tmp1
 		var_ys_DOT_v0_DOT_std_filter_DASH_members = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_filter_DASH_members.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(398), kw_column, int(8), kw_end_DASH_line, int(398), kw_end_DASH_column, int(21), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y, sym_keep_QMARK_)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(399), kw_column, int(8), kw_end_DASH_line, int(399), kw_end_DASH_column, int(21), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y, sym_keep_QMARK_)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// flat
@@ -2583,7 +2595,7 @@ func LoadNS() {
 		aotDirectFn59 = tmp1
 		var_ys_DOT_v0_DOT_std_flat = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_flat.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(196), kw_column, int(7), kw_end_DASH_line, int(196), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(197), kw_column, int(7), kw_end_DASH_line, int(197), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// flip
@@ -2659,7 +2671,7 @@ func LoadNS() {
 		aotDirectFn60 = tmp1
 		var_ys_DOT_v0_DOT_std_flip = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_flip.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(519), kw_column, int(7), kw_end_DASH_line, int(519), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_f)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(520), kw_column, int(7), kw_end_DASH_line, int(520), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_f)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// floor
@@ -2675,7 +2687,7 @@ func LoadNS() {
 		aotDirectFn61 = tmp1
 		var_ys_DOT_v0_DOT_std_floor = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_floor.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(344), kw_column, int(7), kw_end_DASH_line, int(344), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(345), kw_column, int(7), kw_end_DASH_line, int(345), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// ge
@@ -2746,7 +2758,7 @@ func LoadNS() {
 		aotDirectFn62 = tmp1
 		var_ys_DOT_v0_DOT_std_ge = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_ge.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(669), kw_column, int(7), kw_end_DASH_line, int(669), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(660), kw_column, int(7), kw_end_DASH_line, int(660), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// get-url
@@ -2762,7 +2774,7 @@ func LoadNS() {
 		aotDirectFn64 = tmp1
 		var_ys_DOT_v0_DOT_std_get_DASH_url = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_get_DASH_url.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(951), kw_column, int(7), kw_end_DASH_line, int(951), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(943), kw_column, int(7), kw_end_DASH_line, int(943), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// gt
@@ -2847,7 +2859,7 @@ func LoadNS() {
 		aotDirectFn66 = tmp1
 		var_ys_DOT_v0_DOT_std_gt = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_gt.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(662), kw_column, int(7), kw_end_DASH_line, int(662), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(653), kw_column, int(7), kw_end_DASH_line, int(653), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// has?
@@ -2925,7 +2937,7 @@ func LoadNS() {
 		aotDirectFn67 = tmp1
 		var_ys_DOT_v0_DOT_std_has_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_has_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(210), kw_column, int(7), kw_end_DASH_line, int(210), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C), lang.NewVector(sym_C, sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(211), kw_column, int(7), kw_end_DASH_line, int(211), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C), lang.NewVector(sym_C, sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// if
@@ -2950,7 +2962,7 @@ func LoadNS() {
 		aotDirectFn68 = tmp1
 		var_ys_DOT_v0_DOT_std_if = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_if.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(504), kw_column, int(7), kw_end_DASH_line, int(504), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_cond, sym_then, sym_else)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(505), kw_column, int(7), kw_end_DASH_line, int(505), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_cond, sym_then, sym_else)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// in?
@@ -2989,7 +3001,7 @@ func LoadNS() {
 		aotDirectFn69 = tmp1
 		var_ys_DOT_v0_DOT_std_in_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_in_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(220), kw_column, int(7), kw_end_DASH_line, int(220), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_C), lang.NewVector(sym_x, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(221), kw_column, int(7), kw_end_DASH_line, int(221), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_C), lang.NewVector(sym_x, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// invoke-constructor
@@ -3016,7 +3028,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std_invoke_DASH_constructor = ns.InternWithValue(tmp0, lang.NewDelay(tmp1), true)
 		var_ys_DOT_v0_DOT_std_invoke_DASH_constructor.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(906), kw_column, int(6), kw_end_DASH_line, int(906), kw_end_DASH_column, int(33), kw_private, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(897), kw_column, int(6), kw_end_DASH_line, int(897), kw_end_DASH_column, int(33), kw_private, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// join
@@ -3067,7 +3079,7 @@ func LoadNS() {
 		aotDirectFn73 = tmp1
 		var_ys_DOT_v0_DOT_std_join = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_join.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(68), kw_column, int(7), kw_end_DASH_line, int(68), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_Ss), lang.NewVector(sym_S, sym_Ss), lang.NewVector(sym_S, sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(69), kw_column, int(7), kw_end_DASH_line, int(69), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_Ss), lang.NewVector(sym_S, sym_Ss), lang.NewVector(sym_S, sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// joins
@@ -3083,7 +3095,7 @@ func LoadNS() {
 		aotDirectFn74 = tmp1
 		var_ys_DOT_v0_DOT_std_joins = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_joins.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(77), kw_column, int(7), kw_end_DASH_line, int(77), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_Ss)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(78), kw_column, int(7), kw_end_DASH_line, int(78), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_Ss)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// le
@@ -3154,7 +3166,7 @@ func LoadNS() {
 		aotDirectFn76 = tmp1
 		var_ys_DOT_v0_DOT_std_le = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_le.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(683), kw_column, int(7), kw_end_DASH_line, int(683), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(674), kw_column, int(7), kw_end_DASH_line, int(674), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// lines
@@ -3195,7 +3207,7 @@ func LoadNS() {
 		aotDirectFn78 = tmp1
 		var_ys_DOT_v0_DOT_std_lines = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_lines.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(81), kw_column, int(7), kw_end_DASH_line, int(81), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(82), kw_column, int(7), kw_end_DASH_line, int(82), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// load-url
@@ -3211,7 +3223,7 @@ func LoadNS() {
 		aotDirectFn79 = tmp1
 		var_ys_DOT_v0_DOT_std_load_DASH_url = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_load_DASH_url.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(954), kw_column, int(7), kw_end_DASH_line, int(954), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(946), kw_column, int(7), kw_end_DASH_line, int(946), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_url)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// lt
@@ -3296,7 +3308,7 @@ func LoadNS() {
 		aotDirectFn80 = tmp1
 		var_ys_DOT_v0_DOT_std_lt = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_lt.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(676), kw_column, int(7), kw_end_DASH_line, int(676), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(667), kw_column, int(7), kw_end_DASH_line, int(667), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// max-long
@@ -3304,7 +3316,7 @@ func LoadNS() {
 		tmp0 := sym_max_DASH_long
 		var_ys_DOT_v0_DOT_std_max_DASH_long = ns.InternWithValue(tmp0, int64(9223372036854775807), true)
 		var_ys_DOT_v0_DOT_std_max_DASH_long.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(342), kw_column, int(6), kw_end_DASH_line, int(342), kw_end_DASH_column, int(13), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(343), kw_column, int(6), kw_end_DASH_line, int(343), kw_end_DASH_column, int(13), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// new
@@ -3353,7 +3365,7 @@ func LoadNS() {
 		aotDirectFn86 = tmp1
 		var_ys_DOT_v0_DOT_std_new = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_new.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(915), kw_column, int(7), kw_end_DASH_line, int(915), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_class, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(906), kw_column, int(7), kw_end_DASH_line, int(906), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_class, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// ordered-map-fn
@@ -3391,7 +3403,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std_ordered_DASH_map_DASH_fn = ns.InternWithValue(tmp0, lang.NewDelay(tmp1), true)
 		var_ys_DOT_v0_DOT_std_ordered_DASH_map_DASH_fn.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(256), kw_column, int(6), kw_end_DASH_line, int(256), kw_end_DASH_column, int(29), kw_private, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(257), kw_column, int(6), kw_end_DASH_line, int(257), kw_end_DASH_column, int(29), kw_private, true, kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// pow
@@ -3485,12 +3497,12 @@ func LoadNS() {
 				_ = v4
 				var tmp5 any
 				{ // let
-					// let binding "vec__168"
+					// let binding "vec__229"
 					tmp6 := aotExternalFn37(v4, v3, v2)
 					tmp7 := aotExternalFn82(tmp6)
 					var v8 any = tmp7
 					_ = v8
-					// let binding "seq__169"
+					// let binding "seq__230"
 					tmp9 := lang.Seq(v8)
 					var v10 any = tmp9
 					_ = v10
@@ -3516,7 +3528,7 @@ func LoadNS() {
 		aotDirectFn91 = tmp1
 		var_ys_DOT_v0_DOT_std_pow = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_pow.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(346), kw_column, int(7), kw_end_DASH_line, int(346), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(347), kw_column, int(7), kw_end_DASH_line, int(347), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// pp
@@ -3534,7 +3546,7 @@ func LoadNS() {
 		aotDirectFn92 = tmp1
 		var_ys_DOT_v0_DOT_std_pp = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_pp.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(581), kw_column, int(7), kw_end_DASH_line, int(581), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(572), kw_column, int(7), kw_end_DASH_line, int(572), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// pretty
@@ -3550,7 +3562,7 @@ func LoadNS() {
 		aotDirectFn93 = tmp1
 		var_ys_DOT_v0_DOT_std_pretty = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_pretty.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(89), kw_column, int(7), kw_end_DASH_line, int(89), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(90), kw_column, int(7), kw_end_DASH_line, int(90), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// qr
@@ -3566,31 +3578,25 @@ func LoadNS() {
 		aotDirectFn96 = tmp1
 		var_ys_DOT_v0_DOT_std_qr = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qr.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(630), kw_column, int(7), kw_end_DASH_line, int(630), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(621), kw_column, int(7), kw_end_DASH_line, int(621), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// read
 	{
 		tmp0 := sym_read
-		var tmp1 lang.ArityFn
-		tmp1 = lang.NewArityFn(
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
-				var v2 any = rest
-				_ = v2
-				tmp3 := aotExternalFn23("The fs functions are not available", " in this Clojure runtime")
-				return tmp3
-			}),
-			0,
-		)
+		var tmp1 lang.FnFunc1
+		tmp1 = lang.FnFunc1(func(p0 any) any {
+			v2 := p0
+			_ = v2
+			tmp3 := aotExternalFn76(sym_ys_DOT_fs)
+			_ = tmp3
+			tmp4 := aotExternalFn111(v2)
+			return tmp4
+		})
 		aotDirectFn97 = tmp1
 		var_ys_DOT_v0_DOT_std_read = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_read.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(556), kw_column, int(10), kw_end_DASH_line, int(556), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(556), kw_column, int(7), kw_end_DASH_line, int(556), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_path)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// readline
@@ -3600,8 +3606,8 @@ func LoadNS() {
 		aotDirectFn98Arity0 = lang.FnFunc0(func() any {
 			tmp2 := aotExternalFn76(sym_ys_DOT_io)
 			_ = tmp2
-			tmp3 := aotExternalFn112()
-			tmp4 := aotExternalFn111(tmp3)
+			tmp3 := aotExternalFn113()
+			tmp4 := aotExternalFn112(tmp3)
 			return tmp4
 		})
 		aotDirectFn98Arity1 = lang.FnFunc1(func(p0 any) any {
@@ -3609,7 +3615,7 @@ func LoadNS() {
 			_ = v2
 			tmp3 := aotExternalFn76(sym_ys_DOT_io)
 			_ = tmp3
-			tmp4 := aotExternalFn111(v2)
+			tmp4 := aotExternalFn112(v2)
 			return tmp4
 		})
 		tmp1 = lang.NewArityFn(
@@ -3624,7 +3630,7 @@ func LoadNS() {
 		aotDirectFn98 = tmp1
 		var_ys_DOT_v0_DOT_std_readline = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_readline.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(589), kw_column, int(7), kw_end_DASH_line, int(589), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_reader)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(580), kw_column, int(7), kw_end_DASH_line, int(580), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_reader)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// replace
@@ -3634,7 +3640,7 @@ func LoadNS() {
 		aotDirectFn99Arity1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := aotExternalFn113(v2)
+			tmp3 := aotExternalFn114(v2)
 			return tmp3
 		})
 		aotDirectFn99Arity2 = lang.FnFunc2(func(p0, p1 any) any {
@@ -3646,7 +3652,7 @@ func LoadNS() {
 			var tmp5 any
 			{ // let
 				// let binding "or__0__auto__"
-				tmp6 := aotExternalFn114(v3)
+				tmp6 := aotExternalFn115(v3)
 				var v7 any = tmp6
 				_ = v7
 				var tmp8 any
@@ -3659,10 +3665,10 @@ func LoadNS() {
 				tmp5 = tmp8
 			} // end let
 			if lang.IsTruthy(tmp5) {
-				tmp6 := aotExternalFn115(v2, v3, "")
+				tmp6 := aotExternalFn116(v2, v3, "")
 				tmp4 = tmp6
 			} else {
-				tmp7 := aotExternalFn116(v2, v3)
+				tmp7 := aotExternalFn117(v2, v3)
 				tmp4 = tmp7
 			}
 			return tmp4
@@ -3674,7 +3680,7 @@ func LoadNS() {
 			_ = v3
 			v4 := p2
 			_ = v4
-			tmp5 := aotExternalFn115(v2, v3, v4)
+			tmp5 := aotExternalFn116(v2, v3, v4)
 			return tmp5
 		})
 		tmp1 = lang.NewArityFn(
@@ -3689,7 +3695,7 @@ func LoadNS() {
 		aotDirectFn99 = tmp1
 		var_ys_DOT_v0_DOT_std_replace = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_replace.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(92), kw_column, int(7), kw_end_DASH_line, int(92), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym_z)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(93), kw_column, int(7), kw_end_DASH_line, int(93), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym_z)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// reset
@@ -3707,7 +3713,7 @@ func LoadNS() {
 		aotDirectFn101 = tmp1
 		var_ys_DOT_v0_DOT_std_reset = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_reset.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(987), kw_column, int(7), kw_end_DASH_line, int(987), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(979), kw_column, int(7), kw_end_DASH_line, int(979), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// round
@@ -3717,13 +3723,13 @@ func LoadNS() {
 		tmp1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := aotExternalFn121(v2)
+			tmp3 := aotExternalFn122(v2)
 			return tmp3
 		})
 		aotDirectFn105 = tmp1
 		var_ys_DOT_v0_DOT_std_round = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_round.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(360), kw_column, int(7), kw_end_DASH_line, int(360), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(361), kw_column, int(7), kw_end_DASH_line, int(361), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// set
@@ -3751,7 +3757,7 @@ func LoadNS() {
 		aotDirectFn107 = tmp1
 		var_ys_DOT_v0_DOT_std_set = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_set.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(758), kw_column, int(7), kw_end_DASH_line, int(758), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(749), kw_column, int(7), kw_end_DASH_line, int(749), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// set-pair?
@@ -3839,7 +3845,7 @@ func LoadNS() {
 		aotDirectFn108 = tmp1
 		var_ys_DOT_v0_DOT_std_set_DASH_pair_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_set_DASH_pair_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(393), kw_column, int(8), kw_end_DASH_line, int(393), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(394), kw_column, int(8), kw_end_DASH_line, int(394), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sleep
@@ -3861,7 +3867,7 @@ func LoadNS() {
 		aotDirectFn111 = tmp1
 		var_ys_DOT_v0_DOT_std_sleep = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sleep.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(506), kw_column, int(7), kw_end_DASH_line, int(506), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_I)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(507), kw_column, int(7), kw_end_DASH_line, int(507), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_I)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// source
@@ -3887,7 +3893,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_source = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_source.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(999), kw_column, int(11), kw_end_DASH_line, int(999), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(991), kw_column, int(11), kw_end_DASH_line, int(991), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// split
@@ -3908,7 +3914,7 @@ func LoadNS() {
 				if tmp7 {
 					tmp6 = closed5
 				} else {
-					tmp8 := aotExternalFn123(v5, closed11)
+					tmp8 := aotExternalFn124(v5, closed11)
 					tmp6 = tmp8
 				}
 				tmp3 = tmp6
@@ -3922,9 +3928,9 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "vec__135"
+				// let binding "vec__196"
 				var tmp5 any
-				tmp6 := aotExternalFn114(v2)
+				tmp6 := aotExternalFn115(v2)
 				if lang.IsTruthy(tmp6) {
 					tmp7 := lang.NewVector(v3, v2)
 					tmp5 = tmp7
@@ -3957,7 +3963,7 @@ func LoadNS() {
 				}
 				var v19 any = tmp16
 				_ = v19
-				tmp20 := aotExternalFn123(v15, v19)
+				tmp20 := aotExternalFn124(v15, v19)
 				tmp4 = tmp20
 			} // end let
 			return tmp4
@@ -3974,7 +3980,7 @@ func LoadNS() {
 		aotDirectFn113 = tmp1
 		var_ys_DOT_v0_DOT_std_split = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_split.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(102), kw_column, int(7), kw_end_DASH_line, int(102), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S), lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(103), kw_column, int(7), kw_end_DASH_line, int(103), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S), lang.NewVector(sym_S, sym_R)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sqr
@@ -3990,7 +3996,7 @@ func LoadNS() {
 		aotDirectFn114 = tmp1
 		var_ys_DOT_v0_DOT_std_sqr = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sqr.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(365), kw_column, int(7), kw_end_DASH_line, int(365), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_N)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(366), kw_column, int(7), kw_end_DASH_line, int(366), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_N)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sqrt
@@ -4000,13 +4006,13 @@ func LoadNS() {
 		tmp1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := aotExternalFn124(v2)
+			tmp3 := aotExternalFn125(v2)
 			return tmp3
 		})
 		aotDirectFn115 = tmp1
 		var_ys_DOT_v0_DOT_std_sqrt = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sqrt.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(367), kw_column, int(7), kw_end_DASH_line, int(367), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(368), kw_column, int(7), kw_end_DASH_line, int(368), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// throw
@@ -4021,7 +4027,7 @@ func LoadNS() {
 		aotDirectFn124 = tmp1
 		var_ys_DOT_v0_DOT_std_throw = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_throw.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(509), kw_column, int(7), kw_end_DASH_line, int(509), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_e)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(510), kw_column, int(7), kw_end_DASH_line, int(510), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_e)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-bool
@@ -4037,7 +4043,7 @@ func LoadNS() {
 		aotDirectFn125 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_bool = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_bool.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(696), kw_column, int(7), kw_end_DASH_line, int(696), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(687), kw_column, int(7), kw_end_DASH_line, int(687), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-float
@@ -4054,7 +4060,7 @@ func LoadNS() {
 		aotDirectFn127 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_float = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_float.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(707), kw_column, int(7), kw_end_DASH_line, int(707), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(698), kw_column, int(7), kw_end_DASH_line, int(698), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-int
@@ -4071,7 +4077,7 @@ func LoadNS() {
 		aotDirectFn128 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_int = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_int.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(709), kw_column, int(7), kw_end_DASH_line, int(709), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(700), kw_column, int(7), kw_end_DASH_line, int(700), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-keyw
@@ -4087,7 +4093,7 @@ func LoadNS() {
 		aotDirectFn129 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_keyw = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_keyw.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(711), kw_column, int(7), kw_end_DASH_line, int(711), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(702), kw_column, int(7), kw_end_DASH_line, int(702), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// truey?
@@ -4108,7 +4114,7 @@ func LoadNS() {
 		aotDirectFn141 = tmp1
 		var_ys_DOT_v0_DOT_std_truey_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_truey_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(838), kw_column, int(7), kw_end_DASH_line, int(838), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(829), kw_column, int(7), kw_end_DASH_line, int(829), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// use-pod
@@ -4120,13 +4126,13 @@ func LoadNS() {
 			_ = v2
 			v3 := p1
 			_ = v3
-			tmp4 := aotExternalFn130(v2, v3)
+			tmp4 := aotExternalFn131(v2, v3)
 			return tmp4
 		})
 		aotDirectFn144 = tmp1
 		var_ys_DOT_v0_DOT_std_use_DASH_pod = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_use_DASH_pod.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(943), kw_column, int(7), kw_end_DASH_line, int(943), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_pod_DASH_name, sym_version)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(935), kw_column, int(7), kw_end_DASH_line, int(935), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_pod_DASH_name, sym_version)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// words
@@ -4136,37 +4142,33 @@ func LoadNS() {
 		tmp1 = lang.FnFunc1(func(p0 any) any {
 			v2 := p0
 			_ = v2
-			tmp3 := aotExternalFn123(v2, closed12)
+			tmp3 := aotExternalFn124(v2, closed12)
 			return tmp3
 		})
 		aotDirectFn146 = tmp1
 		var_ys_DOT_v0_DOT_std_words = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_words.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(148), kw_column, int(7), kw_end_DASH_line, int(148), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(149), kw_column, int(7), kw_end_DASH_line, int(149), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_S)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// write
 	{
 		tmp0 := sym_write
-		var tmp1 lang.ArityFn
-		tmp1 = lang.NewArityFn(
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			lang.NewVariadicFn(0, func(args []any, rest lang.ISeq) any {
-				var v2 any = rest
-				_ = v2
-				tmp3 := aotExternalFn23("The fs functions are not available", " in this Clojure runtime")
-				return tmp3
-			}),
-			0,
-		)
+		var tmp1 lang.FnFunc2
+		tmp1 = lang.FnFunc2(func(p0, p1 any) any {
+			v2 := p0
+			_ = v2
+			v3 := p1
+			_ = v3
+			tmp4 := aotExternalFn76(sym_ys_DOT_fs)
+			_ = tmp4
+			tmp5 := aotExternalFn132(v2, v3)
+			return tmp5
+		})
 		aotDirectFn147 = tmp1
 		var_ys_DOT_v0_DOT_std_write = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_write.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(565), kw_column, int(10), kw_end_DASH_line, int(565), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym__)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(560), kw_column, int(7), kw_end_DASH_line, int(560), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_path, sym_content)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// C
@@ -4178,7 +4180,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__185"
+				// let binding "pred__246"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4190,7 +4192,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__186"
+				// let binding "expr__247"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4237,7 +4239,7 @@ func LoadNS() {
 		aotDirectFn10 = tmp1
 		var_ys_DOT_v0_DOT_std_C = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_C.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(807), kw_column, int(21), kw_end_DASH_line, int(807), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(798), kw_column, int(21), kw_end_DASH_line, int(798), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// F?
@@ -4261,7 +4263,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std_F_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_F_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(836), kw_column, int(11), kw_end_DASH_line, int(836), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(827), kw_column, int(11), kw_end_DASH_line, int(827), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// L
@@ -4273,7 +4275,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__187"
+				// let binding "pred__248"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4285,7 +4287,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__188"
+				// let binding "expr__249"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4357,7 +4359,7 @@ func LoadNS() {
 		aotDirectFn14 = tmp1
 		var_ys_DOT_v0_DOT_std_L = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_L.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(811), kw_column, int(21), kw_end_DASH_line, int(811), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(802), kw_column, int(21), kw_end_DASH_line, int(802), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// M
@@ -4369,7 +4371,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__189"
+				// let binding "pred__250"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4381,7 +4383,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__190"
+				// let binding "expr__251"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4442,7 +4444,7 @@ func LoadNS() {
 		aotDirectFn15 = tmp1
 		var_ys_DOT_v0_DOT_std_M = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_M.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(812), kw_column, int(21), kw_end_DASH_line, int(812), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(803), kw_column, int(21), kw_end_DASH_line, int(803), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// M+
@@ -4467,7 +4469,7 @@ func LoadNS() {
 		aotDirectFn16 = tmp1
 		var_ys_DOT_v0_DOT_std_M_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_M_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(820), kw_column, int(7), kw_end_DASH_line, int(820), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(811), kw_column, int(7), kw_end_DASH_line, int(811), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// N
@@ -4487,7 +4489,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "pred__191"
+				// let binding "pred__252"
 				var tmp5 lang.FnFunc2
 				tmp5 = lang.FnFunc2(func(p0, p1 any) any {
 					v6 := p0
@@ -4499,7 +4501,7 @@ func LoadNS() {
 				})
 				var v6 any = tmp5
 				_ = v6
-				// let binding "expr__192"
+				// let binding "expr__253"
 				var v7 any = v2
 				_ = v7
 				var tmp8 any
@@ -4586,7 +4588,7 @@ func LoadNS() {
 		aotDirectFn17 = tmp1
 		var_ys_DOT_v0_DOT_std_N = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_N.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(813), kw_column, int(21), kw_end_DASH_line, int(813), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(804), kw_column, int(21), kw_end_DASH_line, int(804), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// O
@@ -4598,7 +4600,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__193"
+				// let binding "pred__254"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4610,7 +4612,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__194"
+				// let binding "expr__255"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4653,7 +4655,7 @@ func LoadNS() {
 		aotDirectFn18 = tmp1
 		var_ys_DOT_v0_DOT_std_O = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_O.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(814), kw_column, int(21), kw_end_DASH_line, int(814), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(805), kw_column, int(21), kw_end_DASH_line, int(805), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// O+
@@ -4701,7 +4703,7 @@ func LoadNS() {
 		aotDirectFn19 = tmp1
 		var_ys_DOT_v0_DOT_std_O_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_O_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(821), kw_column, int(21), kw_end_DASH_line, int(821), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(812), kw_column, int(21), kw_end_DASH_line, int(812), kw_end_DASH_column, int(22), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// S
@@ -4713,7 +4715,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__197"
+				// let binding "pred__258"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4725,7 +4727,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__198"
+				// let binding "expr__259"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4752,7 +4754,7 @@ func LoadNS() {
 		aotDirectFn20 = tmp1
 		var_ys_DOT_v0_DOT_std_S = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_S.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(815), kw_column, int(21), kw_end_DASH_line, int(815), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(806), kw_column, int(21), kw_end_DASH_line, int(806), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// T
@@ -4764,7 +4766,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__199"
+				// let binding "pred__260"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4776,7 +4778,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__200"
+				// let binding "expr__261"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -4940,7 +4942,7 @@ func LoadNS() {
 		aotDirectFn21 = tmp1
 		var_ys_DOT_v0_DOT_std_T = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_T.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(816), kw_column, int(21), kw_end_DASH_line, int(816), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(807), kw_column, int(21), kw_end_DASH_line, int(807), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// T?
@@ -4964,7 +4966,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std_T_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_T_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(841), kw_column, int(11), kw_end_DASH_line, int(841), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(832), kw_column, int(11), kw_end_DASH_line, int(832), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// V
@@ -4976,7 +4978,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__201"
+				// let binding "pred__262"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -4988,7 +4990,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__202"
+				// let binding "expr__263"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -5059,7 +5061,7 @@ func LoadNS() {
 		aotDirectFn22 = tmp1
 		var_ys_DOT_v0_DOT_std_V = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_V.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(817), kw_column, int(21), kw_end_DASH_line, int(817), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(808), kw_column, int(21), kw_end_DASH_line, int(808), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// V+
@@ -5084,7 +5086,7 @@ func LoadNS() {
 		aotDirectFn23 = tmp1
 		var_ys_DOT_v0_DOT_std_V_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_V_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(822), kw_column, int(7), kw_end_DASH_line, int(822), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(813), kw_column, int(7), kw_end_DASH_line, int(813), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// &&&
@@ -5118,7 +5120,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std__AMP__AMP__AMP_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__AMP__AMP__AMP_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(859), kw_column, int(11), kw_end_DASH_line, int(859), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(850), kw_column, int(11), kw_end_DASH_line, int(850), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// %
@@ -5166,7 +5168,7 @@ func LoadNS() {
 		aotDirectFn2 = tmp1
 		var_ys_DOT_v0_DOT_std__PCT_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PCT_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(276), kw_column, int(21), kw_end_DASH_line, int(276), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(277), kw_column, int(21), kw_end_DASH_line, int(277), kw_end_DASH_column, int(21), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// +++
@@ -5246,7 +5248,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std__PLUS__PLUS__PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS__PLUS__PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(967), kw_column, int(11), kw_end_DASH_line, int(967), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(959), kw_column, int(11), kw_end_DASH_line, int(959), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// +++*
@@ -5281,7 +5283,7 @@ func LoadNS() {
 		aotDirectFn3 = tmp1
 		var_ys_DOT_v0_DOT_std__PLUS__PLUS__PLUS__STAR_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS__PLUS__PLUS__STAR_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(960), kw_column, int(7), kw_end_DASH_line, int(960), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_value)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(952), kw_column, int(7), kw_end_DASH_line, int(952), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_value)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// +concat
@@ -5384,7 +5386,7 @@ func LoadNS() {
 		aotDirectFn4 = tmp1
 		var_ys_DOT_v0_DOT_std__PLUS_concat = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS_concat.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(224), kw_column, int(7), kw_end_DASH_line, int(224), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(225), kw_column, int(7), kw_end_DASH_line, int(225), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// +def-defn
@@ -5417,7 +5419,7 @@ func LoadNS() {
 		aotDirectFn5 = tmp1
 		var_ys_DOT_v0_DOT_std__PLUS_def_DASH_defn = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS_def_DASH_defn.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1024), kw_column, int(8), kw_end_DASH_line, int(1024), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1016), kw_column, int(8), kw_end_DASH_line, int(1016), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// +merge
@@ -5485,7 +5487,7 @@ func LoadNS() {
 		aotDirectFn6 = tmp1
 		var_ys_DOT_v0_DOT_std__PLUS_merge = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__PLUS_merge.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(236), kw_column, int(7), kw_end_DASH_line, int(236), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_M)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(237), kw_column, int(7), kw_end_DASH_line, int(237), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_M)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// |||
@@ -5519,7 +5521,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std__U007C__U007C__U007C_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std__U007C__U007C__U007C_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(850), kw_column, int(11), kw_end_DASH_line, int(850), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(841), kw_column, int(11), kw_end_DASH_line, int(841), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// _&
@@ -5556,7 +5558,7 @@ func LoadNS() {
 		aotDirectFn24 = tmp1
 		var_ys_DOT_v0_DOT_std___AMP_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std___AMP_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(883), kw_column, int(7), kw_end_DASH_line, int(883), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_sym, sym_val)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(874), kw_column, int(7), kw_end_DASH_line, int(874), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_sym, sym_val)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// _*
@@ -5589,7 +5591,7 @@ func LoadNS() {
 		aotDirectFn25 = tmp1
 		var_ys_DOT_v0_DOT_std___STAR_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std___STAR_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(890), kw_column, int(7), kw_end_DASH_line, int(890), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_sym)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(881), kw_column, int(7), kw_end_DASH_line, int(881), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_sym)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// _**
@@ -5622,7 +5624,7 @@ func LoadNS() {
 		aotDirectFn26 = tmp1
 		var_ys_DOT_v0_DOT_std___STAR__STAR_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std___STAR__STAR_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(895), kw_column, int(7), kw_end_DASH_line, int(895), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_sym)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(886), kw_column, int(7), kw_end_DASH_line, int(886), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_sym)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// a
@@ -5647,7 +5649,7 @@ func LoadNS() {
 		aotDirectFn27 = tmp1
 		var_ys_DOT_v0_DOT_std_a = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_a.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(610), kw_column, int(7), kw_end_DASH_line, int(610), kw_end_DASH_column, int(7), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(601), kw_column, int(7), kw_end_DASH_line, int(601), kw_end_DASH_column, int(7), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// add
@@ -5699,7 +5701,7 @@ func LoadNS() {
 		aotDirectFn28 = tmp1
 		var_ys_DOT_v0_DOT_std_add = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_add.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(309), kw_column, int(7), kw_end_DASH_line, int(309), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(310), kw_column, int(7), kw_end_DASH_line, int(310), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// add+
@@ -5713,7 +5715,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "pred__179"
+				// let binding "pred__240"
 				var tmp5 lang.FnFunc2
 				tmp5 = lang.FnFunc2(func(p0, p1 any) any {
 					v6 := p0
@@ -5725,7 +5727,7 @@ func LoadNS() {
 				})
 				var v6 any = tmp5
 				_ = v6
-				// let binding "expr__180"
+				// let binding "expr__241"
 				var v7 any = v2
 				_ = v7
 				var tmp8 any
@@ -5905,7 +5907,7 @@ func LoadNS() {
 		aotDirectFn29 = tmp1
 		var_ys_DOT_v0_DOT_std_add_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_add_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(403), kw_column, int(7), kw_end_DASH_line, int(403), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(404), kw_column, int(7), kw_end_DASH_line, int(404), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// and?
@@ -5971,7 +5973,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_and_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_and_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(852), kw_column, int(11), kw_end_DASH_line, int(852), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(843), kw_column, int(11), kw_end_DASH_line, int(843), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// blank?
@@ -5996,7 +5998,7 @@ func LoadNS() {
 		aotDirectFn35 = tmp1
 		var_ys_DOT_v0_DOT_std_blank_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_blank_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(54), kw_column, int(7), kw_end_DASH_line, int(54), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(55), kw_column, int(7), kw_end_DASH_line, int(55), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// call
@@ -6090,7 +6092,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_call = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_call.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(485), kw_column, int(11), kw_end_DASH_line, int(485), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(486), kw_column, int(11), kw_end_DASH_line, int(486), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// chomp
@@ -6115,7 +6117,7 @@ func LoadNS() {
 		aotDirectFn36 = tmp1
 		var_ys_DOT_v0_DOT_std_chomp = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_chomp.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(55), kw_column, int(7), kw_end_DASH_line, int(55), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(56), kw_column, int(7), kw_end_DASH_line, int(56), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// dec+
@@ -6127,7 +6129,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__175"
+				// let binding "pred__236"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -6139,7 +6141,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__176"
+				// let binding "expr__237"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -6166,7 +6168,7 @@ func LoadNS() {
 							_ = v19
 							var tmp20 any
 							{ // let
-								// let binding "pred__177"
+								// let binding "pred__238"
 								var tmp21 lang.FnFunc2
 								tmp21 = lang.FnFunc2(func(p0, p1 any) any {
 									v22 := p0
@@ -6178,7 +6180,7 @@ func LoadNS() {
 								})
 								var v22 any = tmp21
 								_ = v22
-								// let binding "expr__178"
+								// let binding "expr__239"
 								var v23 any = v19
 								_ = v23
 								var tmp24 any
@@ -6206,7 +6208,7 @@ func LoadNS() {
 		aotDirectFn40 = tmp1
 		var_ys_DOT_v0_DOT_std_dec_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_dec_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(384), kw_column, int(7), kw_end_DASH_line, int(384), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(385), kw_column, int(7), kw_end_DASH_line, int(385), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// del
@@ -6248,7 +6250,7 @@ func LoadNS() {
 		aotDirectFn41 = tmp1
 		var_ys_DOT_v0_DOT_std_del = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_del.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(161), kw_column, int(7), kw_end_DASH_line, int(161), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_map), lang.NewVector(sym_map, sym_key), lang.NewVector(sym_map, sym_key, sym__AMP_, sym_keys)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(162), kw_column, int(7), kw_end_DASH_line, int(162), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_map), lang.NewVector(sym_map, sym_key), lang.NewVector(sym_map, sym_key, sym__AMP_, sym_keys)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// destructure-idx
@@ -6280,7 +6282,7 @@ func LoadNS() {
 				tmp18 := lang.Apply1(tmp9, tmp17)
 				var tmp19 any
 				{ // let
-					// let binding "pred__213"
+					// let binding "pred__274"
 					var tmp20 lang.FnFunc2
 					tmp20 = lang.FnFunc2(func(p0, p1 any) any {
 						v21 := p0
@@ -6292,7 +6294,7 @@ func LoadNS() {
 					})
 					var v21 any = tmp20
 					_ = v21
-					// let binding "expr__214"
+					// let binding "expr__275"
 					var v22 any = v2
 					_ = v22
 					var tmp23 any
@@ -6324,7 +6326,7 @@ func LoadNS() {
 		aotDirectFn42 = tmp1
 		var_ys_DOT_v0_DOT_std_destructure_DASH_idx = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_destructure_DASH_idx.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1016), kw_column, int(8), kw_end_DASH_line, int(1016), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1008), kw_column, int(8), kw_end_DASH_line, int(1008), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// destructure-map
@@ -6342,7 +6344,7 @@ func LoadNS() {
 				_ = v5
 				var tmp6 any
 				{ // let
-					// let binding "vec__210"
+					// let binding "vec__271"
 					var v7 any = v5
 					_ = v7
 					// let binding "k"
@@ -6372,7 +6374,7 @@ func LoadNS() {
 		aotDirectFn43 = tmp1
 		var_ys_DOT_v0_DOT_std_destructure_DASH_map = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_destructure_DASH_map.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1010), kw_column, int(8), kw_end_DASH_line, int(1010), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_M, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1002), kw_column, int(8), kw_end_DASH_line, int(1002), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_M, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// destructure-vector
@@ -6409,7 +6411,7 @@ func LoadNS() {
 		aotDirectFn44 = tmp1
 		var_ys_DOT_v0_DOT_std_destructure_DASH_vector = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_destructure_DASH_vector.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(1004), kw_column, int(8), kw_end_DASH_line, int(1004), kw_end_DASH_column, int(25), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_V, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(996), kw_column, int(8), kw_end_DASH_line, int(996), kw_end_DASH_column, int(25), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_V, sym_idx)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// die
@@ -6448,7 +6450,7 @@ func LoadNS() {
 		aotDirectFn45 = tmp1
 		var_ys_DOT_v0_DOT_std_die = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_die.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(490), kw_column, int(21), kw_end_DASH_line, int(490), kw_end_DASH_column, int(23), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(491), kw_column, int(21), kw_end_DASH_line, int(491), kw_end_DASH_column, int(23), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// div+
@@ -6475,7 +6477,7 @@ func LoadNS() {
 		aotDirectFn49 = tmp1
 		var_ys_DOT_v0_DOT_std_div_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_div_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(428), kw_column, int(7), kw_end_DASH_line, int(428), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(429), kw_column, int(7), kw_end_DASH_line, int(429), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// each
@@ -6521,7 +6523,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_each = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_each.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(492), kw_column, int(11), kw_end_DASH_line, int(492), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_bindings, sym__AMP_, sym_body)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(493), kw_column, int(11), kw_end_DASH_line, int(493), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_bindings, sym__AMP_, sym_body)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// ends?
@@ -6546,7 +6548,7 @@ func LoadNS() {
 		aotDirectFn50 = tmp1
 		var_ys_DOT_v0_DOT_std_ends_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_ends_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(57), kw_column, int(7), kw_end_DASH_line, int(57), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(58), kw_column, int(7), kw_end_DASH_line, int(58), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// env-update
@@ -6580,7 +6582,7 @@ func LoadNS() {
 						// let binding "v"
 						var tmp12 any
 						{ // let
-							// let binding "pred__215"
+							// let binding "pred__276"
 							var tmp13 lang.FnFunc2
 							tmp13 = lang.FnFunc2(func(p0, p1 any) any {
 								v14 := p0
@@ -6592,7 +6594,7 @@ func LoadNS() {
 							})
 							var v14 any = tmp13
 							_ = v14
-							// let binding "expr__216"
+							// let binding "expr__277"
 							var v15 any = v7
 							_ = v15
 							var tmp16 any
@@ -6672,7 +6674,7 @@ func LoadNS() {
 		aotDirectFn51 = tmp1
 		var_ys_DOT_v0_DOT_std_env_DASH_update = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_env_DASH_update.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(1032), kw_column, int(7), kw_end_DASH_line, int(1032), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym_m), lang.NewVector(sym_k, sym_v, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(1024), kw_column, int(7), kw_end_DASH_line, int(1024), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym_m), lang.NewVector(sym_k, sym_v, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// eq
@@ -6721,7 +6723,7 @@ func LoadNS() {
 		aotDirectFn52 = tmp1
 		var_ys_DOT_v0_DOT_std_eq = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_eq.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(644), kw_column, int(7), kw_end_DASH_line, int(644), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(635), kw_column, int(7), kw_end_DASH_line, int(635), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// now
@@ -6741,11 +6743,11 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__205"
+				// let binding "pred__266"
 				tmp4 := checkDerefVar(var_ys_DOT_v0_DOT_std_eq)
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__206"
+				// let binding "expr__267"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -6801,7 +6803,7 @@ func LoadNS() {
 		aotDirectFn87 = tmp1
 		var_ys_DOT_v0_DOT_std_now = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_now.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(865), kw_column, int(7), kw_end_DASH_line, int(865), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_f)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(856), kw_column, int(7), kw_end_DASH_line, int(856), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_f)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// err
@@ -6828,7 +6830,7 @@ func LoadNS() {
 		aotDirectFn53 = tmp1
 		var_ys_DOT_v0_DOT_std_err = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_err.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(573), kw_column, int(7), kw_end_DASH_line, int(573), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(564), kw_column, int(7), kw_end_DASH_line, int(564), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// escape
@@ -6853,7 +6855,7 @@ func LoadNS() {
 		aotDirectFn54 = tmp1
 		var_ys_DOT_v0_DOT_std_escape = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_escape.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(58), kw_column, int(7), kw_end_DASH_line, int(58), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(59), kw_column, int(7), kw_end_DASH_line, int(59), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// falsey?
@@ -6865,7 +6867,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__203"
+				// let binding "pred__264"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -6877,7 +6879,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__204"
+				// let binding "expr__265"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -6913,7 +6915,7 @@ func LoadNS() {
 		aotDirectFn57 = tmp1
 		var_ys_DOT_v0_DOT_std_falsey_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_falsey_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(829), kw_column, int(7), kw_end_DASH_line, int(829), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(820), kw_column, int(7), kw_end_DASH_line, int(820), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// get+
@@ -6927,7 +6929,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "pred__146"
+				// let binding "pred__207"
 				var tmp5 lang.FnFunc2
 				tmp5 = lang.FnFunc2(func(p0, p1 any) any {
 					v6 := p0
@@ -6939,7 +6941,7 @@ func LoadNS() {
 				})
 				var v6 any = tmp5
 				_ = v6
-				// let binding "expr__147"
+				// let binding "expr__208"
 				var v7 any = v2
 				_ = v7
 				var tmp8 any
@@ -7029,7 +7031,7 @@ func LoadNS() {
 							if lang.IsTruthy(tmp41) {
 								var tmp42 any
 								{ // let
-									// let binding "pred__148"
+									// let binding "pred__209"
 									var tmp43 lang.FnFunc2
 									tmp43 = lang.FnFunc2(func(p0, p1 any) any {
 										v44 := p0
@@ -7041,7 +7043,7 @@ func LoadNS() {
 									})
 									var v44 any = tmp43
 									_ = v44
-									// let binding "expr__149"
+									// let binding "expr__210"
 									var v45 any = v3
 									_ = v45
 									var tmp46 any
@@ -7092,7 +7094,7 @@ func LoadNS() {
 		aotDirectFn63 = tmp1
 		var_ys_DOT_v0_DOT_std_get_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_get_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(169), kw_column, int(7), kw_end_DASH_line, int(169), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym_K)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(170), kw_column, int(7), kw_end_DASH_line, int(170), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym_K)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// grep
@@ -7106,7 +7108,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "vec__150"
+				// let binding "vec__211"
 				var tmp5 any
 				tmp6 := aotExternalFn22(v3)
 				if lang.IsTruthy(tmp6) {
@@ -7138,7 +7140,7 @@ func LoadNS() {
 				_ = v17
 				var tmp18 any
 				{ // let
-					// let binding "pred__153"
+					// let binding "pred__214"
 					var tmp19 lang.FnFunc2
 					tmp19 = lang.FnFunc2(func(p0, p1 any) any {
 						v20 := p0
@@ -7150,7 +7152,7 @@ func LoadNS() {
 					})
 					var v20 any = tmp19
 					_ = v20
-					// let binding "expr__154"
+					// let binding "expr__215"
 					var v21 any = v11
 					_ = v21
 					var tmp22 any
@@ -7195,7 +7197,7 @@ func LoadNS() {
 		aotDirectFn65 = tmp1
 		var_ys_DOT_v0_DOT_std_grep = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_grep.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(201), kw_column, int(7), kw_end_DASH_line, int(201), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_P, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(202), kw_column, int(7), kw_end_DASH_line, int(202), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_P, sym_C)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// inc+
@@ -7207,7 +7209,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__171"
+				// let binding "pred__232"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -7219,7 +7221,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__172"
+				// let binding "expr__233"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -7246,7 +7248,7 @@ func LoadNS() {
 							_ = v19
 							var tmp20 any
 							{ // let
-								// let binding "pred__173"
+								// let binding "pred__234"
 								var tmp21 lang.FnFunc2
 								tmp21 = lang.FnFunc2(func(p0, p1 any) any {
 									v22 := p0
@@ -7258,7 +7260,7 @@ func LoadNS() {
 								})
 								var v22 any = tmp21
 								_ = v22
-								// let binding "expr__174"
+								// let binding "expr__235"
 								var v23 any = v19
 								_ = v23
 								var tmp24 any
@@ -7286,7 +7288,7 @@ func LoadNS() {
 		aotDirectFn70 = tmp1
 		var_ys_DOT_v0_DOT_std_inc_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_inc_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(375), kw_column, int(7), kw_end_DASH_line, int(375), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(376), kw_column, int(7), kw_end_DASH_line, int(376), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// index
@@ -7300,7 +7302,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "pred__133"
+				// let binding "pred__194"
 				var tmp5 lang.FnFunc2
 				tmp5 = lang.FnFunc2(func(p0, p1 any) any {
 					v6 := p0
@@ -7312,7 +7314,7 @@ func LoadNS() {
 				})
 				var v6 any = tmp5
 				_ = v6
-				// let binding "expr__134"
+				// let binding "expr__195"
 				var v7 any = v2
 				_ = v7
 				var tmp8 any
@@ -7359,7 +7361,7 @@ func LoadNS() {
 		aotDirectFn71 = tmp1
 		var_ys_DOT_v0_DOT_std_index = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_index.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(61), kw_column, int(7), kw_end_DASH_line, int(61), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(62), kw_column, int(7), kw_end_DASH_line, int(62), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// instant
@@ -7371,7 +7373,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__207"
+				// let binding "pred__268"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -7383,7 +7385,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__208"
+				// let binding "expr__269"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -7421,7 +7423,7 @@ func LoadNS() {
 		aotDirectFn72 = tmp1
 		var_ys_DOT_v0_DOT_std_instant = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_instant.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(873), kw_column, int(7), kw_end_DASH_line, int(873), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(864), kw_column, int(7), kw_end_DASH_line, int(864), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// lc
@@ -7446,7 +7448,7 @@ func LoadNS() {
 		aotDirectFn75 = tmp1
 		var_ys_DOT_v0_DOT_std_lc = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_lc.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(79), kw_column, int(7), kw_end_DASH_line, int(79), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(80), kw_column, int(7), kw_end_DASH_line, int(80), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// len
@@ -7471,7 +7473,7 @@ func LoadNS() {
 		aotDirectFn77 = tmp1
 		var_ys_DOT_v0_DOT_std_len = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_len.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(612), kw_column, int(7), kw_end_DASH_line, int(612), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(603), kw_column, int(7), kw_end_DASH_line, int(603), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// md5
@@ -7513,7 +7515,7 @@ func LoadNS() {
 		aotDirectFn81 = tmp1
 		var_ys_DOT_v0_DOT_std_md5 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_md5.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(924), kw_column, int(7), kw_end_DASH_line, int(924), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(916), kw_column, int(7), kw_end_DASH_line, int(916), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// merge-omap
@@ -7547,7 +7549,7 @@ func LoadNS() {
 		aotDirectFn82 = tmp1
 		var_ys_DOT_v0_DOT_std_merge_DASH_omap = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_merge_DASH_omap.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(270), kw_column, int(7), kw_end_DASH_line, int(270), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_maps)), kw_doc, "Merge maps while preserving the first insertion position of each key.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(271), kw_column, int(7), kw_end_DASH_line, int(271), kw_end_DASH_column, int(16), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_maps)), kw_doc, "Merge maps while preserving the first insertion position of each key.", kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// mul
@@ -7599,7 +7601,7 @@ func LoadNS() {
 		aotDirectFn83 = tmp1
 		var_ys_DOT_v0_DOT_std_mul = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_mul.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(320), kw_column, int(7), kw_end_DASH_line, int(320), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(321), kw_column, int(7), kw_end_DASH_line, int(321), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// mul+
@@ -7818,7 +7820,7 @@ func LoadNS() {
 		aotDirectFn84 = tmp1
 		var_ys_DOT_v0_DOT_std_mul_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_mul_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(430), kw_column, int(7), kw_end_DASH_line, int(430), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(431), kw_column, int(7), kw_end_DASH_line, int(431), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// ne
@@ -7867,7 +7869,7 @@ func LoadNS() {
 		aotDirectFn85 = tmp1
 		var_ys_DOT_v0_DOT_std_ne = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_ne.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(649), kw_column, int(7), kw_end_DASH_line, int(649), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(640), kw_column, int(7), kw_end_DASH_line, int(640), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// omap
@@ -7915,7 +7917,7 @@ func LoadNS() {
 		aotDirectFn88 = tmp1
 		var_ys_DOT_v0_DOT_std_omap = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_omap.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(265), kw_column, int(7), kw_end_DASH_line, int(265), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(266), kw_column, int(7), kw_end_DASH_line, int(266), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// op-error
@@ -7957,7 +7959,7 @@ func LoadNS() {
 		aotDirectFn89 = tmp1
 		var_ys_DOT_v0_DOT_std_op_DASH_error = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_op_DASH_error.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(369), kw_column, int(8), kw_end_DASH_line, int(369), kw_end_DASH_column, int(15), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_op, sym_x), lang.NewVector(sym_op, sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(370), kw_column, int(8), kw_end_DASH_line, int(370), kw_end_DASH_column, int(15), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_op, sym_x), lang.NewVector(sym_op, sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// or?
@@ -8023,7 +8025,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_or_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_or_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(843), kw_column, int(11), kw_end_DASH_line, int(843), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(834), kw_column, int(11), kw_end_DASH_line, int(834), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// out
@@ -8050,7 +8052,7 @@ func LoadNS() {
 		aotDirectFn90 = tmp1
 		var_ys_DOT_v0_DOT_std_out = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_out.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(577), kw_column, int(7), kw_end_DASH_line, int(577), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(568), kw_column, int(7), kw_end_DASH_line, int(568), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// print
@@ -8077,7 +8079,7 @@ func LoadNS() {
 		aotDirectFn94 = tmp1
 		var_ys_DOT_v0_DOT_std_print = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_print.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(585), kw_column, int(7), kw_end_DASH_line, int(585), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(576), kw_column, int(7), kw_end_DASH_line, int(576), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// put
@@ -8120,7 +8122,7 @@ func LoadNS() {
 		aotDirectFn95 = tmp1
 		var_ys_DOT_v0_DOT_std_put = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_put.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(155), kw_column, int(7), kw_end_DASH_line, int(155), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_map, sym_key, sym_value), lang.NewVector(sym_map, sym_key, sym_value, sym__AMP_, sym_key_DASH_values)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(156), kw_column, int(7), kw_end_DASH_line, int(156), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_map, sym_key, sym_value), lang.NewVector(sym_map, sym_key, sym_value, sym__AMP_, sym_key_DASH_values)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// q
@@ -8172,7 +8174,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_q = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_q.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(619), kw_column, int(11), kw_end_DASH_line, int(619), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(610), kw_column, int(11), kw_end_DASH_line, int(610), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// ql
@@ -8202,7 +8204,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_ql = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_ql.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(623), kw_column, int(11), kw_end_DASH_line, int(623), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(614), kw_column, int(11), kw_end_DASH_line, int(614), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// qm
@@ -8232,7 +8234,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_qm = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qm.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(624), kw_column, int(11), kw_end_DASH_line, int(624), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(615), kw_column, int(11), kw_end_DASH_line, int(615), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// qo
@@ -8262,7 +8264,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_qo = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qo.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(625), kw_column, int(11), kw_end_DASH_line, int(625), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(616), kw_column, int(11), kw_end_DASH_line, int(616), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// qs
@@ -8304,7 +8306,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_qs = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qs.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(626), kw_column, int(11), kw_end_DASH_line, int(626), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(617), kw_column, int(11), kw_end_DASH_line, int(617), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// qv
@@ -8334,7 +8336,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_qv = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qv.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(628), kw_column, int(11), kw_end_DASH_line, int(628), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(619), kw_column, int(11), kw_end_DASH_line, int(619), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// qw
@@ -8393,7 +8395,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_qw = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_qw.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(632), kw_column, int(11), kw_end_DASH_line, int(632), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(623), kw_column, int(11), kw_end_DASH_line, int(623), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// replace1
@@ -8418,7 +8420,7 @@ func LoadNS() {
 		aotDirectFn100 = tmp1
 		var_ys_DOT_v0_DOT_std_replace1 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_replace1.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(99), kw_column, int(7), kw_end_DASH_line, int(99), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(100), kw_column, int(7), kw_end_DASH_line, int(100), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// reverse
@@ -8430,7 +8432,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__155"
+				// let binding "pred__216"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -8442,14 +8444,14 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__156"
+				// let binding "expr__217"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
 				tmp8 := checkDerefVar(var_clojure_DOT_core_string_QMARK_)
 				tmp9 := lang.Apply2(v5, tmp8, v6)
 				if lang.IsTruthy(tmp9) {
-					tmp10 := aotExternalFn117(v2)
+					tmp10 := aotExternalFn118(v2)
 					tmp7 = tmp10
 				} else {
 					var tmp11 any
@@ -8481,7 +8483,7 @@ func LoadNS() {
 		aotDirectFn102 = tmp1
 		var_ys_DOT_v0_DOT_std_reverse = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_reverse.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(278), kw_column, int(7), kw_end_DASH_line, int(278), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(279), kw_column, int(7), kw_end_DASH_line, int(279), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// rindex
@@ -8506,7 +8508,7 @@ func LoadNS() {
 		aotDirectFn103 = tmp1
 		var_ys_DOT_v0_DOT_std_rindex = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_rindex.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(100), kw_column, int(7), kw_end_DASH_line, int(100), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(101), kw_column, int(7), kw_end_DASH_line, int(101), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// rng
@@ -8520,12 +8522,12 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "vec__157"
+				// let binding "vec__218"
 				var tmp5 any
 				{ // let
 					// let binding "iter__0__auto__"
 					var tmp6 lang.FnFunc1
-					{ // function iter__160
+					{ // function iter__221
 						var v7 lang.FnFunc1
 						tmp6 = lang.FnFunc1(func(p0 any) any {
 							v8 := p0
@@ -8534,7 +8536,7 @@ func LoadNS() {
 							tmp9 = lang.FnFunc0(func() any {
 								var tmp10 any
 								{ // let
-									// let binding "s__161"
+									// let binding "s__222"
 									var v11 any = v8
 									_ = v11
 									for {
@@ -8548,7 +8550,7 @@ func LoadNS() {
 											if lang.IsTruthy(v14) {
 												var tmp16 any
 												{ // let
-													// let binding "s__161"
+													// let binding "s__222"
 													var v17 any = v14
 													_ = v17
 													var tmp18 any
@@ -8565,14 +8567,14 @@ func LoadNS() {
 															tmp24 := runtime.RT.IntCast(tmp23)
 															var v25 any = tmp24
 															_ = v25
-															// let binding "b__163"
+															// let binding "b__224"
 															tmp26 := aotExternalFn66(v25)
 															var v27 any = tmp26
 															_ = v27
 															var tmp28 any
 															var tmp29 any
 															{ // let
-																// let binding "i__162"
+																// let binding "i__223"
 																tmp30 := runtime.RT.IntCast(int64(0))
 																var v31 any = tmp30
 																_ = v31
@@ -8591,7 +8593,7 @@ func LoadNS() {
 																			var v37 any = tmp36
 																			_ = v37
 																			var tmp38 any
-																			tmp39 := aotExternalFn118(v37)
+																			tmp39 := aotExternalFn119(v37)
 																			if lang.IsTruthy(tmp39) {
 																				tmp40 := lang.LongCastBoxed(v37)
 																				tmp38 = tmp40
@@ -8635,7 +8637,7 @@ func LoadNS() {
 															var v23 any = tmp22
 															_ = v23
 															var tmp24 any
-															tmp25 := aotExternalFn118(v23)
+															tmp25 := aotExternalFn119(v23)
 															if lang.IsTruthy(tmp25) {
 																tmp26 := lang.LongCastBoxed(v23)
 																tmp24 = tmp26
@@ -8705,11 +8707,11 @@ func LoadNS() {
 					tmp14 := lang.Numbers.Gt(v10, v8)
 					if lang.IsTruthy(tmp14) {
 						tmp15 := lang.Numbers.Inc(v10)
-						tmp16 := aotExternalFn119(v8, tmp15)
+						tmp16 := aotExternalFn120(v8, tmp15)
 						tmp13 = tmp16
 					} else {
 						tmp17 := lang.Numbers.Dec(v10)
-						tmp18 := aotExternalFn120(v8, tmp17, int64(-1))
+						tmp18 := aotExternalFn121(v8, tmp17, int64(-1))
 						tmp13 = tmp18
 					}
 					tmp11 = tmp13
@@ -8718,12 +8720,12 @@ func LoadNS() {
 					var tmp20 any
 					{ // let
 						// let binding "and__0__auto__"
-						tmp21 := aotExternalFn118(v2)
+						tmp21 := aotExternalFn119(v2)
 						var v22 any = tmp21
 						_ = v22
 						var tmp23 any
 						if lang.IsTruthy(v22) {
-							tmp24 := aotExternalFn118(v3)
+							tmp24 := aotExternalFn119(v3)
 							tmp23 = tmp24
 						} else {
 							tmp23 = v22
@@ -8736,13 +8738,13 @@ func LoadNS() {
 						if lang.IsTruthy(tmp22) {
 							tmp23 := checkDerefVar(var_clojure_DOT_core_char)
 							tmp24 := lang.Numbers.Inc(v10)
-							tmp25 := aotExternalFn119(v8, tmp24)
+							tmp25 := aotExternalFn120(v8, tmp24)
 							tmp26 := aotExternalFn12(tmp23, tmp25)
 							tmp21 = tmp26
 						} else {
 							tmp27 := checkDerefVar(var_clojure_DOT_core_char)
 							tmp28 := lang.Numbers.Dec(v10)
-							tmp29 := aotExternalFn120(v8, tmp28, int64(-1))
+							tmp29 := aotExternalFn121(v8, tmp28, int64(-1))
 							tmp30 := aotExternalFn12(tmp27, tmp29)
 							tmp21 = tmp30
 						}
@@ -8763,7 +8765,7 @@ func LoadNS() {
 		aotDirectFn104 = tmp1
 		var_ys_DOT_v0_DOT_std_rng = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_rng.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(285), kw_column, int(7), kw_end_DASH_line, int(285), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(286), kw_column, int(7), kw_end_DASH_line, int(286), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// say
@@ -8790,7 +8792,7 @@ func LoadNS() {
 		aotDirectFn106 = tmp1
 		var_ys_DOT_v0_DOT_std_say = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_say.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(597), kw_column, int(7), kw_end_DASH_line, int(597), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(588), kw_column, int(7), kw_end_DASH_line, int(588), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sha1
@@ -8832,7 +8834,7 @@ func LoadNS() {
 		aotDirectFn109 = tmp1
 		var_ys_DOT_v0_DOT_std_sha1 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sha1.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(929), kw_column, int(7), kw_end_DASH_line, int(929), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(921), kw_column, int(7), kw_end_DASH_line, int(921), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sha256
@@ -8874,7 +8876,7 @@ func LoadNS() {
 		aotDirectFn110 = tmp1
 		var_ys_DOT_v0_DOT_std_sha256 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sha256.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(934), kw_column, int(7), kw_end_DASH_line, int(934), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(926), kw_column, int(7), kw_end_DASH_line, int(926), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_string)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// slice
@@ -8895,7 +8897,7 @@ func LoadNS() {
 				var tmp4 any
 				{ // let
 					// let binding "ks"
-					tmp5 := aotExternalFn122(v3)
+					tmp5 := aotExternalFn123(v3)
 					var v6 any = tmp5
 					_ = v6
 					var tmp7 any
@@ -8929,7 +8931,7 @@ func LoadNS() {
 		aotDirectFn112 = tmp1
 		var_ys_DOT_v0_DOT_std_slice = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_slice.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(299), kw_column, int(7), kw_end_DASH_line, int(299), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym__AMP_, sym_ks)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(300), kw_column, int(7), kw_end_DASH_line, int(300), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_C, sym__AMP_, sym_ks)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// starts?
@@ -8954,7 +8956,7 @@ func LoadNS() {
 		aotDirectFn116 = tmp1
 		var_ys_DOT_v0_DOT_std_starts_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_starts_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(114), kw_column, int(7), kw_end_DASH_line, int(114), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(115), kw_column, int(7), kw_end_DASH_line, int(115), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// stream
@@ -8986,7 +8988,7 @@ func LoadNS() {
 		aotDirectFn117 = tmp1
 		var_ys_DOT_v0_DOT_std_stream = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_stream.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(973), kw_column, int(7), kw_end_DASH_line, int(973), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_values)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(965), kw_column, int(7), kw_end_DASH_line, int(965), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(), lang.NewVector(sym_values)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sub
@@ -9035,7 +9037,7 @@ func LoadNS() {
 		aotDirectFn118 = tmp1
 		var_ys_DOT_v0_DOT_std_sub = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sub.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(315), kw_column, int(7), kw_end_DASH_line, int(315), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(316), kw_column, int(7), kw_end_DASH_line, int(316), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sub+
@@ -9054,7 +9056,7 @@ func LoadNS() {
 				tmp7 := aotExternalFn18(v2)
 				if lang.IsTruthy(tmp7) {
 					tmp8 := aotDirectFn134(v3)
-					tmp9 := aotExternalFn125(v2, tmp8)
+					tmp9 := aotExternalFn126(v2, tmp8)
 					tmp6 = tmp9
 				} else {
 					tmp10 := aotDirectFn58(v2, v3, false)
@@ -9064,7 +9066,7 @@ func LoadNS() {
 			} else {
 				var tmp11 any
 				{ // let
-					// let binding "pred__181"
+					// let binding "pred__242"
 					var tmp12 lang.FnFunc2
 					tmp12 = lang.FnFunc2(func(p0, p1 any) any {
 						v13 := p0
@@ -9076,7 +9078,7 @@ func LoadNS() {
 					})
 					var v13 any = tmp12
 					_ = v13
-					// let binding "expr__182"
+					// let binding "expr__243"
 					var v14 any = v2
 					_ = v14
 					var tmp15 any
@@ -9084,7 +9086,7 @@ func LoadNS() {
 					tmp17 := lang.Apply2(v13, tmp16, v14)
 					if lang.IsTruthy(tmp17) {
 						tmp18 := aotExternalFn27(v3)
-						tmp19 := aotExternalFn115(v2, tmp18, "")
+						tmp19 := aotExternalFn116(v2, tmp18, "")
 						tmp15 = tmp19
 					} else {
 						var tmp20 any
@@ -9098,7 +9100,7 @@ func LoadNS() {
 							tmp25 := checkDerefVar(var_clojure_DOT_core_set_QMARK_)
 							tmp26 := lang.Apply2(v13, tmp25, v14)
 							if lang.IsTruthy(tmp26) {
-								tmp27 := aotExternalFn126(v2, v3)
+								tmp27 := aotExternalFn127(v2, v3)
 								tmp24 = tmp27
 							} else {
 								var tmp28 any
@@ -9112,7 +9114,7 @@ func LoadNS() {
 										tmp33 := lang.Equals(v3, v32)
 										return tmp33
 									})
-									tmp32 := aotExternalFn127(tmp31, v2)
+									tmp32 := aotExternalFn128(tmp31, v2)
 									tmp33 := aotExternalFn11(tmp32)
 									tmp28 = tmp33
 								} else {
@@ -9130,7 +9132,7 @@ func LoadNS() {
 										if lang.IsTruthy(tmp41) {
 											var tmp42 any
 											{ // let
-												// let binding "pred__183"
+												// let binding "pred__244"
 												var tmp43 lang.FnFunc2
 												tmp43 = lang.FnFunc2(func(p0, p1 any) any {
 													v44 := p0
@@ -9142,7 +9144,7 @@ func LoadNS() {
 												})
 												var v44 any = tmp43
 												_ = v44
-												// let binding "expr__184"
+												// let binding "expr__245"
 												var v45 any = v3
 												_ = v45
 												var tmp46 any
@@ -9190,7 +9192,7 @@ func LoadNS() {
 														tmp52 := lang.Equals(v3, v51)
 														return tmp52
 													})
-													tmp51 := aotExternalFn127(tmp50, v2)
+													tmp51 := aotExternalFn128(tmp50, v2)
 													tmp47 = tmp51
 												} else {
 													tmp52 := aotDirectFn132Arity2(v2, int64(0))
@@ -9241,7 +9243,7 @@ func LoadNS() {
 		aotDirectFn119 = tmp1
 		var_ys_DOT_v0_DOT_std_sub_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sub_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(449), kw_column, int(7), kw_end_DASH_line, int(449), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(450), kw_column, int(7), kw_end_DASH_line, int(450), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym_y), lang.NewVector(sym_x, sym_y, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// substr
@@ -9282,7 +9284,7 @@ func LoadNS() {
 				}
 				var v11 any = tmp8
 				_ = v11
-				// let binding "vec__138"
+				// let binding "vec__199"
 				var tmp12 any
 				tmp13 := lang.Numbers.IsNeg(v4)
 				if lang.IsTruthy(tmp13) {
@@ -9313,11 +9315,11 @@ func LoadNS() {
 				_ = v20
 				var tmp21 any
 				{ // let
-					// let binding "pred__141"
+					// let binding "pred__202"
 					tmp22 := checkDerefVar(var_clojure_DOT_core_apply)
 					var v23 any = tmp22
 					_ = v23
-					// let binding "expr__142"
+					// let binding "expr__203"
 					tmp24 := lang.NewVector(v11, v20)
 					var v25 any = tmp24
 					_ = v25
@@ -9331,7 +9333,7 @@ func LoadNS() {
 						if lang.IsTruthy(tmp31) {
 							var tmp32 any
 							{ // let
-								// let binding "vec__143"
+								// let binding "vec__204"
 								var tmp33 any
 								tmp34 := lang.Numbers.IsNeg(v11)
 								if lang.IsTruthy(tmp34) {
@@ -9410,7 +9412,7 @@ func LoadNS() {
 		aotDirectFn120 = tmp1
 		var_ys_DOT_v0_DOT_std_substr = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_substr.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(116), kw_column, int(7), kw_end_DASH_line, int(116), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_str, sym_off), lang.NewVector(sym_str, sym_off, sym_len)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(117), kw_column, int(7), kw_end_DASH_line, int(117), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_str, sym_off), lang.NewVector(sym_str, sym_off, sym_len)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// sum
@@ -9429,7 +9431,7 @@ func LoadNS() {
 		aotDirectFn121 = tmp1
 		var_ys_DOT_v0_DOT_std_sum = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_sum.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(362), kw_column, int(7), kw_end_DASH_line, int(362), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(363), kw_column, int(7), kw_end_DASH_line, int(363), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// swap
@@ -9456,7 +9458,7 @@ func LoadNS() {
 		aotDirectFn122 = tmp1
 		var_ys_DOT_v0_DOT_std_swap = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_swap.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(990), kw_column, int(7), kw_end_DASH_line, int(990), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_f, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(982), kw_column, int(7), kw_end_DASH_line, int(982), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_f, sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// text
@@ -9482,7 +9484,7 @@ func LoadNS() {
 		aotDirectFn123 = tmp1
 		var_ys_DOT_v0_DOT_std_text = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_text.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(135), kw_column, int(7), kw_end_DASH_line, int(135), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_Ss)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(136), kw_column, int(7), kw_end_DASH_line, int(136), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_Ss)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-char
@@ -9494,7 +9496,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__185"
+				// let binding "pred__246"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -9506,7 +9508,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__186"
+				// let binding "expr__247"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -9553,7 +9555,7 @@ func LoadNS() {
 		aotDirectFn126 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_char = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_char.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(698), kw_column, int(7), kw_end_DASH_line, int(698), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(689), kw_column, int(7), kw_end_DASH_line, int(689), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-list
@@ -9565,7 +9567,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__187"
+				// let binding "pred__248"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -9577,7 +9579,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__188"
+				// let binding "expr__249"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -9649,7 +9651,7 @@ func LoadNS() {
 		aotDirectFn130 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_list = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_list.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(713), kw_column, int(7), kw_end_DASH_line, int(713), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(704), kw_column, int(7), kw_end_DASH_line, int(704), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-map
@@ -9661,7 +9663,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__189"
+				// let binding "pred__250"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -9673,7 +9675,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__190"
+				// let binding "expr__251"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -9734,7 +9736,7 @@ func LoadNS() {
 		aotDirectFn131 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_map = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_map.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(721), kw_column, int(7), kw_end_DASH_line, int(721), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(712), kw_column, int(7), kw_end_DASH_line, int(712), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-num
@@ -9754,7 +9756,7 @@ func LoadNS() {
 			_ = v3
 			var tmp4 any
 			{ // let
-				// let binding "pred__191"
+				// let binding "pred__252"
 				var tmp5 lang.FnFunc2
 				tmp5 = lang.FnFunc2(func(p0, p1 any) any {
 					v6 := p0
@@ -9766,7 +9768,7 @@ func LoadNS() {
 				})
 				var v6 any = tmp5
 				_ = v6
-				// let binding "expr__192"
+				// let binding "expr__253"
 				var v7 any = v2
 				_ = v7
 				var tmp8 any
@@ -9853,7 +9855,7 @@ func LoadNS() {
 		aotDirectFn132 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_num = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_num.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(730), kw_column, int(7), kw_end_DASH_line, int(730), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_default)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(721), kw_column, int(7), kw_end_DASH_line, int(721), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x), lang.NewVector(sym_x, sym_default)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-omap
@@ -9865,7 +9867,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__193"
+				// let binding "pred__254"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -9877,7 +9879,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__194"
+				// let binding "expr__255"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -9920,7 +9922,7 @@ func LoadNS() {
 		aotDirectFn133 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_omap = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_omap.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(744), kw_column, int(7), kw_end_DASH_line, int(744), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(735), kw_column, int(7), kw_end_DASH_line, int(735), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-set
@@ -9932,7 +9934,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__195"
+				// let binding "pred__256"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -9944,15 +9946,15 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__196"
+				// let binding "expr__257"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
 				tmp8 := checkDerefVar(var_clojure_DOT_core_map_QMARK_)
 				tmp9 := lang.Apply2(v5, tmp8, v6)
 				if lang.IsTruthy(tmp9) {
-					tmp10 := aotExternalFn129(v2)
-					tmp11 := aotExternalFn128(tmp10)
+					tmp10 := aotExternalFn130(v2)
+					tmp11 := aotExternalFn129(tmp10)
 					tmp7 = tmp11
 				} else {
 					var tmp12 any
@@ -9960,14 +9962,14 @@ func LoadNS() {
 					tmp14 := lang.Apply2(v5, tmp13, v6)
 					if lang.IsTruthy(tmp14) {
 						tmp15 := lang.Seq(v2)
-						tmp16 := aotExternalFn128(tmp15)
+						tmp16 := aotExternalFn129(tmp15)
 						tmp12 = tmp16
 					} else {
 						var tmp17 any
 						tmp18 := checkDerefVar(var_clojure_DOT_core_nil_QMARK_)
 						tmp19 := lang.Apply2(v5, tmp18, v6)
 						if lang.IsTruthy(tmp19) {
-							tmp20 := aotExternalFn128(nil)
+							tmp20 := aotExternalFn129(nil)
 							tmp17 = tmp20
 						} else {
 							tmp21 := aotDirectFn136(v2)
@@ -9985,7 +9987,7 @@ func LoadNS() {
 		aotDirectFn134 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_set = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_set.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(751), kw_column, int(7), kw_end_DASH_line, int(751), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(742), kw_column, int(7), kw_end_DASH_line, int(742), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-str
@@ -9997,7 +9999,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__197"
+				// let binding "pred__258"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -10009,7 +10011,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__198"
+				// let binding "expr__259"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -10036,7 +10038,7 @@ func LoadNS() {
 		aotDirectFn135 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(762), kw_column, int(7), kw_end_DASH_line, int(762), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(753), kw_column, int(7), kw_end_DASH_line, int(753), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-type
@@ -10048,7 +10050,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__199"
+				// let binding "pred__260"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -10060,7 +10062,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__200"
+				// let binding "expr__261"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -10224,7 +10226,7 @@ func LoadNS() {
 		aotDirectFn136 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_type = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_type.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(768), kw_column, int(7), kw_end_DASH_line, int(768), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(759), kw_column, int(7), kw_end_DASH_line, int(759), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// to-vars
@@ -10299,7 +10301,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_to_DASH_vars = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_vars.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(791), kw_column, int(11), kw_end_DASH_line, int(791), kw_end_DASH_column, int(17), kw_arglists, lang.NewList(lang.NewVector(sym_m), lang.NewVector(sym_m, sym_force)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(782), kw_column, int(11), kw_end_DASH_line, int(782), kw_end_DASH_column, int(17), kw_arglists, lang.NewList(lang.NewVector(sym_m), lang.NewVector(sym_m, sym_force)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// to-vec
@@ -10311,7 +10313,7 @@ func LoadNS() {
 			_ = v2
 			var tmp3 any
 			{ // let
-				// let binding "pred__201"
+				// let binding "pred__262"
 				var tmp4 lang.FnFunc2
 				tmp4 = lang.FnFunc2(func(p0, p1 any) any {
 					v5 := p0
@@ -10323,7 +10325,7 @@ func LoadNS() {
 				})
 				var v5 any = tmp4
 				_ = v5
-				// let binding "expr__202"
+				// let binding "expr__263"
 				var v6 any = v2
 				_ = v6
 				var tmp7 any
@@ -10394,7 +10396,7 @@ func LoadNS() {
 		aotDirectFn137 = tmp1
 		var_ys_DOT_v0_DOT_std_to_DASH_vec = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_to_DASH_vec.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(798), kw_column, int(7), kw_end_DASH_line, int(798), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(789), kw_column, int(7), kw_end_DASH_line, int(789), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// trim
@@ -10419,7 +10421,7 @@ func LoadNS() {
 		aotDirectFn138 = tmp1
 		var_ys_DOT_v0_DOT_std_trim = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_trim.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(141), kw_column, int(7), kw_end_DASH_line, int(141), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(142), kw_column, int(7), kw_end_DASH_line, int(142), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// triml
@@ -10444,7 +10446,7 @@ func LoadNS() {
 		aotDirectFn139 = tmp1
 		var_ys_DOT_v0_DOT_std_triml = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_triml.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(142), kw_column, int(7), kw_end_DASH_line, int(142), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(143), kw_column, int(7), kw_end_DASH_line, int(143), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// trimr
@@ -10469,7 +10471,7 @@ func LoadNS() {
 		aotDirectFn140 = tmp1
 		var_ys_DOT_v0_DOT_std_trimr = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_trimr.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(143), kw_column, int(7), kw_end_DASH_line, int(143), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(144), kw_column, int(7), kw_end_DASH_line, int(144), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// uc
@@ -10494,7 +10496,7 @@ func LoadNS() {
 		aotDirectFn142 = tmp1
 		var_ys_DOT_v0_DOT_std_uc = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_uc.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(145), kw_column, int(7), kw_end_DASH_line, int(145), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(146), kw_column, int(7), kw_end_DASH_line, int(146), kw_end_DASH_column, int(8), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// uc1
@@ -10519,7 +10521,7 @@ func LoadNS() {
 		aotDirectFn143 = tmp1
 		var_ys_DOT_v0_DOT_std_uc1 = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_uc1.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(146), kw_column, int(7), kw_end_DASH_line, int(146), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(147), kw_column, int(7), kw_end_DASH_line, int(147), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// value
@@ -10634,7 +10636,7 @@ func LoadNS() {
 		})
 		var_ys_DOT_v0_DOT_std_value = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_value.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(477), kw_column, int(11), kw_end_DASH_line, int(477), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(478), kw_column, int(11), kw_end_DASH_line, int(478), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_x)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 	// warn
@@ -10661,7 +10663,7 @@ func LoadNS() {
 		aotDirectFn145 = tmp1
 		var_ys_DOT_v0_DOT_std_warn = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_warn.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(601), kw_column, int(7), kw_end_DASH_line, int(601), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
+			return lang.NewMap(kw_file, "ys/v0/std.cljc", kw_line, int(592), kw_column, int(7), kw_end_DASH_line, int(592), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_xs)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std))
 		}, false)
 	}
 	// when+
@@ -10693,7 +10695,7 @@ func LoadNS() {
 		)
 		var_ys_DOT_v0_DOT_std_when_PLUS_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_ys_DOT_v0_DOT_std_when_PLUS_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(511), kw_column, int(11), kw_end_DASH_line, int(511), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_test, sym__AMP_, sym_body)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
+			return lang.NewMapUniqueKeys(kw_file, "ys/v0/std.cljc", kw_line, int(512), kw_column, int(11), kw_end_DASH_line, int(512), kw_end_DASH_column, int(15), kw_arglists, lang.NewList(lang.NewVector(sym_test, sym__AMP_, sym_body)), kw_ns, lang.FindOrCreateNamespace(sym_ys_DOT_v0_DOT_std), kw_macro, true)
 		}, true)
 	}
 }

@@ -370,7 +370,7 @@ func LoadNS() {
 		aotDirectFn1 = tmp1
 		var_babashka_DOT_http_DASH_client_delete = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_delete.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(44), kw_column, int(7), kw_end_DASH_line, int(44), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(46), kw_column, int(7), kw_end_DASH_line, int(46), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// get
@@ -403,7 +403,7 @@ func LoadNS() {
 		aotDirectFn2 = tmp1
 		var_babashka_DOT_http_DASH_client_get = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_get.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "babashka/http_client.clj", kw_line, int(51), kw_column, int(7), kw_end_DASH_line, int(51), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_doc, "HTTP GET request\n   url: string\n   opts (optional): {:headers {\"Key\" \"Value\"}}\n   returns: {:status N :body \"...\"}", kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMapUniqueKeys(kw_file, "babashka/http_client.clj", kw_line, int(53), kw_column, int(7), kw_end_DASH_line, int(53), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_doc, "HTTP GET request\n   url: string\n   opts (optional): {:headers {\"Key\" \"Value\"}}\n   returns: {:status N :body \"...\"}", kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// head
@@ -436,7 +436,7 @@ func LoadNS() {
 		aotDirectFn3 = tmp1
 		var_babashka_DOT_http_DASH_client_head = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_head.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(45), kw_column, int(7), kw_end_DASH_line, int(45), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(47), kw_column, int(7), kw_end_DASH_line, int(47), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// options
@@ -469,7 +469,7 @@ func LoadNS() {
 		aotDirectFn4 = tmp1
 		var_babashka_DOT_http_DASH_client_options = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_options.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(46), kw_column, int(7), kw_end_DASH_line, int(46), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(48), kw_column, int(7), kw_end_DASH_line, int(48), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// patch
@@ -502,7 +502,7 @@ func LoadNS() {
 		aotDirectFn5 = tmp1
 		var_babashka_DOT_http_DASH_client_patch = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_patch.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(47), kw_column, int(7), kw_end_DASH_line, int(47), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(49), kw_column, int(7), kw_end_DASH_line, int(49), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// post
@@ -535,7 +535,7 @@ func LoadNS() {
 		aotDirectFn6 = tmp1
 		var_babashka_DOT_http_DASH_client_post = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_post.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(48), kw_column, int(7), kw_end_DASH_line, int(48), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(50), kw_column, int(7), kw_end_DASH_line, int(50), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// put
@@ -568,7 +568,7 @@ func LoadNS() {
 		aotDirectFn7 = tmp1
 		var_babashka_DOT_http_DASH_client_put = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_http_DASH_client_put.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(49), kw_column, int(7), kw_end_DASH_line, int(49), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
+			return lang.NewMap(kw_file, "babashka/http_client.clj", kw_line, int(51), kw_column, int(7), kw_end_DASH_line, int(51), kw_end_DASH_column, int(9), kw_arglists, lang.NewList(lang.NewVector(sym_url), lang.NewVector(sym_url, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_http_DASH_client))
 		}, false)
 	}
 	// request

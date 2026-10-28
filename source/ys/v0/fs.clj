@@ -1,5 +1,6 @@
 (ns ys.v0.fs
-  (:require [clojure.string :as str])
+  (:require [clojure.string :as str]
+            [ys.v0.util :as util])
   (:refer-clojure :exclude [abs empty? find read]))
 
 ;;------------------------------------------------------------------------------

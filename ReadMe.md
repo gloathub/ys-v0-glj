@@ -54,6 +54,8 @@ The temporary YAMLScript changes are:
 - Route Glojure environment, working-directory, executable, argument, host,
   OS, architecture, and PID access through the native `ys.v0.platform`
   namespace.
+- Route standard `read` and `write` through the native filesystem backend,
+  preserving the `YS_MODULES` access checks.
 - Skip host runtime-variable binding while `*compile-files*` is true; exports
   and aliases are still installed for application analysis, and normal
   binding runs when the generated loader executes.

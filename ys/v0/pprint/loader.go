@@ -554,7 +554,7 @@ func LoadNS() {
 					if tmp11 {
 						var tmp12 any
 						{ // let
-							// let binding "vec__49"
+							// let binding "vec__110"
 							tmp13 := aotKeywordSite1.Get(kw_length, v3, nil)
 							tmp14 := aotDirectFn1(v2, tmp13)
 							var v15 any = tmp14
@@ -574,7 +574,7 @@ func LoadNS() {
 								_ = v21
 								var tmp22 any
 								{ // let
-									// let binding "vec__53"
+									// let binding "vec__114"
 									var v23 any = v21
 									_ = v23
 									// let binding "key"
@@ -599,7 +599,7 @@ func LoadNS() {
 							_ = v22
 							var tmp23 any
 							{ // let
-								// let binding "G__56"
+								// let binding "G__117"
 								tmp24 := aotExternalFn5(v22)
 								var v25 any = tmp24
 								_ = v25
@@ -623,7 +623,7 @@ func LoadNS() {
 						if tmp14 {
 							var tmp15 any
 							{ // let
-								// let binding "vec__57"
+								// let binding "vec__118"
 								tmp16 := aotKeywordSite2.Get(kw_length, v3, nil)
 								tmp17 := aotDirectFn1(v2, tmp16)
 								var v18 any = tmp17
@@ -638,7 +638,7 @@ func LoadNS() {
 								_ = v22
 								var tmp23 any
 								{ // let
-									// let binding "G__60"
+									// let binding "G__121"
 									var tmp24 lang.FnFunc1
 									tmp24 = lang.FnFunc1(func(p0 any) any {
 										v25 := p0
@@ -670,7 +670,7 @@ func LoadNS() {
 							if lang.IsTruthy(tmp17) {
 								var tmp18 any
 								{ // let
-									// let binding "vec__61"
+									// let binding "vec__122"
 									tmp19 := aotKeywordSite3.Get(kw_length, v3, nil)
 									tmp20 := aotDirectFn1(v2, tmp19)
 									var v21 any = tmp20
@@ -685,7 +685,7 @@ func LoadNS() {
 									_ = v25
 									var tmp26 any
 									{ // let
-										// let binding "G__64"
+										// let binding "G__125"
 										var tmp27 lang.FnFunc1
 										tmp27 = lang.FnFunc1(func(p0 any) any {
 											v28 := p0
@@ -717,7 +717,7 @@ func LoadNS() {
 								if lang.IsTruthy(tmp20) {
 									var tmp21 any
 									{ // let
-										// let binding "vec__65"
+										// let binding "vec__126"
 										tmp22 := aotKeywordSite4.Get(kw_length, v3, nil)
 										tmp23 := aotDirectFn1(v2, tmp22)
 										var v24 any = tmp23
@@ -732,7 +732,7 @@ func LoadNS() {
 										_ = v28
 										var tmp29 any
 										{ // let
-											// let binding "G__68"
+											// let binding "G__129"
 											var tmp30 lang.FnFunc1
 											tmp30 = lang.FnFunc1(func(p0 any) any {
 												v31 := p0
@@ -1143,7 +1143,7 @@ func LoadNS() {
 			_ = v5
 			var tmp6 any
 			{ // let
-				// let binding "vec__73"
+				// let binding "vec__134"
 				tmp7 := aotKeywordSite8.Get(kw_length, v5, nil)
 				tmp8 := aotDirectFn1(v2, tmp7)
 				var v9 any = tmp8
@@ -1163,7 +1163,7 @@ func LoadNS() {
 					_ = v15
 					var tmp16 any
 					{ // let
-						// let binding "vec__77"
+						// let binding "vec__138"
 						var v17 any = v15
 						_ = v17
 						// let binding "key"
@@ -1203,7 +1203,7 @@ func LoadNS() {
 				// let binding "entries"
 				var tmp17 any
 				{ // let
-					// let binding "G__80"
+					// let binding "G__141"
 					var v18 any = v16
 					_ = v18
 					var tmp19 any
@@ -1271,7 +1271,7 @@ func LoadNS() {
 			_ = v7
 			var tmp8 any
 			{ // let
-				// let binding "vec__69"
+				// let binding "vec__130"
 				tmp9 := aotKeywordSite9.Get(kw_length, v5, nil)
 				tmp10 := aotDirectFn1(v2, tmp9)
 				var v11 any = tmp10
@@ -1287,7 +1287,7 @@ func LoadNS() {
 				// let binding "items"
 				var tmp16 any
 				{ // let
-					// let binding "G__72"
+					// let binding "G__133"
 					tmp17 := aotExternalFn5(v13)
 					var v18 any = tmp17
 					_ = v18

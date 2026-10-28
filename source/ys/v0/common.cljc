@@ -64,6 +64,7 @@
 
 #?(:glj
    (do
+     ;; TODO: Supply native process handle/info values instead of nil.
      (defn get-process-handle [] nil)
      (defn get-process-info [] nil)
      (defn get-cmd-path [] (platform/executable))

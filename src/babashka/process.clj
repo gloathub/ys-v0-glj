@@ -25,6 +25,7 @@
 
 (defn sh [& all-args]
   "Execute command directly (first arg is command, rest are arguments)"
+  ;; TODO: Honor :dir, :env, :in, :out, :err and other process options.
   (let [[_opts args] (split-opts all-args)]
     (if (empty? args)
       {:exit 1 :out "" :err "No command specified"}
@@ -60,5 +61,6 @@
         cmd-str (str/join " " args)]
     (sh opts "/bin/sh" "-c" cmd-str)))
 
+;; TODO: Implement process handles and exec semantics beyond these aliases.
 (defn process [& args] (apply shell args))
 (defn exec [& args] (apply sh args))

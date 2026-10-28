@@ -23,6 +23,7 @@
 
 (defn write-str [x & _opts]
   "Convert Clojure data to JSON string"
+  ;; TODO: Honor encoding options instead of silently ignoring them.
   (cond
     (nil? x) "null"
     (true? x) "true"
@@ -169,6 +170,7 @@
 
 (defn read-str [s & _opts]
   "Parse JSON string to Clojure data"
+  ;; TODO: Honor decoding options, including :key-fn.
   ;; Glojure strings scan UTF-8 for count and nth. Index characters once.
   (let [[value _] (parse-value (vec s) 0)]
     value))

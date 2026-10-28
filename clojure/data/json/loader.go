@@ -419,7 +419,7 @@ func LoadNS() {
 		aotDirectFn1 = tmp1
 		var_clojure_DOT_data_DOT_json_is_DASH_digit_QMARK_ = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_is_DASH_digit_QMARK_.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(89), kw_column, int(8), kw_end_DASH_line, int(89), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_c)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(90), kw_column, int(8), kw_end_DASH_line, int(90), kw_end_DASH_column, int(16), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_c)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-array
@@ -567,7 +567,7 @@ func LoadNS() {
 		aotDirectFn2 = tmp1
 		var_clojure_DOT_data_DOT_json_parse_DASH_array = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_parse_DASH_array.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(107), kw_column, int(8), kw_end_DASH_line, int(107), kw_end_DASH_column, int(18), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(108), kw_column, int(8), kw_end_DASH_line, int(108), kw_end_DASH_column, int(18), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-object
@@ -727,7 +727,7 @@ func LoadNS() {
 		aotDirectFn4 = tmp1
 		var_clojure_DOT_data_DOT_json_parse_DASH_object = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_parse_DASH_object.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(125), kw_column, int(8), kw_end_DASH_line, int(125), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(126), kw_column, int(8), kw_end_DASH_line, int(126), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-value
@@ -1057,7 +1057,7 @@ func LoadNS() {
 		aotDirectFn6 = tmp1
 		var_clojure_DOT_data_DOT_json_parse_DASH_value = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_parse_DASH_value.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(147), kw_column, int(8), kw_end_DASH_line, int(147), kw_end_DASH_column, int(18), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(148), kw_column, int(8), kw_end_DASH_line, int(148), kw_end_DASH_column, int(18), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// read-str
@@ -1100,7 +1100,7 @@ func LoadNS() {
 		aotDirectFn8 = tmp1
 		var_clojure_DOT_data_DOT_json_read_DASH_str = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_read_DASH_str.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(170), kw_column, int(7), kw_end_DASH_line, int(170), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_s, sym__AMP_, sym__opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(171), kw_column, int(7), kw_end_DASH_line, int(171), kw_end_DASH_column, int(14), kw_arglists, lang.NewList(lang.NewVector(sym_s, sym__AMP_, sym__opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// skip-whitespace
@@ -1200,7 +1200,7 @@ func LoadNS() {
 		aotDirectFn9 = tmp1
 		var_clojure_DOT_data_DOT_json_skip_DASH_whitespace = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_skip_DASH_whitespace.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(54), kw_column, int(8), kw_end_DASH_line, int(54), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(55), kw_column, int(8), kw_end_DASH_line, int(55), kw_end_DASH_column, int(22), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// write-str
@@ -1393,7 +1393,7 @@ func LoadNS() {
 		aotDirectFn7 = tmp1
 		var_clojure_DOT_data_DOT_json_pprint = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_pprint.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(183), kw_column, int(7), kw_end_DASH_line, int(183), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMap(kw_file, "clojure/data/json.clj", kw_line, int(185), kw_column, int(7), kw_end_DASH_line, int(185), kw_end_DASH_column, int(12), kw_arglists, lang.NewList(lang.NewVector(sym_x, sym__AMP_, sym_opts)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-number
@@ -1531,7 +1531,7 @@ func LoadNS() {
 		aotDirectFn3 = tmp1
 		var_clojure_DOT_data_DOT_json_parse_DASH_number = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_parse_DASH_number.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(94), kw_column, int(8), kw_end_DASH_line, int(94), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(95), kw_column, int(8), kw_end_DASH_line, int(95), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 	// parse-string
@@ -1689,7 +1689,7 @@ func LoadNS() {
 		aotDirectFn5 = tmp1
 		var_clojure_DOT_data_DOT_json_parse_DASH_string = ns.InternWithValue(tmp0, tmp1, true)
 		var_clojure_DOT_data_DOT_json_parse_DASH_string.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(65), kw_column, int(8), kw_end_DASH_line, int(65), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
+			return lang.NewMapUniqueKeys(kw_file, "clojure/data/json.clj", kw_line, int(66), kw_column, int(8), kw_end_DASH_line, int(66), kw_end_DASH_column, int(19), kw_private, true, kw_arglists, lang.NewList(lang.NewVector(sym_s, sym_pos)), kw_ns, lang.FindOrCreateNamespace(sym_clojure_DOT_data_DOT_json))
 		}, false)
 	}
 }

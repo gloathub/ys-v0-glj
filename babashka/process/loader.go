@@ -644,7 +644,7 @@ func LoadNS() {
 		aotDirectFn4 = tmp1
 		var_babashka_DOT_process_shell = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_process_shell.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(57), kw_column, int(7), kw_end_DASH_line, int(57), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_all_DASH_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
+			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(58), kw_column, int(7), kw_end_DASH_line, int(58), kw_end_DASH_column, int(11), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_all_DASH_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
 		}, false)
 	}
 	// split-opts
@@ -696,7 +696,7 @@ func LoadNS() {
 		aotDirectFn1 = tmp1
 		var_babashka_DOT_process_exec = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_process_exec.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(64), kw_column, int(7), kw_end_DASH_line, int(64), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
+			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(66), kw_column, int(7), kw_end_DASH_line, int(66), kw_end_DASH_column, int(10), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
 		}, false)
 	}
 	// process
@@ -721,7 +721,7 @@ func LoadNS() {
 		aotDirectFn2 = tmp1
 		var_babashka_DOT_process_process = ns.InternWithValue(tmp0, tmp1, true)
 		var_babashka_DOT_process_process.SetMetaLazyMacro(func() lang.IPersistentMap {
-			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(63), kw_column, int(7), kw_end_DASH_line, int(63), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
+			return lang.NewMap(kw_file, "babashka/process.clj", kw_line, int(65), kw_column, int(7), kw_end_DASH_line, int(65), kw_end_DASH_column, int(13), kw_arglists, lang.NewList(lang.NewVector(sym__AMP_, sym_args)), kw_ns, lang.FindOrCreateNamespace(sym_babashka_DOT_process))
 		}, false)
 	}
 }

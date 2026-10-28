@@ -5,10 +5,10 @@
 
 ;; The :glj reader conditionals keep this namespace loadable on
 ;; glojure, which lacks the clojure.pprint/data namespaces, Java
-;; class imports and the babashka.fs backed ys.v0.fs namespace.
+;; class imports. ys-v0-glj supplies a native ys.v0.fs backend.
 (ns ys.v0.std
   (:require
-   #?@(:glj []
+   #?@(:glj [[ys.v0.fs :as fs]]
        :default [[clojure.data :as data]
                  [ys.v0.fs :as fs]])
    [clojure.math :as math]
@@ -43,6 +43,7 @@
 ;;------------------------------------------------------------------------------
 ;; String functions
 ;;------------------------------------------------------------------------------
+;; TODO: Provide Go-native Base64 helpers instead of Java classes.
 (defn base64-decode [S]
   (String. (.decode (Base64/getDecoder) ^String S)))
 (defn base64-encode [S]
@@ -552,23 +553,13 @@
 ;;------------------------------------------------------------------------------
 ;; I/O functions
 ;;------------------------------------------------------------------------------
-#?(:glj
-   (defn read [& _]
-     (util/die "The fs functions are not available"
-       " in this Clojure runtime"))
-   :default
-   (defn read [path]
-     (ys/check-module-access! 'ys.fs)
-     (fs/read path)))
+(defn read [path]
+  (ys/check-module-access! 'ys.fs)
+  (fs/read path))
 
-#?(:glj
-   (defn write [& _]
-     (util/die "The fs functions are not available"
-       " in this Clojure runtime"))
-   :default
-   (defn write [path content]
-     (ys/check-module-access! 'ys.fs)
-     (fs/write path content)))
+(defn write [path content]
+  (ys/check-module-access! 'ys.fs)
+  (fs/write path content))
 
 (defn err [& xs]
   (ys/check-module-access! 'ys.io)
@@ -921,6 +912,7 @@
 ;;------------------------------------------------------------------------------
 ;; Security functions
 ;;------------------------------------------------------------------------------
+;; TODO: Provide Go-native digest helpers instead of MessageDigest.
 (defn md5 [^String string]
   (let [digest (.digest (MessageDigest/getInstance "MD5")
                  (.getBytes string "UTF-8"))]

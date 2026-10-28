@@ -417,7 +417,7 @@ func LoadNS() {
 				_ = v3
 				var tmp4 any
 				{ // let
-					// let binding "vec__82"
+					// let binding "vec__143"
 					var v5 any = v3
 					_ = v5
 					// let binding "ns-sym"
